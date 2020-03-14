@@ -3,7 +3,7 @@
 This template will help you get started with your project. Please look through all these materials so you know how to organize your project.
 
 Link to your page: https://REPLACE-ME
-E.g., https://neu-cs-7250-s20-staff.github.io/Project_Template/
+E.g., https://NEU-CS-7250-S20.github.io/project-team-7 
 # Instructions
 
 ## Setup
