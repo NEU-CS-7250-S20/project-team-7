@@ -1,7 +1,8 @@
-// Immediately Invoked Function Expression to limit access to our 
-// variables and prevent 
 ((() => {
 
-  console.log("Hello, world!");
+    typesOverview = typesOverviewChart();
+
+    d3.csv("../data/tiny.csv")
+        .then((d) => typesOverview("#vis-svg-1", d));
 
 })());
