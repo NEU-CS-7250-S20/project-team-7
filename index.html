@@ -26,7 +26,7 @@
 <body>
 
   <!-- Update this with your GitHub repo URL -->
-  <span id="forkongithub"><a href="https://REPLACE-ME">Fork me on GitHub</a></span>
+  <span id="forkongithub"><a href="https://github.com/NEU-CS-7250-S20/project-team-7">Fork me on GitHub</a></span>
 
   <!-- Your writeup goes here -->
   <div class = "content-column">
@@ -59,7 +59,7 @@
   <div class="vis-holder">
     <svg id="vis-svg-1" preserveAspectRatio="xMidYMid meet" class="vis-svg" viewBox="0 0 1000 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
   </div>
-
+  <div id="barchart-1"></div>
   <!-- Your writeup goes here -->
   <div class = "content-column">
 
@@ -88,10 +88,12 @@
 
   </div>
 
-  <!-- Scripts at the end avoid need for dealing with async, defer, or onload event handlers -->
+  <!-- Scriptt the end avoid need for dealing with async, defer, or onload event handlers -->
   <script src="lib/d3.v5.15.0/d3.min.js"></script>
   <script src="lib/d3-sankey.js"></script>
+  <script src="lib/d3-array/d3-array.min.js"></script>
   <script src="js/types-overview.js"></script>
+  <script src="js/barChart.js"></script>
   <script src="js/visualization.js"></script>
 </body>
 </html>

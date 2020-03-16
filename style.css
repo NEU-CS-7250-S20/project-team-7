@@ -4,7 +4,14 @@ body {
 	font: 18px/1.5 -apple-system, BlinkMacSystemFont, "avenir next",avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans",roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans",
 	sans-serif;
 }
-
+/* for barchart*/
+.axis.domain{
+	stroke: none;
+}
+.x line {
+	stroke: white;
+}
+/*end for barchart*/
 h1, h2, h3 {
 	line-height: 1.2
 }
