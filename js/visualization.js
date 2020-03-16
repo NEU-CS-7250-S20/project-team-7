@@ -42,12 +42,20 @@ function  prepareBarChart(data){
     return dataArray;
 } 
 
-//Loading data
-d3.csv("data/tiny.csv",type)
-        .then(d => {
-          ready(d);
-        });
+// Loading data
+// Using JS promises to load multiple sources of data
 
+const tiny_subset = d3.csv("data/tiny_subset.csv",type);
+
+const tiny = d3.csv("data/tiny.csv",type);
+
+Promise.all([tiny_subset,tiny]).then(d => {
+    //to use tiny subset  call ready on d[0]
+    // limit to top 10 in bar chart ???
+    ready(d[1]);
+  });
+
+      
 //Charts reusable pattern
 
 //type chart 
@@ -58,6 +66,7 @@ barchartVis=barChart();
 
 //Main function
 function ready(data){
+    debugger;
     //filtering data 
     const dataClean=filterData(data);
     const barChartData= prepareBarChart(dataClean).sort((a,b)=>{
