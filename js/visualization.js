@@ -18,7 +18,11 @@ function type(d){
           
  };  
 }
-//Data preparation
+
+// --------------------------------------------------
+// Data preparation
+// --------------------------------------------------
+
 function filterData(data){
     return data.filter (d=>{
         return (
@@ -27,6 +31,7 @@ function filterData(data){
         );
     });
 }
+
 //prepare data for barChart
 function  prepareBarChart(data){
     //d3 rollup returns a map
@@ -42,8 +47,55 @@ function  prepareBarChart(data){
     return dataArray;
 } 
 
+let testDataPkgFun = {
+    name: "PkgFun",
+    children: [
+        { 
+            name: "pkg1",
+            children: [
+                {
+                    name: "minus",
+                    value: 100
+                },
+                {
+                    name: "foo",
+                    value: 57
+                },
+                {
+                    name: "<Other>",
+                    children: [
+                        {
+                            name: "zoo",
+                            value: 7
+                        },
+                        {
+                            name: "bar",
+                            value: 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "pkg2",
+            children: [
+                {
+                    name: "plus",
+                    value: 180
+                },
+                {
+                    name: "times",
+                    value: 166
+                }, 
+            ]
+        }
+    ]
+}
+
+// --------------------------------------------------
 // Loading data
 // Using JS promises to load multiple sources of data
+// --------------------------------------------------
 
 const tiny_subset = d3.csv("data/tiny_subset.csv",type);
 
@@ -55,8 +107,10 @@ Promise.all([tiny_subset,tiny]).then(d => {
     ready(d[1]);
   });
 
-      
-//Charts reusable pattern
+
+// --------------------------------------------------
+// Charts reusable pattern
+// --------------------------------------------------
 
 //type chart 
 typesOverview = typesOverviewChart();
@@ -64,7 +118,13 @@ typesOverview = typesOverviewChart();
 //barchart 
 barchartVis=barChart();
 
-//Main function
+// pkgFun tree map
+//pkgFunTreeMap = pkgFunTreeMap();
+
+// --------------------------------------------------
+// Main function
+// --------------------------------------------------
+
 function ready(data){
     debugger;
     //filtering data 
@@ -74,6 +134,7 @@ function ready(data){
     });
     //calling the vis
     typesOverview("#vis-svg-1", data);
+    //pkgFunTreeMap(testDataPkgFun);
     barchartVis("#barchart-1", barChartData);
 }
 
