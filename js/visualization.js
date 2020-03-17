@@ -119,7 +119,7 @@ typesOverview = typesOverviewChart();
 barchartVis=barChart();
 
 // pkgFun tree map
-//pkgFunTreeMap = pkgFunTreeMap();
+pkgFunTreeMap = pkgFunTreeMap();
 
 // --------------------------------------------------
 // Main function
@@ -134,7 +134,7 @@ function ready(data){
     });
     //calling the vis
     typesOverview("#vis-svg-1", data);
-    //pkgFunTreeMap(testDataPkgFun);
+    pkgFunTreeMap("#vis-svg-2-pkg-tree-map", testDataPkgFun);
     barchartVis("#barchart-1", barChartData);
 }
 

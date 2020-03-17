@@ -32,6 +32,11 @@ h1, h2, h3 {
   background-color: #f4f1f0;
 }
 
+.vis-svg-pkgfun {
+	background-color: #f4f1f0;
+	font-size: 10px;
+}
+
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */
 #forkongithub a{
 	background:#00F;
