@@ -2,7 +2,7 @@ function barChart() {
     let margin = {top: 80, right: 20, bottom: 20, left: 100},
         width = 550,
         height = 400;
- 
+
     function chart(selector, data) {
         // Setup
         const w = width - margin.left - margin.right,
@@ -14,8 +14,8 @@ function barChart() {
                 .append('g')
                 .attr("transform",`translate(${margin.left},${margin.top})`);
 
-      
-        
+
+
        //scales.
 
        //extents; aka lowest and highest vals
@@ -42,8 +42,8 @@ function barChart() {
             .style('fill','dodgerblue');
 
 
-        
-     
+
+
         //Axes
 
         //position of x axis
@@ -61,7 +61,7 @@ function barChart() {
                            .call(yAxis);
 
         //space between y axis and labels(fun_name)
-        yAxisDraw.selectAll('text').attr('dx','-0.6em'); 
+        yAxisDraw.selectAll('text').attr('dx','-0.6em');
 
         //headers ....
         const header = svg.append('g')
@@ -70,7 +70,7 @@ function barChart() {
                         .attr('transform', `translate(0,${-margin.top/2})`)
                         .append('text');
         //headline
-        header.append('tspan').text('bar chart (change title)');
+        header.append('tspan').text('Functions and Number of Times Called');
     }
    //function for x axis format
    function formatTicks(d){
@@ -99,5 +99,3 @@ function barChart() {
 
     return chart;
 }
-
-  
