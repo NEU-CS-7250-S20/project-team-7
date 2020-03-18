@@ -48,45 +48,51 @@ function  prepareBarChart(data){
 } 
 
 let testDataPkgFun = {
-    name: "Packages",
+    name: PKGS_TITLE,
     children: [
         { 
             name: "pkg1",
+            isPkg: true,
             children: [
-                {
-                    name: "minus",
-                    value: 100
+                { name: "minus",  value: 1000 },
+                { name: "foo",    value: 570
                 },
                 {
-                    name: "foo",
-                    value: 57
-                },
-                {
-                    name: "<Other>",
+                    name: PKGFUNS_MORE,
                     children: [
-                        {
-                            name: "zoo",
-                            value: 7
-                        },
-                        {
-                            name: "bar",
-                            value: 3
-                        }
+                        { name: "zoo",  value: 70 },
+                        { name: "bar",  value: 300 }
                     ]
                 }
             ]
         },
         {
             name: "pkg2",
+            isPkg: true,
+            children: [
+                { name: "plus",     value: 180 },
+                { name: "times",    value: 166 }, 
+            ]
+        },
+        {
+            name: PKGFUNS_MORE,
+            isPkg: true,
             children: [
                 {
-                    name: "plus",
-                    value: 180
+                    name: "pkg3",
+                    isPkg: true,
+                    children: [
+                        { name: "baz", value: 700 }
+                    ]
                 },
                 {
-                    name: "times",
-                    value: 166
-                }, 
+                    name: "pkg4",
+                    isPkg: true,
+                    children: [
+                        { name: "baz", value: 170 },
+                        { name: "gas", value: 4300 }
+                    ]
+                }
             ]
         }
     ]

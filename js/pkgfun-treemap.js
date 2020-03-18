@@ -1,3 +1,6 @@
+const PKGS_TITLE = "Packages"
+const PKGFUNS_MORE = "<...>"
+
 // Create a tree map of packages and functions
 function pkgFunTreeMap() {
     let margin = {
@@ -12,6 +15,14 @@ function pkgFunTreeMap() {
         const treemapLayout = d3.treemap()
             .size([width, height]);
         return treemapLayout(root);
+    }
+
+    function isMoreNode(node) {
+        return node.data.name == PKGFUNS_MORE;
+    }
+
+    function hasMoreNode(node) {
+        return node.children && node.children.some(isMoreNode);
     }
 
     function chart(selector, data) {
@@ -43,6 +54,20 @@ function pkgFunTreeMap() {
         group.call(render, dataRoot);
 
         // ----------------------------------------
+        function getText(node, root) {
+            if (node === root)
+                if (isMoreNode(node))
+                    if (node.data.isPkg)
+                        return PKGS_TITLE + "...";
+                    else
+                        return "???";
+                else
+                    return node.data.name;
+            else
+                return node.data.name + 
+                       (node.data.value ? (" " + node.data.value) : "");
+        }
+
         function render(group, root) {
             const node = group
                 .selectAll("g")
@@ -53,8 +78,8 @@ function pkgFunTreeMap() {
                 .attr("cursor", "pointer")
                 .on("click", d => d === root ? zoomout(root) : zoomin(d));
         
-            //node.append("title")
-            //    .text(d => { alert(d.data.name); `${d.data.name}\n${d.value}` });
+            node.append("title")
+                .text(d => `${d.data.name}\n${d.value}`);
         
             node.append("rect")
                 //.attr("id", d => (d.leafUid = DOM.uid("leaf")).id)
@@ -63,12 +88,13 @@ function pkgFunTreeMap() {
                                 d.children ? "#fff" : color(d.data.name));
 
             node.append("text")
+                .attr("class", d => d.data.isPkg ? "pkg-node" : "fun-node")
                 .attr("fill", d => d === dataRoot ? "gray" : 
                               d.children ? "black" : "gray")
                 .attr("dx", 2)
                 .attr("dy", 12)
                 .style("margin", 2)
-                .text(d => d.data.name + (d.data.value ? ("\n" + d.data.value) : "") );
+                .text(d => getText(d, root));
         
             /*node.append("clipPath")
                 //.attr("id", d => (d.clipUid = DOM.uid("clip")).id)
