@@ -33,8 +33,11 @@ h1, h2, h3 {
 }
 
 .vis-svg-pkgfun {
+	width: 800px;
+	height: 440px;
 	background-color: #f4f1f0;
 	font-size: 10px;
+	padding: 10px;
 }
 
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */

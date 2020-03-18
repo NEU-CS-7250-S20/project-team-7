@@ -48,7 +48,7 @@ function  prepareBarChart(data){
 } 
 
 let testDataPkgFun = {
-    name: "PkgFun",
+    name: "Packages",
     children: [
         { 
             name: "pkg1",

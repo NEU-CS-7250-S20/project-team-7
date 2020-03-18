@@ -1,38 +1,46 @@
 // Create a tree map of packages and functions
 function pkgFunTreeMap() {
     let margin = {
-          top: 20, right: 20, bottom: 20, left: 20
+          top: 10, right: 10, bottom: 10, left: 10
         },
-        width = 600,
-        height = 600;
+        width = 400,
+        height = 200,
+        rootHeight = 20;
 
     function applyTreemapLayout(root) {
         // basic layout
         const treemapLayout = d3.treemap()
-            .size([width, height])
-            .paddingOuter(10);
+            .size([width, height]);
         return treemapLayout(root);
     }
 
     function chart(selector, data) {
         // Data preprocessing
         // ----------------------------------------
+
         // prepare data from hierarchial object/array
-        const root = d3.hierarchy(data)
+        const dataRoot = d3.hierarchy(data)
             .sum(d => d.value); // compute value for children
-        //const treeData = applyTreemapLayout(root);
-        //console.log(root === treeData);
         // prepare treemap layout info
-        applyTreemapLayout(root);
+        applyTreemapLayout(dataRoot);
 
         // Basic chart components
         // ----------------------------------------
+
+        const x = d3.scaleLinear().rangeRound([0, width]);
+        const y = d3.scaleLinear().rangeRound([0, height]);
+        const color = d3.scaleOrdinal(d3.schemePastel2);
+
+        x.domain([0, width]);
+        y.domain([0, height]);
+
         const svg = d3.select(selector);
-        const group = svg.append("g");
-        group.attr("transform", 
-            "translate(" + margin.left + "," + margin.top + ")"
-        );
-        group.call(render, root);
+        const svgInner = svg.append("g")
+            .attr("transform", 
+                  "translate(" + 0 + "," + 0 + ")"
+            );
+        let group = svgInner.append("g");
+        group.call(render, dataRoot);
 
         // ----------------------------------------
         function render(group, root) {
@@ -42,21 +50,25 @@ function pkgFunTreeMap() {
                 .join("g");
         
             node.filter(d => d === root ? d.parent : d.children)
-                .attr("cursor", "pointer");
-                //.on("click", d => d === root ? zoomout(root) : zoomin(d));
+                .attr("cursor", "pointer")
+                .on("click", d => d === root ? zoomout(root) : zoomin(d));
         
             //node.append("title")
             //    .text(d => { alert(d.data.name); `${d.data.name}\n${d.value}` });
         
             node.append("rect")
                 //.attr("id", d => (d.leafUid = DOM.uid("leaf")).id)
-                .attr("fill", d => d === root ? "#fff" : d.children ? "#ccc" : "#ddd")
-                .attr("stroke", "#fff");
+                .attr("fill", d => d === root ? "#fff" : color(d.data.name))
+                .attr("stroke", d => d === root ? "#fff" : 
+                                d.children ? "#fff" : color(d.data.name));
 
             node.append("text")
-                .attr("dx", 10)
-                .attr("dy", 10)
-                .text(d => d.data.name);
+                .attr("fill", d => d === dataRoot ? "gray" : 
+                              d.children ? "black" : "gray")
+                .attr("dx", 2)
+                .attr("dy", 12)
+                .style("margin", 2)
+                .text(d => d.data.name + (d.data.value ? ("\n" + d.data.value) : "") );
         
             /*node.append("clipPath")
                 //.attr("id", d => (d.clipUid = DOM.uid("clip")).id)
@@ -81,10 +93,51 @@ function pkgFunTreeMap() {
         // ----------------------------------------
         function position(group, root) {
             group.selectAll("g")
-                .attr("transform", d => d === root ? `translate(0,0)` : `translate(${d.x0},${d.y0})`)
+                .attr("transform", 
+                    d => d === root ? 
+                        `translate(0,0)` : 
+                        `translate(${x(d.x0)},
+                                   ${rootHeight + y(d.y0)})`)
                 .select("rect")
-                .attr("width", d => d === root ? width : d.x1 - d.x0)
-                .attr("height", d => d === root ? heigh : d.y1 - d.y0);
+                .attr("width",  d => d === root ? width : x(d.x1) - x(d.x0))
+                .attr("height", d => d === root ? rootHeight : y(d.y1) - y(d.y0));
+        }
+
+        // Zooming
+        // ----------------------------------------
+
+        // When zooming in, draw the new nodes on top, and fade them in.
+        function zoomin(d) {
+            const group0 = group.attr("pointer-events", "none");
+            const group1 = group = svgInner.append("g").call(render, d);
+
+            x.domain([d.x0, d.x1]);
+            y.domain([d.y0, d.y1]);
+
+            svgInner.transition()
+                .duration(500)
+                .call(t => group0.transition(t).remove()
+                    .call(position, d.parent))
+                .call(t => group1.transition(t)
+                    .attrTween("opacity", () => d3.interpolate(0, 1))
+                    .call(position, d));
+        }
+
+        // When zooming out, draw the old nodes on top, and fade them out.
+        function zoomout(d) {
+            const group0 = group.attr("pointer-events", "none");
+            const group1 = group = svgInner.insert("g", "*").call(render, d.parent);
+
+            x.domain([d.parent.x0, d.parent.x1]);
+            y.domain([d.parent.y0, d.parent.y1]);
+
+            svgInner.transition()
+                .duration(750)
+                .call(t => group0.transition(t).remove()
+                    .attrTween("opacity", () => d3.interpolate(1, 0))
+                    .call(position, d))
+                .call(t => group1.transition(t)
+                    .call(position, d.parent));
         }
 
         return chart;
