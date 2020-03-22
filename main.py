@@ -37,12 +37,22 @@ def query_from_post(base, params):
     for param in params:
         subquery = param[0]
         key = param[1]
-        fun = param[2] if 2 < len(param) else (lambda x: x)
+        fun = param[2] if 2 < len(param) else (lambda x: [x])
         val = request.form.get(key, False)
         if val:
             this_query += callable(subquery) and [subquery(val)] or [subquery]
-            args += fun and fun(val) or [val]
+            args += fun(val)
     return query_json(" ".join(this_query), args)
+
+def package_where(args):
+    args = args.split(",")
+    in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
+    return "WHERE package IN " + in_template
+
+def function_where(args):
+    args = args.split(",")
+    in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
+    return "WHERE fun_name IN " + in_template
 
 # Routes
 
@@ -55,6 +65,13 @@ def packages():
     return query_from_post("SELECT DISTINCT package FROM types",
                            [("LIMIT ?", "limit")])
 
+@app.route("/api/query", methods = ["GET", "POST"])
+def query():
+    return query_from_post("SELECT * FROM types",
+                           [(package_where, "packages", lambda x: x.split(",")),
+                            (function_where, "functions", lambda x: x.split(",")),
+                            ("LIMIT ?", "limit")])
+
 @app.route("/api/functions", methods = ["GET", "POST"])
 def functions():
     def make_where(args):
@@ -62,8 +79,8 @@ def functions():
         in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
         return "WHERE package IN " + in_template
     return query_from_post("SELECT DISTINCT package, fun_name FROM types",
-                           [(make_where, "packages", lambda x: x.split(",")),
-                            ("LIMIT ?", "limit", id)])
+                           [(package_where, "packages", lambda x: x.split(",")),
+                            ("LIMIT ?", "limit")])
 
 @app.teardown_appcontext
 def close_connection(exception):
