@@ -1,11 +1,44 @@
 ((() => {
+
+    // Configuration
+    const INIT_PACKAGES = ["base"];
+    const INIT_LIMIT = 15;
+
+    let dispatch = d3.dispatch("push", "pull");
+
+    // Query actor
+    {
+        let initQuery = {
+            packages: INIT_PACKAGES,
+            limit: INIT_LIMIT
+        };
+
+        dispatch.on("push.query", function(newQuery) {
+            let endpoint = "/api/query?" + new URLSearchParams(newQuery);
+            console.log(endpoint);
+            d3.json(endpoint).then((data) => dispatch.call("pull", this, newQuery, data));
+        });
+
+        dispatch.call("push", this, initQuery);
+    }
+
+
+    // Initialize charts
+    typesOverviewChart()("#vis-svg-1", dispatch);
+
+})());
+
+
+/*
+((() => {
+
 //Data util
 
 //if it is NA returns javascript undefined else returns the string
 const parseNA= string => (string ==='NA'? undefined: string);
-    
-    
-    //type conversion 
+
+
+    //type conversion
 function type(d){
       return {
           //string to int
@@ -15,8 +48,8 @@ function type(d){
           arg_t2: parseNA(d.arg_t2),
           arg_t3: parseNA(d.arg_t3),
           arg_t4: parseNA(d.arg_t4)
-          
- };  
+
+ };
 }
 
 // --------------------------------------------------
@@ -45,12 +78,12 @@ function  prepareBarChart(data){
      //converting the map to array
     const dataArray= Array.from(dataMap, d=>({fun_name: d[0],count: d[1] }));
     return dataArray;
-} 
+}
 
 let testDataPkgFun = {
     name: PKGS_TITLE,
     children: [
-        { 
+        {
             name: "pkg1",
             isPkg: true,
             children: [
@@ -71,7 +104,7 @@ let testDataPkgFun = {
             isPkg: true,
             children: [
                 { name: "plus",     value: 180 },
-                { name: "times",    value: 166 }, 
+                { name: "times",    value: 166 },
             ]
         },
         {
@@ -118,10 +151,10 @@ Promise.all([tiny_subset,tiny]).then(d => {
 // Charts reusable pattern
 // --------------------------------------------------
 
-//type chart 
+//type chart
 typesOverview = typesOverviewChart();
 
-//barchart 
+//barchart
 barchartVis=barChart();
 
 // pkgFun tree map
@@ -133,7 +166,7 @@ pkgFunTreeMap = pkgFunTreeMap();
 
 function ready(data){
     debugger;
-    //filtering data 
+    //filtering data
     const dataClean=filterData(data);
     const barChartData= prepareBarChart(dataClean).sort((a,b)=>{
         return d3.descending(a.count-b.count);
@@ -146,3 +179,4 @@ function ready(data){
 
 
 })());
+*/

@@ -35,13 +35,16 @@ def query_from_post(base, params):
     this_query = [base]
     args = []
     for param in params:
-        subquery = param[0]
-        key = param[1]
-        fun = param[2] if 2 < len(param) else (lambda x: [x])
-        val = request.form.get(key, False)
-        if val:
-            this_query += callable(subquery) and [subquery(val)] or [subquery]
-            args += fun(val)
+        if type(param) == str:
+            this_query += [param]
+        else:
+            subquery = param[0]
+            key = param[1]
+            fun = param[2] if 2 < len(param) else (lambda x: [x])
+            val = request.args.get(key, False)
+            if val:
+                this_query += callable(subquery) and [subquery(val)] or [subquery]
+                args += fun(val)
     return query_json(" ".join(this_query), args)
 
 def package_where(args):
@@ -60,19 +63,20 @@ def function_where(args):
 def index():
     return send_file("index.html")
 
-@app.route("/api/packages", methods = ["GET", "POST"])
+@app.route("/api/packages")
 def packages():
     return query_from_post("SELECT DISTINCT package FROM types",
                            [("LIMIT ?", "limit")])
 
-@app.route("/api/query", methods = ["GET", "POST"])
+@app.route("/api/query")
 def query():
     return query_from_post("SELECT * FROM types",
                            [(package_where, "packages", lambda x: x.split(",")),
                             (function_where, "functions", lambda x: x.split(",")),
+                            "ORDER BY count DESC",
                             ("LIMIT ?", "limit")])
 
-@app.route("/api/functions", methods = ["GET", "POST"])
+@app.route("/api/functions")
 def functions():
     def make_where(args):
         args = args.split(",")

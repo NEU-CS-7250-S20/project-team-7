@@ -4,53 +4,54 @@ function typesOverviewChart() {
         width = 550,
         height = 400;
 
-    function chart(selector, data) {
-        // Setup
-        const w = width - margin.left - margin.right,
-              h = height - margin.top - margin.bottom,
-              svg = d3.select(selector),
-              g = svg.append("g");
-        g.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    function chart(selector, dispatch) {
+        dispatch.on("pull.typesoverview", function(query, data) {
+            console.log(data);
+            // Setup
+            const w = width - margin.left - margin.right,
+                  h = height - margin.top - margin.bottom,
+                  svg = d3.select(selector),
+                  g = svg.append("g");
+            g.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        // Sankey config
-        const sankey = d3.sankey()
-              .nodeAlign(d3.sankeyLeft)
-              .nodeWidth(2)
-              .extent([[0, dataKeys.length - 1], [w, h]]);
+            // Sankey config
+            const sankey = d3.sankey()
+                  .nodeAlign(d3.sankeyLeft)
+                  .nodeWidth(2)
+                  .extent([[0, dataKeys.length - 1], [w, h]]);
 
-        // Wrangling data
-        data = sankeyData(data);
-        console.log(data);
-        const {nodes, links} = sankey(data);
+            // Wrangling data
+            data = sankeyData(data);
+            const {nodes, links} = sankey(data);
 
-        // Draw nodes
-        g.selectAll("rect")
-            .data(nodes)
-            .join("rect")
-            .attr("x", d => d.x0)
-            .attr("y", d => d.y0)
-            .attr("height", d => d.y1 - d.y0)
-            .attr("width", d => d.x1 - d.x0);
+            // Draw nodes
+            g.selectAll("rect")
+                .data(nodes)
+                .join("rect")
+                .attr("x", d => d.x0)
+                .attr("y", d => d.y0)
+                .attr("height", d => d.y1 - d.y0)
+                .attr("width", d => d.x1 - d.x0);
 
-        // Draw node labels
-        g.style("font", "10px sans-serif")
-            .selectAll("text")
-            .data(nodes)
-            .join("text")
-            .attr("x", d => d.x0 + 8)
-            .attr("y", d => (d.y0 + d.y1) / 2)
-            .text(d => d.name);
+            // Draw node labels
+            g.style("font", "10px sans-serif")
+                .selectAll("text")
+                .data(nodes)
+                .join("text")
+                .attr("x", d => d.x0 + 8)
+                .attr("y", d => (d.y0 + d.y1) / 2)
+                .text(d => d.name);
 
-        // Draw links
-        g.selectAll("g")
-            .data(links)
-            .join("path")
-            .attr("d", d3.sankeyLinkHorizontal())
-            .attr("fill", "none")
-            .attr("stroke", "#c39bd3")
-            .attr("stroke-width", d => d.width)
-            .style("mix-blend-mode", "multiply");
-
+            // Draw links
+            g.selectAll("g")
+                .data(links)
+                .join("path")
+                .attr("d", d3.sankeyLinkHorizontal())
+                .attr("fill", "none")
+                .attr("stroke", "#c39bd3")
+                .attr("stroke-width", d => d.width)
+                .style("mix-blend-mode", "multiply");
+        });
     }
 
     chart.margin = function(_) {
@@ -75,7 +76,7 @@ function typesOverviewChart() {
 }
 
 // These are the columns from the table that we will use for our visualization.
-const dataKeys = ["fun_name", "arg_t1", "arg_t2", "arg_t3", "arg_t4"];
+const dataKeys = ["fun_name", "arg_t0", "arg_t1", "arg_t2", "arg_t3", "arg_t4"];
 
 // Main function for transforming the input data into something that is usable
 // for the D3 Sankey library.
