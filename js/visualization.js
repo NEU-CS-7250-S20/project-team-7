@@ -18,7 +18,11 @@ function type(d){
           
  };  
 }
-//Data preparation
+
+// --------------------------------------------------
+// Data preparation
+// --------------------------------------------------
+
 function filterData(data){
     return data.filter (d=>{
         return (
@@ -27,6 +31,7 @@ function filterData(data){
         );
     });
 }
+
 //prepare data for barChart
 function  prepareBarChart(data){
     //d3 rollup returns a map
@@ -42,8 +47,61 @@ function  prepareBarChart(data){
     return dataArray;
 } 
 
+let testDataPkgFun = {
+    name: PKGS_TITLE,
+    children: [
+        { 
+            name: "pkg1",
+            isPkg: true,
+            children: [
+                { name: "minus",  value: 1000 },
+                { name: "foo",    value: 570
+                },
+                {
+                    name: PKGFUNS_MORE,
+                    children: [
+                        { name: "zoo",  value: 70 },
+                        { name: "bar",  value: 300 }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "pkg2",
+            isPkg: true,
+            children: [
+                { name: "plus",     value: 180 },
+                { name: "times",    value: 166 }, 
+            ]
+        },
+        {
+            name: PKGFUNS_MORE,
+            isPkg: true,
+            children: [
+                {
+                    name: "pkg3",
+                    isPkg: true,
+                    children: [
+                        { name: "baz", value: 700 }
+                    ]
+                },
+                {
+                    name: "pkg4",
+                    isPkg: true,
+                    children: [
+                        { name: "baz", value: 170 },
+                        { name: "gas", value: 4300 }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+// --------------------------------------------------
 // Loading data
 // Using JS promises to load multiple sources of data
+// --------------------------------------------------
 
 const tiny_subset = d3.csv("data/tiny_subset.csv",type);
 
@@ -55,8 +113,10 @@ Promise.all([tiny_subset,tiny]).then(d => {
     ready(d[1]);
   });
 
-      
-//Charts reusable pattern
+
+// --------------------------------------------------
+// Charts reusable pattern
+// --------------------------------------------------
 
 //type chart 
 typesOverview = typesOverviewChart();
@@ -64,7 +124,13 @@ typesOverview = typesOverviewChart();
 //barchart 
 barchartVis=barChart();
 
-//Main function
+// pkgFun tree map
+pkgFunTreeMap = pkgFunTreeMap();
+
+// --------------------------------------------------
+// Main function
+// --------------------------------------------------
+
 function ready(data){
     debugger;
     //filtering data 
@@ -74,6 +140,7 @@ function ready(data){
     });
     //calling the vis
     typesOverview("#vis-svg-1", data);
+    pkgFunTreeMap("#vis-svg-2-pkg-tree-map", testDataPkgFun);
     barchartVis("#barchart-1", barChartData);
 }
 
