@@ -73,9 +73,10 @@ function testDataPkgFun(){ return {
             limit: INIT_LIMIT
         };
 
+        // TODO: Change from static
         dispatch.on("push.query", function(newQuery) {
-            let endpoint = "/api/query?" + new URLSearchParams(newQuery);
-            console.log(endpoint);
+            //let endpoint = "/api/query?" + new URLSearchParams(newQuery);
+            let endpoint = "/data/query_static.json";
             d3.json(endpoint).then((data) => dispatch.call("pull", this, newQuery, data));
         });
 
