@@ -13,6 +13,9 @@ function pkgFunTreeMap() {
     function applyTreemapLayout(root) {
         // basic layout
         const treemapLayout = d3.treemap()
+            .tile(d3.treemapSquarify)
+            //.padding(1)
+            .round(true)
             .size([width, height]);
         return treemapLayout(root);
     }
@@ -32,7 +35,8 @@ function pkgFunTreeMap() {
 
         // prepare data from hierarchial object/array
         const dataRoot = d3.hierarchy(data)
-            .sum(d => d.value); // compute value for children
+            .sum(d => d.value) // compute value for children
+            .sort((a, b) => b.value - a.value); 
         // prepare treemap layout info
         applyTreemapLayout(dataRoot);
 
@@ -41,7 +45,14 @@ function pkgFunTreeMap() {
 
         const x = d3.scaleLinear().rangeRound([0, width]);
         const y = d3.scaleLinear().rangeRound([0, height]);
+
+        // Color
         const color = d3.scaleOrdinal(d3.schemePastel2);
+        // color-blind palette (from color brewer)
+        // #f7fcf0 #e0f3db #ccebc5 #a8ddb5 #7bccc4 #4eb3d3 #2b8cbe #0868ac #084081
+        let colorPalette = ["#e0f3db", "#ccebc5", "#a8ddb5",
+          "#7bccc4", "#4eb3d3", "#2b8cbe", "#0868ac"];
+        //const color = d3.scaleOrdinal(colorPalette);
 
         x.domain([0, width]);
         y.domain([0, height]);
