@@ -1,10 +1,70 @@
+// --------------------------------------------------
+// Data preparation
+// --------------------------------------------------
+
+// Sample data for pkg-fun
+function testDataPkgFun(){ return {
+    name: PKGS_TITLE,
+    children: [
+        {
+            name: "pkg1",
+            isPkg: true,
+            children: [
+                { name: "minus",  value: 1000 },
+                { name: "foo",    value: 570
+                },
+                {
+                    name: PKGFUNS_MORE,
+                    children: [
+                        { name: "zoo",  value: 70 },
+                        { name: "bar",  value: 300 }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "pkg2",
+            isPkg: true,
+            children: [
+                { name: "plus",     value: 180 },
+                { name: "times",    value: 166 },
+            ]
+        },
+        {
+            name: PKGFUNS_MORE,
+            isPkg: true,
+            children: [
+                {
+                    name: "pkg3",
+                    isPkg: true,
+                    children: [
+                        { name: "baz", value: 700 }
+                    ]
+                },
+                {
+                    name: "pkg4",
+                    isPkg: true,
+                    children: [
+                        { name: "baz", value: 170 },
+                        { name: "gas", value: 4300 }
+                    ]
+                }
+            ]
+        }
+    ]
+}}
+
+// --------------------------------------------------
+// Main Dispatch
+// --------------------------------------------------
+
 ((() => {
 
     // Configuration
     const INIT_PACKAGES = ["base"];
     const INIT_LIMIT = 15;
 
-    let dispatch = d3.dispatch("push", "pull");
+    let dispatch = d3.dispatch("push", "pull", "testpkgfun");
 
     // Query actor
     {
@@ -25,7 +85,10 @@
 
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
+    pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
 
+    // sample data for pkg-fun
+    dispatch.call("testpkgfun", this, testDataPkgFun());
 })());
 
 

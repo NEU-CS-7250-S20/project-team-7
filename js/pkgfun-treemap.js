@@ -25,7 +25,8 @@ function pkgFunTreeMap() {
         return node.children && node.children.some(isMoreNode);
     }
 
-    function chart(selector, data) {
+    function chart(selector, dispatch) {
+      dispatch.on("testpkgfun", function(data) {
         // Data preprocessing
         // ----------------------------------------
 
@@ -166,7 +167,8 @@ function pkgFunTreeMap() {
                     .call(position, d.parent));
         }
 
-        return chart;
+        //return chart;
+      });
     }
 
     // --------------------------------------------------
