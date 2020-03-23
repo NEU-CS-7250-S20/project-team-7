@@ -1,3 +1,27 @@
+# Types for R Project
+
+## Setup
+
+### Dependencies
+
+* `sqlite3`
+* python
+* flask (`python-flask`?)
+
+Install`flask` via `pip`.
+
+```
+$ pip3 install flask
+```
+
+### Server
+
+Run:
+
+```
+FLASK_APP=main.py flask run
+```
+
 # Project Template
 
 This template will help you get started with your project. Please look through all these materials so you know how to organize your project.
