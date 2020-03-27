@@ -8,6 +8,30 @@ body {
 .axis.domain{
 	stroke: none;
 }
+.tooltip{
+	 position: fixed;
+	opacity:0;
+	background: #eee;
+	max-width: 200px;
+	pointer-events: none;
+}
+.tip-header {
+	border-bottom: 2px solid white;
+	padding: 0.9rem 1rem;
+}
+.tip-body{
+	padding: 0.2rem 0;
+}
+h3{
+	font-size: .9rem;
+	color: #555;
+	margin: 0;
+}
+.tip-info{
+	margin: 0;
+	padding: 0.3rem 1em;
+	font-size: 0.8em;
+}
 .x line {
 	stroke: white;
 }
