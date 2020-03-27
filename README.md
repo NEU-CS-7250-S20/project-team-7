@@ -8,7 +8,7 @@
 * python
 * flask (`python-flask`?)
 
-Install`flask` via `pip`.
+Install `flask` via `pip`.
 
 ```
 $ pip3 install flask
@@ -22,12 +22,20 @@ Run:
 FLASK_APP=main.py flask run
 ```
 
+## API
+
+* Functions: `http://127.0.0.1:5000/api/functions?limit=15`
+* Packages: `http://127.0.0.1:5000/api/packages?limit=10`
+
+---
+
 # Project Template
 
 This template will help you get started with your project. Please look through all these materials so you know how to organize your project.
 
 Link to your page:
 https://NEU-CS-7250-S20.github.io/project-team-7 
+
 # Instructions
 
 ## Setup
@@ -53,6 +61,7 @@ https://NEU-CS-7250-S20.github.io/project-team-7
 1. In `index.html` update the GitHub repo URL with the URL of your repository. It is in the span with `id="forkongithub"`.
 
 ## Organization
+
 ### Root Files
 * `README.md` is this explanatory file for the repo.
 
@@ -88,6 +97,7 @@ Failure to properly cite and attribute code is a breach of academic honesty.
 Also, per our syllabus, homework is an individual assessment and should be completed by you alone.
 Simply copying existing examples without performing thoughtful edits is a breach of academic honesty.
 You are welcome to ask fellow classmates and students for help and discuss the assignment, but **the submission should be your own work**.
+
 # Submission Instructions
 
 1. Submit a URL to your GitHub Page (same as the link you edited at the top) to [the associated assignment on Canvas](https://canvas.instructure.com/courses/1781732/assignments/13207302).
