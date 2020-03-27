@@ -64,6 +64,33 @@ h1, h2, h3 {
 	padding: 10px;
 }
 
+.vis-svg-pkgfun .tm-header {
+	fill: #f7fcf0;
+	cursor: pointer;
+}
+.vis-svg-pkgfun .tm-header-text {
+	fill: black;
+	font-size: 10px;
+	cursor: pointer;
+}
+
+.vis-svg-pkgfun .tm-footer {
+	fill: #084081;
+	cursor: pointer;
+}
+.vis-svg-pkgfun .tm-footer-text {
+	fill: white;
+	font-size: 8px;
+	cursor: pointer;
+}
+
+.vis-svg-pkgfun .tm-block {
+}
+.vis-svg-pkgfun .tm-block-text {
+	font-size: 7px;
+	font-family: monospace;	
+}
+
 .vis-svg-pkgfun .pkg-node {
 	
 }

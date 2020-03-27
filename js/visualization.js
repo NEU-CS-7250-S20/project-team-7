@@ -64,7 +64,8 @@ function testDataPkgFun(){ return {
     const INIT_PACKAGES = ["base"];
     const INIT_LIMIT = 15;
 
-    let dispatch = d3.dispatch("push", "pull", "testpkgfun");
+    let dispatch = d3.dispatch("push", "pull",
+      "testpkgfun", "testpkgs");
 
     // Query actor
     {
@@ -86,10 +87,15 @@ function testDataPkgFun(){ return {
 
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
-    pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
+    //pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
+    pkgsTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
     barChart()("#barchart-1",dispatch);
     // sample data for pkg-fun
-    dispatch.call("testpkgfun", this, testDataPkgFun());
+    //dispatch.call("testpkgfun", this, testDataPkgFun());
+    // Sample data about packages (without functions)
+    d3.json("data/pkgs_test.json").then(data => 
+        dispatch.call("testpkgs", this, data)
+    );
 })());
 
 
