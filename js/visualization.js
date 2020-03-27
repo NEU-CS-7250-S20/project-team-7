@@ -87,7 +87,7 @@ function testDataPkgFun(){ return {
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
     pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
-
+    barChart()("#barchart-1",dispatch);
     // sample data for pkg-fun
     dispatch.call("testpkgfun", this, testDataPkgFun());
 })());

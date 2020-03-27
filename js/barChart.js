@@ -3,7 +3,8 @@ function barChart() {
         width = 550,
         height = 400;
 
-    function chart(selector, data) {
+    function chart(selector, dispatch) {
+        dispatch.on("pull.barChart", function(query, data) {
         // Setup
         const w = width - margin.left - margin.right,
               h = height - margin.top - margin.bottom,
@@ -71,7 +72,9 @@ function barChart() {
                         .append('text');
         //headline
         header.append('tspan').text('Functions and Number of Times Called');
-    }
+    });
+}
+
    //function for x axis format
    function formatTicks(d){
 
