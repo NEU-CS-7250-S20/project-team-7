@@ -1,8 +1,8 @@
 //adapted from bl.ocks.org/jurb/raw/5d42c6de467d7a71b2fc855e6aa3157f/d7f582728e6a1c199b7006f8f618478a4422c018/
 function filterChart() {
     let margin = {top: 80, right: 20, bottom: 20, left: 100},
-        width = 550,
-        height = 400;
+        width = 300,
+        height = 180;
        
 
     function chart(selector,dispatch,data) {
@@ -13,9 +13,17 @@ function filterChart() {
           
         }).keys();
         const svg= d3.select(selector)
+        
+        
+                .append('ul')
+                .attr("width","200px")
+                .attr("height","150px")
+                .attr("overflow-y", "auto")
                 .selectAll("input")
                 .data(filter_list)
                 .enter()
+                .append('li')
+                
                 .append("label")
                 .append("input")
                 .attr("type", "checkbox")
@@ -33,8 +41,8 @@ function filterChart() {
                 .append("text").text(function (d) {
                     return " " + d
                 })
-            const ul=d3.select('label').append('ul');
-            ul.selectAll('li').append('li')
+            //const ul=d3.select('label').append('ul');
+            //d3.selectAll('label').append('li')
         const checked = d3.selectAll(".filter-check")
               checked.on("change",updateVis);
          function updateVis() {
