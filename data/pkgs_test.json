@@ -1,0 +1,17 @@
+[
+    {"package": "anapuce", "count": 2300},
+    {"package": "base", "count": 10000},
+    {"package": "methods", "count": 6705},
+    {"package": "stats", "count": 8675},
+    {"package": "tools", "count": 187},
+    {"package": "utils", "count": 789},
+    {"package": "approximator", "count": 87},
+    {"package": "emulator", "count": 1045},
+    {"package": "mvtnorm", "count": 72},
+    {"package": "grid", "count": 5768},
+    {"package": "lattice", "count": 666},
+    {"package": "nlme", "count": 11},
+    {"package": "betas", "count": 2300},
+    {"package": "cluster", "count": 3459},
+    {"package": "MASS", "count": 187}
+]
