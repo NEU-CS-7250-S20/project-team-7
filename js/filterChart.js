@@ -3,16 +3,15 @@ function filterChart() {
     let margin = {top: 80, right: 20, bottom: 20, left: 100},
         width = 550,
         height = 400;
+       
 
-    function chart(selector, dispatch) {
-        dispatch.on("pull.filter", function(query,data) {
-            var filter_on = 'package'
-            // Building an array with the values to filter on
-            var filter_list = d3.map(data, function (d) {
-                return d[filter_on];
-            }).keys()
-         // Setup
-    
+    function chart(selector,dispatch,data) {
+        const filter_on = 'package';
+           // Building an array with the values to filter on
+        const filter_list = d3.map(data, function (d) {
+            return d[filter_on];
+          
+        }).keys();
         const svg= d3.select(selector)
                 .selectAll("input")
                 .data(filter_list)
@@ -36,11 +35,8 @@ function filterChart() {
                 })
             const ul=d3.select('label').append('ul');
             ul.selectAll('li').append('li')
-
-          
         const checked = d3.selectAll(".filter-check")
               checked.on("change",updateVis);
-               
          function updateVis() {
             const choices = [];
             checked.each(function(d){
@@ -57,7 +53,8 @@ function filterChart() {
                 const new_query = {
                     packages: SELECTED_PACKAGES,
                     limit: INIT_LIMIT
-                       };         
+                       };   
+                       //calling event in visualization.js      
                 dispatch.call("push",this,new_query,data);
 
              
@@ -66,8 +63,7 @@ function filterChart() {
          };     
 
 
-
-    });
+     
     }
 
 

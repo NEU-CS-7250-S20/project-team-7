@@ -67,6 +67,8 @@ function testDataPkgFun(){ return {
     const PACKAGES=[];
     //ALL THE PACKAGES INSTEAD OF ONE, I need for my vis ...
     d3.json(endpoint_packages).then(d=>{
+        
+
         var keys=Object.keys(d);
         keys.forEach(function(key){
 
@@ -88,30 +90,35 @@ function testDataPkgFun(){ return {
        
         // TODO: Change from static
         dispatch.on("push.query", function(newQuery) {
+            
             let endpoint = "/api/query?" + new URLSearchParams(newQuery);
             
             //let endpoint = "data/query_static.json";
-          //  const initi = d3.json(endpoint);
            
-           /* Promise.all([initi])
+           /* Promise.all([endpoint])
                 .then((data) =>{
                     dispatch.call("pull", this, newQuery, data[1]);
                 });
                 */
-               d3.json(endpoint).then((data) => dispatch.call("pull", this, newQuery, data));
+               d3.json(endpoint).then((data) => 
+               dispatch.call("pull", this, newQuery, data));
         });
         //dispatch on update package
         //construct the query
         dispatch.call("push", this, initQuery);
     }
 
+    // packages will not change for my filterVis
+    d3.json(endpoint_packages).then(data=>{
 
+        filterChart()('#filter',dispatch,data);
+    });
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
     //pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
     pkgsTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
     barChart()("#barchart-1",dispatch);
-    filterChart()('#filter',dispatch); 
+     
     // sample data for pkg-fun
     //dispatch.call("testpkgfun", this, testDataPkgFun());
     // Sample data about packages (without functions)
