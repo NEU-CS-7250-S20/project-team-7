@@ -4,8 +4,6 @@ function barChart() {
         height = 400;
 
     function chart(selector, dispatch) {
-        dispatch.on("pull.barChart", function(query, data) {
-        // Setup
         const w = width - margin.left - margin.right,
               h = height - margin.top - margin.bottom,
               svg= d3.select(selector)
@@ -14,36 +12,84 @@ function barChart() {
                 .attr("height", height + margin.top  + margin.bottom )
                 .append('g')
                 .attr("transform",`translate(${margin.left},${margin.top})`);
-
-
-
-       //scales.
-
-       //extents; aka lowest and highest vals
-       const xMax = d3.max(data, d=>d.count);
-
-       const xScale =d3.scaleLinear([0,xMax],[0,width]);
-       const yScale=d3.scaleBand()
-            .domain(data.map(d=> d.fun_name))
-            .rangeRound([0,height])
-            .paddingInner(0.25);
-
-        //draw bars
-
+            
+            const xAxisDraw= svg.append('g')
+                .attr('class','x axis')
+                 
+            const yAxisDraw= svg.append('g')
+                .attr('class', 'y axis')
+              
+       //draw bars
+      function update(da,yScale,xScale,xAxis,yAxis){
+    //update scales
+        xScale.domain([0,d3.max(da, d=>d.count)]);
+        yScale.domain(da.map(d=> d.fun_name));
         const bars= svg.selectAll('.bar')
             //join in data
-            .data(data)
-            .enter()
-            .append('rect')
-            .attr('class','bar')
+            .data(da)
+            .join(
+               enter=>{enter 
+               .append('rect')
+               .attr('class','bar')
             //position
-            .attr('y', d=> yScale(d.fun_name))
-            .attr('width',d=> xScale(d.count))
-            .attr('height', yScale.bandwidth())
-            .style('fill','dodgerblue');
+               .attr('y', d=> yScale(d.fun_name))
+               .attr('height', yScale.bandwidth())
+               .style('fill','lightcyan')
+               .transition()
+               .duration(1000)
+               .delay((d,i)=>i*20)
+               .attr('width',d=> xScale(d.count))
+               .style('fill','dodgerblue')
+            },
 
+               update=> {update
+               .attr('y', d=> yScale(d.fun_name))
+               .style('fill','lightcyan')
+               .transition()
+               .duration(1000)
+               .delay((d,i)=>i*20)
+               .attr('width',d=> xScale(d.count))
+               .style('fill','dodgerblue')
+               },
 
+               exit=>{exit
+                    .transition()
+                    .duration(500)
+                    .style('fill-opacity',0)
+                    .remove()
+               }
+            );
+            //Update axes
+            xAxisDraw.transition().duration(1000).call(xAxis.scale(xScale));
+            yAxisDraw.transition().duration(1000).call(yAxis.scale(yScale));
+            
+            yAxisDraw.selectAll('text').attr('dx','-0.6em');
+        }
+         //headers ....
+         const header = svg.append('g')
+         .attr('class','bar-header')
+         //half the margin up before appending a text element
+         .attr('transform', `translate(0,${-margin.top/2})`)
+         .append('text');
+//headline
+        header.append('tspan').text('Functions and Number of Times Called');
+        
+    dispatch.on("pull.barChart", function(query, data) {
+        // Setup    
 
+        // sorting the data
+        data=data.sort((a,b)=>b.count-a.count)
+                .filter((d,i)=>i<15);
+      
+      
+
+       const xScale =d3.scaleLinear()
+            
+            .range([0,width]);
+       const yScale=d3.scaleBand()
+            
+            .rangeRound([0,height])
+            .paddingInner(0.25);
 
         //Axes
 
@@ -52,27 +98,17 @@ function barChart() {
                         .tickFormat(formatTicks)
                         .tickSizeInner(-height)
                         .tickSizeOuter(0)
-        const xAxisDraw= svg.append('g')
-                        .attr('class','x axis')
-                        .call(xAxis);
+      
         //position of y axis
         const yAxis = d3.axisLeft(yScale).tickSize(0);
-        const yAxisDraw= svg.append('g')
-                           .attr('class', 'y axis')
-                           .call(yAxis);
+
 
         //space between y axis and labels(fun_name)
         yAxisDraw.selectAll('text').attr('dx','-0.6em');
 
-        //headers ....
-        const header = svg.append('g')
-                        .attr('class','bar-header')
-                        //half the margin up before appending a text element
-                        .attr('transform', `translate(0,${-margin.top/2})`)
-                        .append('text');
-        //headline
-        header.append('tspan').text('Functions and Number of Times Called');
-
+       
+        // calling the update function
+        update(data,yScale,xScale,xAxis,yAxis);
         //tooltip handler
         function mouseover(){
             const barData=d3.select(this).data()[0];

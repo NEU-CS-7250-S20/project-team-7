@@ -20,6 +20,7 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="favicons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
+
 </head>
 
 <!-- Main page content -->
@@ -56,6 +57,16 @@
   </div>
 
   <!-- Your visualization here -->
+  <div class="side " id="barchart-1"></div>
+  <div id="filter" class="side">
+  </div>
+
+  <div class="tooltip">
+    <div class="tip-header">
+      <h3></h3>
+    </div>
+    <div class="tip-body"></div>
+  </div>
   <div class="vis-holder">
     <svg id="vis-svg-1" preserveAspectRatio="xMidYMid meet" class="vis-svg" viewBox="0 0 1000 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
 
@@ -64,13 +75,7 @@
       viewBox="0 0 400 236" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     </svg>
   </div>
-  <div id="barchart-1"></div>
-  <div class="tooltip">
-    <div class="tip-header">
-      <h3></h3>
-    </div>
-    <div class="tip-body"></div>
-  </div>
+  
   <!-- Your writeup goes here -->
 
   <div class = "content-column">
@@ -118,6 +123,7 @@
   <script src="lib/kld-intersections.min.js"></script>
   <script src="js/types-overview.js"></script>
   <script src="js/barChart.js"></script>
+  <script src="js/filterChart.js"></script>
   <script src="js/pkgfun-treemap.js"></script>
   <script src="js/pkgs-treemap.js"></script>
   <script src="js/visualization.js"></script>

@@ -47,7 +47,7 @@ h1, h2, h3 {
 }
 
 /* But your visualization should be full-width and full-height */
-.vis-holder {
+/*.vis-holder {
   width: 100%;
   height: 100%;
 }
@@ -55,7 +55,7 @@ h1, h2, h3 {
 .vis-svg {
   background-color: #f4f1f0;
 }
-
+*/
 .vis-svg-pkgfun {
 	width: 800px;
 	height: 472px;
@@ -155,3 +155,34 @@ h1, h2, h3 {
 		box-shadow:4px 4px 10px rgba(0,0,0,0.8);
 	}
 }
+ 
+.side {
+	float: left;
+/*	overflow-y: auto;
+	overflow: hidden;*/
+}
+
+  
+  .vertical-menu li {
+	  height: 30px;
+	background-color: #eee; /* Grey background color */
+	color: black; /* Black text color */
+	display: block; /* Make the links appear below each other */
+	padding: 12px; /* Add some padding */
+	text-decoration: none; /* Remove underline from links */
+  }
+  
+  .vertical-menu li:hover {
+	background-color: #ccc; /* Dark grey background on mouse-over */
+  }
+  
+  .vertical-menu li.active {
+	background-color: #4CAF50; /* Add a green color to the "active/current" link */
+	color: white;
+  }
+  
+  .vertical-menu  {
+	overflow-x:hidden;
+	overflow-y: scroll;
+	height: 200px;
+  }

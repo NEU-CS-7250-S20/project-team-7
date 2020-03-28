@@ -61,35 +61,64 @@ function testDataPkgFun(){ return {
 ((() => {
 
     // Configuration
-    const INIT_PACKAGES = ["base"];
+    const INIT_PACKAGES=["base"];
     const INIT_LIMIT = 15;
+    let endpoint_packages = "/api/packages";
+    const PACKAGES=[];
+    //ALL THE PACKAGES INSTEAD OF ONE, I need for my vis ...
+    d3.json(endpoint_packages).then(d=>{
+        
 
-    let dispatch = d3.dispatch("push", "pull",
+        var keys=Object.keys(d);
+        keys.forEach(function(key){
+
+            PACKAGES.push(d[key]["package"])
+        })
+        
+        ;} );
+    let dispatch = d3.dispatch("push", "pull","change_package",
       "testpkgfun", "testpkgs");
 
     // Query actor
+    
+    //INIT_PACKAGES= json_packages.split(",");
     {
         let initQuery = {
-            packages: INIT_PACKAGES,
+            packages: PACKAGES,
             limit: INIT_LIMIT
         };
-
+       
         // TODO: Change from static
         dispatch.on("push.query", function(newQuery) {
-            //let endpoint = "/api/query?" + new URLSearchParams(newQuery);
-            let endpoint = "data/query_static.json";
-            d3.json(endpoint).then((data) => dispatch.call("pull", this, newQuery, data));
+            
+            let endpoint = "/api/query?" + new URLSearchParams(newQuery);
+            
+            //let endpoint = "data/query_static.json";
+           
+           /* Promise.all([endpoint])
+                .then((data) =>{
+                    dispatch.call("pull", this, newQuery, data[1]);
+                });
+                */
+               d3.json(endpoint).then((data) => 
+               dispatch.call("pull", this, newQuery, data));
         });
-
+        //dispatch on update package
+        //construct the query
         dispatch.call("push", this, initQuery);
     }
 
+    // packages will not change for my filterVis
+    d3.json(endpoint_packages).then(data=>{
 
+        filterChart()('#filter',dispatch,data);
+    });
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
     //pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
     pkgsTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
     barChart()("#barchart-1",dispatch);
+     
     // sample data for pkg-fun
     //dispatch.call("testpkgfun", this, testDataPkgFun());
     // Sample data about packages (without functions)

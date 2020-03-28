@@ -1,5 +1,8 @@
 # Imports
 
+#render_template?
+#SqlAlchemy?
+#jsonify?
 from flask import Flask, request, send_file, g
 import sqlite3
 import json
@@ -38,16 +41,22 @@ def query_from_post(base, params):
         if type(param) == str:
             this_query += [param]
         else:
+            #packages_where is a callable...
             subquery = param[0]
             key = param[1]
             fun = param[2] if 2 < len(param) else (lambda x: [x])
+            #first iteration getting the INIT_PACKAGE
+            # result is a list..
             val = request.args.get(key, False)
             if val:
                 this_query += callable(subquery) and [subquery(val)] or [subquery]
+                #spliting by ","--> args= (base,....)
                 args += fun(val)
     return query_json(" ".join(this_query), args)
 
+# args here is INIT_PACKAGES
 def package_where(args):
+    #args is a list of packages
     args = args.split(",")
     in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
     return "WHERE package IN " + in_template
@@ -78,6 +87,7 @@ def query():
 
 @app.route("/api/functions")
 def functions():
+    #unused (package_where, function_where...)
     def make_where(args):
         args = args.split(",")
         in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
