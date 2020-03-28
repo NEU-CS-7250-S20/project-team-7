@@ -16,7 +16,9 @@ function barChart() {
                 .attr("transform",`translate(${margin.left},${margin.top})`);
 
 
-
+        // sorting the data
+        data=data.sort((a,b)=>b.count-a.count)
+                .filter((d,i)=>i<15);
        //scales.
 
        //extents; aka lowest and highest vals
@@ -29,22 +31,33 @@ function barChart() {
             .paddingInner(0.25);
 
         //draw bars
+        function update(da){
 
-        const bars= svg.selectAll('.bar')
-            //join in data
-            .data(data)
-            .enter()
-            .append('rect')
-            .attr('class','bar')
-            //position
-            .attr('y', d=> yScale(d.fun_name))
-            .attr('width',d=> xScale(d.count))
-            .attr('height', yScale.bandwidth())
-            .style('fill','dodgerblue');
+            const bars= svg.selectAll('.bar')
+                //join in data
+                .data(da)
+                .join(
+                   enter=>enter 
+                   .append('rect')
+                   .attr('class','bar')
+                //position
+                   .attr('y', d=> yScale(d.fun_name))
+                   .attr('width',d=> xScale(d.count))
+                   .attr('height', yScale.bandwidth())
+                   .style('fill','dodgerblue'),
 
+                   update=> update,
 
-
-
+                   exit=>exit.remove()
+                )
+                 
+                
+        }
+//listen to an event from filterVis and act accordingly
+        function handler_function(data){
+            update(data);
+        }
+        dispatch.on("change_package",handler_function);
         //Axes
 
         //position of x axis
@@ -72,7 +85,8 @@ function barChart() {
                         .append('text');
         //headline
         header.append('tspan').text('Functions and Number of Times Called');
-
+        // calling the update function
+        update(data);
         //tooltip handler
         function mouseover(){
             const barData=d3.select(this).data()[0];
