@@ -13,8 +13,7 @@ function typesOverviewChart() {
                   svg = d3.select(selector),
                   g = svg.append("g"),
                   brush = d3.brush(),
-                  quadtree = d3.quadtree().x((d) => d.x)
-                                          .y((d) => d.y);
+                  quadtree = d3.quadtree().x((d) => d.x).y((d) => d.y);
 
             g.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -25,6 +24,8 @@ function typesOverviewChart() {
                   .extent([[0, dataKeys.length - 1], [w, h]]);
 
             // Wrangling data
+            console.log(data);
+            data = data.functions;
             data = sankeyData(data);
             const {nodes, links} = sankey(data);
 

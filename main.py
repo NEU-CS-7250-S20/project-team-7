@@ -1,8 +1,5 @@
 # Imports
 
-#render_template?
-#SqlAlchemy?
-#jsonify?
 from flask import Flask, request, send_file, g
 import sqlite3
 import json
@@ -32,7 +29,7 @@ def query_db(query, args, one):
     return (rv[0] if rv else None) if one else rv
 
 def query_json(query, args = (), one = False):
-    return json.dumps(query_db(query, args, one))
+    return query_db(query, args, one)
 
 def query_from_post(base, params):
     this_query = [base]
@@ -41,25 +38,25 @@ def query_from_post(base, params):
         if type(param) == str:
             this_query += [param]
         else:
-            #packages_where is a callable...
             subquery = param[0]
             key = param[1]
             fun = param[2] if 2 < len(param) else (lambda x: [x])
-            #first iteration getting the INIT_PACKAGE
-            # result is a list..
             val = request.args.get(key, False)
             if val:
                 this_query += callable(subquery) and [subquery(val)] or [subquery]
-                #spliting by ","--> args= (base,....)
                 args += fun(val)
+    print(" ".join(this_query))
     return query_json(" ".join(this_query), args)
 
-# args here is INIT_PACKAGES
 def package_where(args):
-    #args is a list of packages
     args = args.split(",")
     in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
     return "WHERE package IN " + in_template
+
+def package_being_analyzed_where(args):
+    args = args.split(",")
+    in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
+    return "WHERE package_being_analyzed IN " + in_template
 
 def function_where(args):
     args = args.split(",")
@@ -72,29 +69,17 @@ def function_where(args):
 def index():
     return send_file("index.html")
 
-@app.route("/api/packages")
-def packages():
-    return query_from_post("SELECT package_being_analyzed as package, COUNT(*) as count FROM types GROUP BY package_being_analyzed",
-                           [("LIMIT ?", "limit")])
-
 @app.route("/api/query")
 def query():
-    return query_from_post("SELECT * FROM types",
-                           [(package_where, "packages", lambda x: x.split(",")),
-                            (function_where, "functions", lambda x: x.split(",")),
-                            "ORDER BY count DESC",
-                            ("LIMIT ?", "limit")])
-
-@app.route("/api/functions")
-def functions():
-    #unused (package_where, function_where...)
-    def make_where(args):
-        args = args.split(",")
-        in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
-        return "WHERE package IN " + in_template
-    return query_from_post("SELECT DISTINCT package, fun_name FROM types",
-                           [(package_where, "packages", lambda x: x.split(",")),
-                            ("LIMIT ?", "limit")])
+    parameters = [(package_where, "package", lambda x: x.split(",")),
+                  (package_being_analyzed_where, "package_being_analyzed", lambda x: x.split(",")),
+                  (function_where, "functions", lambda x: x.split(","))]
+    extras = ["ORDER BY count DESC",
+              ("LIMIT ?", "limit")]
+    return json.dumps({
+        "packages": query_from_post("SELECT package, COUNT(*) as count FROM types", parameters + ["GROUP BY package"] + extras),
+        "functions": query_from_post("SELECT * FROM types", parameters + extras)
+    })
 
 @app.teardown_appcontext
 def close_connection(exception):
