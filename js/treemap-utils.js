@@ -195,53 +195,76 @@ const FUNCS_LABELS = {
 // ==================================================
 
 function nodeDisableSelection(node) {
-    d3.select(node).selectAll("rect")
-        .style("stroke", "");
+    d3.select(node)//.selectAll("rect")
+        .classed("tm-node-selected", false);
 }
 
 function nodeEnableSelection(node) {
-    d3.select(node).selectAll("rect")
-        .style("stroke", "black");
+    d3.select(node)//.selectAll("rect")
+        .classed("tm-node-selected", true);
 }
 
-function PKG_BLOCK_ONCLICK(node, d, selectedNodes, dispatch, query) {
-    //console.log(query);
-    console.log(node);
-    //alert(d.selected);
+function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
     d.selected = d.selected ? false : true;
-    //console.log(node);
-    //alert(d.selected);
     if (d.selected) {
+        // single selection
+        if (!d3.select("#checkboxPkgMultiple").property("checked")) {
+            selectionInfo.currNodes.map(nodeDisableSelection);
+            selectionInfo.currNodes = [];
+            selectionInfo.datums.map(
+                d => (d.selected = false)
+            );
+            selectionInfo.datums = [];
+        }
         nodeEnableSelection(node);
-        selectedNodes.push({node: node, data: d});
-        //alert("boo");
+        selectionInfo.currNodes.push(node);
+        selectionInfo.datums.push(d);
     }
     else {
         nodeDisableSelection(node);
-        selectedNodes = selectedNodes.filter(
-            nodeData => nodeData.node != node
+        selectionInfo.currNodes = selectionInfo.currNodes.filter(
+            _ => _ != node
+        );
+        selectionInfo.datums = selectionInfo.datums.filter(
+            _ => _ != d
         );
     }
-    query.packages = selectedNodes.map(
-        nd => PKGS_GETTERS.getName(nd.data.data)
+    query.packages = selectionInfo.datums.map(
+        d => PKGS_GETTERS.getName(d.data)
     );
     //alert(query.packages);
     dispatch.call("push", this, query, null);
-    //alert(PKGS_GETTERS.getName(d.data));
 }
-function PKG_BLOCK_ONDBLCLICK(node, d, selectedNodes, dispatch, query) {
-    //console.log(query);
-    console.log(node);
-    selectedNodes.map(function (nodeData) {
-        if (nodeData.node != node) {
-            nodeDisableSelection(nodeData.node);
-            nodeData.data.selected = false;
-        }
-    });
-    d.selected = true;
-    nodeEnableSelection(node);
-    selectedNodes = {node: node, data: d};
-    query.packages = [PKGS_GETTERS.getName(d.data)];
+
+function FUN_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
+    d.selected = d.selected ? false : true;
+    if (d.selected) {
+        //// single selection
+        //if (!d3.select("#checkboxPkgMultiple").property("checked")) {
+        selectionInfo.currNodes.map(nodeDisableSelection);
+        selectionInfo.currNodes = [];
+        selectionInfo.datums.map(
+            d => (d.selected = false)
+        );
+        selectionInfo.datums = [];
+        //}
+        nodeEnableSelection(node);
+        selectionInfo.currNodes.push(node);
+        selectionInfo.datums.push(d);
+    }
+    else {
+        nodeDisableSelection(node);
+        selectionInfo.currNodes = selectionInfo.currNodes.filter(
+            _ => _ != node
+        );
+        selectionInfo.datums = selectionInfo.datums.filter(
+            _ => _ != d
+        );
+    }
+    query.functions = selectionInfo.datums.map(
+        d => FUNCS_GETTERS.getName(d.data)
+    );
+    //alert(query.packages);
     dispatch.call("push", this, query, null);
 }
 
@@ -250,18 +273,18 @@ const PKGS_EVENTS = {
         active: true,
         handler: PKG_BLOCK_ONCLICK,
     },
-    ondblclick: {
-        active: true,
-        handler: PKG_BLOCK_ONDBLCLICK,
+    onselected: function(node, selectionInfo) {
+        //alert(0);
+        //console.log(node);
+        nodeEnableSelection(node);
+        selectionInfo.currNodes.push(node);
     }
 };
 
 const FUNCS_EVENTS = {
     onclick: {
         active: false,
-    },
-    ondblclick: {
-        active: false,
+        handler: FUN_BLOCK_ONCLICK,
     }
 };
 

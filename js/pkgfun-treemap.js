@@ -63,7 +63,6 @@ function dataTreeMap() {
             x.domain([0, width]);
             y.domain([0, tmHeight]);
 
-
             const svgInner = svg.append("g")
                 .attr("transform",
                     `translate(${margin.left},${margin.top})`
@@ -109,6 +108,12 @@ function dataTreeMap() {
                 .attr("dy", height - footerHeight + headerMargin.top)
                 .text(labels.showMore);
 
+            // selected nodes
+            let selectionInfo = {
+                datums: [],
+                currNodes: []
+            };
+
             let group = svgInner.append("g")
                 .attr("transform", d =>
                       `translate(0, ${headerHeight})`);
@@ -119,6 +124,8 @@ function dataTreeMap() {
 
             // Prepare data as a tree map
             function render(group, root) {
+                selectionInfo.currNodes = [];
+
                 const node = group
                     .selectAll("g")
                     .data(root.children)
@@ -128,6 +135,25 @@ function dataTreeMap() {
                     .attr("cursor", "pointer")
                     .on("click", d => zoomin(d));
 
+                node.filter(d => !hasChildren(d))
+                    .attr("class", "tm-node")
+                    .on(
+                        "click", 
+                        eventHandlers.onclick.active ?
+                            function(d) {
+                                //d3.select(this).style("stroke", "black")
+                                eventHandlers.onclick.handler(this, d, 
+                                    selectionInfo, dispatch, query);
+                            } :
+                            null
+                    );
+                
+                //alert(selectionInfo.datums);
+                node.filter(d => selectionInfo.datums.includes(d))
+                    .each(function(d) {
+                        eventHandlers.onselected(this, selectionInfo)
+                    });
+                
                 // footer behaves as "..." node
                 const childrenNode = root.children.find(hasChildren);
                 footerGroup

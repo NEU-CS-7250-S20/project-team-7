@@ -122,12 +122,17 @@ h1, h2, h3 {
 
 .tm-node {
 }
+
 .tm-node:hover {
 	cursor: pointer;
 }
 .tm-node:hover rect {
 	stroke: white;
 	stroke-width: 2px;
+}
+
+.tm-node-selected {
+	font-weight: bold;
 }
 
 .side-right {
