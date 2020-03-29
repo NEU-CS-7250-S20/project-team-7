@@ -2,7 +2,8 @@
 function typesOverviewChart() {
     let margin = {top: 20, right: 20, bottom: 20, left: 20},
         width = 550,
-        height = 400;
+        height = 400,
+        density = 6;
 
     function chart(selector, dispatch) {
         dispatch.on("pull.typesoverview", function(query, data) {
@@ -11,7 +12,9 @@ function typesOverviewChart() {
                   h = height - margin.top - margin.bottom,
                   svg = d3.select(selector),
                   g = svg.append("g"),
-                  brush = d3.brush();
+                  brush = d3.brush(),
+                  quadtree = d3.quadtree().x((d) => d.x)
+                                          .y((d) => d.y);
 
             g.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -58,18 +61,36 @@ function typesOverviewChart() {
                   .style("mix-blend-mode", "multiply");
 
             // Brushing
-            brush.on("start brush end", function(){
+            linkPaths.each(function(d) {
+                const pts = horizontalPoints(this, d, density, d.width);
+                d.selected = false;
+                quadtree.addAll(pts);
+            });
+
+            brush.on("start brush", function(){
+                let [x, y] = d3.mouse(this);
                 if (d3.event.selection === null) return;
-                const [[x0, y0], [x1, y1]] = d3.event.selection;
-                linkPaths.each(function(link) {
-                    const w = link.width,
-                          pathString = layout(link),
-                          intersects = flowIntersects(x0, y0, x1, y1, pathString, w / 2),
-                          current = d3.select(this);
-                    if (intersects) {
-                        current.attr("stroke", "#ebbaff");
+                const [[x0, y0], [x3, y3]] = d3.event.selection;
+                linkPaths.each((d) => d.selected = false);
+
+                quadtree
+                    .extent(d3.event.selection)
+                    .visit(function(node, x1, y1, x2, y2) {
+                        if (!node.length) {
+                            do {
+                                let d = node.data;
+                                if ((d.x >= x0) && (d.x < x3) && (d.y >= y0) && (d.y < y3)) {
+                                    d.data.selected = true;
+                                }
+                            } while (node = node.next);
+                        }
+                        return x1 >= x3 || y1 >= y3 || x2 < x0 || y2 < y0;
+                    });
+                linkPaths.attr("stroke", function(d) {
+                    if (d.selected) {
+                        return "#ebbaff";
                     } else {
-                        current.attr("stroke", "#c39bd3");
+                        return "#c39bd3";
                     }
                 });
             });
@@ -166,21 +187,28 @@ function sankeyTreeToNodeLink(root) {
     return { nodes: vs, links: es };
 }
 
-// Detects the intersection of a flow with the selection box. This is inefficient
-// as it's linear in the number of flows. We could accelerate this with something
-// like a quadtree, but for now we don't.
-const ShapeInfo = KldIntersections.ShapeInfo,
-      Intersection = KldIntersections.Intersection;
-function flowIntersects(x0, y0, x1, y1, pathString, w) {
-    const [_, x2, y2, x3, y3] = /^M([\d\.]+),([\d\.]+)C[\d\.]+,[\d\.]+,[\d\.]+,[\d\.]+,([\d\.]+),([\d\.]+)$/.exec(pathString),
-          horiz = ShapeInfo.rectangle({ topLeft: {x: x0, y: y0}, bottomRight: {x: x1, y: y1}}),
-          upper = ShapeInfo.rectangle({ topLeft: {x: x0, y: y0 + w}, bottomRight: {x: x1, y: y1 + w}}),
-          lower = ShapeInfo.rectangle({ topLeft: {x: x0, y: y0 - w}, bottomRight: {x: x1, y: y1 - w}}),
-          path = ShapeInfo.path(pathString),
-          left = ShapeInfo.line([parseFloat(x2), parseFloat(y2) - w, parseFloat(x2), parseFloat(y2) + w]),
-          right = ShapeInfo.line([parseFloat(x3), parseFloat(y3) - w, parseFloat(x3), parseFloat(y3) + w]);
-    return Intersection.intersect(upper, path).status === "Intersection"
-        || Intersection.intersect(lower, path).status === "Intersection"
-        || Intersection.intersect(horiz, left).status === "Intersection"
-        || Intersection.intersect(horiz, right).status === "Intersection";
+/* Generates points for the horizontal axis of a path. */
+function horizontalPoints(path, data, density, width) {
+    const total = path.getTotalLength(),
+          numPoints = total / density;
+    let pts = [];
+    for (var i = 0; i <= numPoints + 1; ++i) {
+        const interp = total * (i / numPoints);
+        const pt = path.getPointAtLength(interp);
+        const yRoot = pt.y - (width / 2);
+        pts = pts.concat(verticalPoints(pt.x, yRoot, data, density, width));
+    }
+    return pts;
+}
+
+/* Generates points for the vertical axis of a path. */
+function verticalPoints(xRoot, yRoot, data, density, width) {
+    const total = width,
+          numPoints = total / density;
+    let pts = [];
+    for (var i = 0; i <= numPoints + 1; ++i) {
+        const interp = total * (i / numPoints);
+        pts.push({x: xRoot, y: yRoot + interp, data: data});
+    }
+    return pts;
 }
