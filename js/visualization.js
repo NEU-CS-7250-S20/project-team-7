@@ -16,13 +16,14 @@
     {
         const initQuery = {
             package_being_analyzed: INIT_ANALYZED_PACKAGES,
-            limit: 10
+            limit: INIT_LIMIT
         };
 
         // Someone requested new data
         dispatch.on("push.query", function(newQuery) {
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
+                //console.log(data);
                 dispatch.call("pull", this, newQuery, data)
             });
         });
@@ -33,6 +34,7 @@
 
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
+
     d3.json(PACKAGE_ENDPOINT).then(function(data) {
         packageFilter()("#filter", dispatch, data);
     });

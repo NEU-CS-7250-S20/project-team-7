@@ -17,7 +17,9 @@ function dataTreeMap() {
     // labels    -- header and footer labels
     // getters   -- data-specific getters
     // pullEvent -- name of the event to dispatch on
-    function chart(selector, dispatch, labels, getters, pullEvent) {
+    function chart(selector, dispatch, labels, getters, 
+        pullEvent, eventHandlers
+    ) {
 
         const getValue = tmGetValue;
         const getName = d =>
@@ -27,7 +29,7 @@ function dataTreeMap() {
         const svg = d3.select(selector);
 
         dispatch.on(pullEvent, function(query, data) {
-            data = data.functions;
+            data = getters.getData(data);
             //alert("pkgsTreeMap :: on | START");
             //console.log(data);
 
