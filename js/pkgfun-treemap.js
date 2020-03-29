@@ -3,10 +3,10 @@ function dataTreeMap() {
     let margin = {
           top: 0, right: 0, bottom: 0, left: 0
         },
-        width = 400,
-        height = 236,
-        headerHeight = 18,
-        footerHeight = 18,
+        width = 200,
+        height = 246,
+        headerHeight = 15,
+        footerHeight = 15,
         colorPalette = COLOR_PALETTE_BLUE,
         tmHeight = height - headerHeight - footerHeight;
     
@@ -71,11 +71,11 @@ function dataTreeMap() {
             // text margins
             const headerMargin = {
                 left: 2,
-                top: 12
+                top: 10
             };
             const blockMargin = {
                 left: 2,
-                top: 10
+                top: 8
             };
 
             // header for all packages
@@ -240,7 +240,7 @@ function dataTreeMap() {
             return margin;
         margin = _;
         return chart;
-    };
+    };*/
 
     chart.width = function(_) {
         if (!arguments.length) 
@@ -252,8 +252,9 @@ function dataTreeMap() {
         if (!arguments.length) 
             return height;
         height = _;
+        tmHeight = height - headerHeight - footerHeight;
         return chart;
-    };*/
+    };
 
     return chart;
 }

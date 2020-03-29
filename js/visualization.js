@@ -63,6 +63,8 @@
             PKGS_LABELS, PKGS_GETTERS, "testpkgs"
         );
     dataTreeMap()
+        .width(400)
+        .height(236)
         .colorPalette(COLOR_PALETTE_VIOLET)
         ("#vis-svg-3-fun-tree-map", dispatch,
             FUNCS_LABELS, FUNCS_GETTERS, "pull.fun-tree-map"

@@ -44,24 +44,53 @@ h1, h2, h3 {
 .content-column {
 	max-width: 650px;
 	margin: 40px auto;
+	display: block;
 }
 
 /* But your visualization should be full-width and full-height */
-/*.vis-holder {
+.vis-holder {
   width: 100%;
   height: 100%;
+  display: table;
 }
 
 .vis-svg {
   background-color: #f4f1f0;
 }
-*/
+
+#div-vis-1 {
+	width: 60%;
+	float: left;
+}
+#div-vis-1 h4 {
+	text-align: center;
+}
+
+.vis-svg-types {
+	background-color: #f4f1f0;
+}
+
+.vis-filter-div {
+	width: 40%;
+	float: right;
+	display: table;
+}
+.vis-filter-div h4 {
+	text-align: center;
+}
+
+#filter {
+	width: 33%;
+	padding: 5px;
+}
+#div-pkg-tree-map {
+	width: 63%;
+}
+
 .vis-svg-pkgfun {
-	width: 800px;
-	height: 472px;
 	background-color: #f4f1f0;
 	font-size: 8px;
-	padding: 10px;
+	padding: 6px;
 }
 
 .vis-svg-pkgfun .tm-header {
@@ -69,7 +98,7 @@ h1, h2, h3 {
 }
 .vis-svg-pkgfun .tm-header-text {
 	fill: black;
-	font-size: 10px;
+	font-size: 9px;
 }
 
 .vis-svg-pkgfun .tm-footer {
@@ -77,13 +106,13 @@ h1, h2, h3 {
 }
 .vis-svg-pkgfun .tm-footer-text {
 	fill: white;
-	font-size: 8px;
+	font-size: 7px;
 }
 
 .vis-svg-pkgfun .tm-block {
 }
 .vis-svg-pkgfun .tm-block-text {
-	font-size: 7px;
+	font-size: 6px;
 	font-family: monospace;	
 }
 .vis-svg-pkgfun .tm-block-number {
@@ -91,11 +120,59 @@ h1, h2, h3 {
 	font-family: monospace;
 }
 
-.vis-svg-pkgfun .pkg-node {
-	
+.side-right {
+	float: right;
+/*	overflow-y: auto;
+	overflow: hidden;*/
 }
-.vis-svg-pkgfun .fun-node {
-	font-family: tt;
+
+.side-left {
+	float: left;
+/*	overflow-y: auto;
+	overflow: hidden;*/
+}
+
+.side {
+	float: left;
+/*	overflow-y: auto;
+	overflow: hidden;*/
+}
+
+#div-fun-info {
+	width: 100%;
+	display: block;
+}
+
+#div-fun-tree-map {
+	width: 60%;
+}
+
+#barchart-1 {
+	width: 40%;
+}
+
+.vertical-menu li {
+	height: 30px;
+	background-color: #eee; /* Grey background color */
+	color: black; /* Black text color */
+	display: block; /* Make the links appear below each other */
+	padding: 12px; /* Add some padding */
+	text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu li:hover {
+	background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu li.active {
+	background-color: #4CAF50; /* Add a green color to the "active/current" link */
+	color: white;
+}
+
+.vertical-menu  {
+	overflow-x:hidden;
+	overflow-y: scroll;
+	height: 300px;
 }
 
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */
@@ -154,34 +231,3 @@ h1, h2, h3 {
 		box-shadow:4px 4px 10px rgba(0,0,0,0.8);
 	}
 }
- 
-.side {
-	float: left;
-/*	overflow-y: auto;
-	overflow: hidden;*/
-}
-
-  
-  .vertical-menu li {
-	  height: 30px;
-	background-color: #eee; /* Grey background color */
-	color: black; /* Black text color */
-	display: block; /* Make the links appear below each other */
-	padding: 12px; /* Add some padding */
-	text-decoration: none; /* Remove underline from links */
-  }
-  
-  .vertical-menu li:hover {
-	background-color: #ccc; /* Dark grey background on mouse-over */
-  }
-  
-  .vertical-menu li.active {
-	background-color: #4CAF50; /* Add a green color to the "active/current" link */
-	color: white;
-  }
-  
-  .vertical-menu  {
-	overflow-x:hidden;
-	overflow-y: scroll;
-	height: 200px;
-  }

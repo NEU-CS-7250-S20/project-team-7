@@ -37,11 +37,11 @@
     <p><strong>Julia Belyakova</strong>, <strong>Younes El Idrissi Yazami</strong>, <strong>Cameron Moy</strong></p>
 
     <p>Service-Learning Course Project as part of
-	<a href="https://canvas.instructure.com/courses/1781732">CS 7250 S20: Information Visualization: Theory and Applications</a>,
-	taught by <a href="https://cody.khoury.northeastern.edu/">Prof. Cody Dunne</a>,
-	<a href="https://visualization.khoury.northeastern.edu/">Data Visualization @ Khoury</a>,
-	<a href="https://www.khoury.northeastern.edu/">Northeastern University</a>.</p>
-
+      <a href="https://canvas.instructure.com/courses/1781732">CS 7250 S20: Information Visualization: Theory and Applications</a>,
+        taught by <a href="https://cody.khoury.northeastern.edu/">Prof. Cody Dunne</a>,
+	    <a href="https://visualization.khoury.northeastern.edu/">Data Visualization @ Khoury</a>,
+      <a href="https://www.khoury.northeastern.edu/">Northeastern University</a>.
+    </p>
 
     <h1>Motivation</h1>
 
@@ -49,16 +49,10 @@
 
     <p><em>Expectation: There is a clear focus, and a developed explanation of the problem, and a reasonable response is proposed.</em></p>
 
-
     <h1>Visualization</h1>
-
+    <!-- Your writeup goes here -->
     <p>We show an alluvial visualization of R functions under analysis on a tiny subset of data and a bar chart of the popularity of functions in the given dataset.</p>
 
-  </div>
-
-  <!-- Your visualization here -->
-  <div class="side " id="barchart-1"></div>
-  <div id="filter" class="side">
   </div>
 
   <div class="tooltip">
@@ -67,22 +61,43 @@
     </div>
     <div class="tip-body"></div>
   </div>
-  <div class="vis-holder">
-    <svg id="vis-svg-1" preserveAspectRatio="xMidYMid meet" class="vis-svg" viewBox="0 0 1000 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"></svg>
 
-    <svg id="vis-svg-2-pkg-tree-map"
-      preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
-      viewBox="0 0 400 236" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    </svg>
-    <svg id="vis-svg-3-fun-tree-map"
-      preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
-      viewBox="0 0 400 236" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    </svg>
+  <div class="vis-holder">
+    <!-- Your visualization here -->
+    <div id="div-main-vis">
+      <div id="div-vis-1">
+        <h4> Types Overview </h4>
+        <svg id="vis-svg-1" preserveAspectRatio="xMidYMid meet" 
+          class="vis-svg-types" viewBox="0 0 1000 500" version="1.1" 
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
+      </div>
+      <div id="div-filter-vis" class="vis-filter-div">
+        <h4> Filtering </h4>
+        <div id="filter" class="side-left">
+          <text>Packages being analyzed:</text>
+        </div>
+        <div id="div-pkg-tree-map" class="side-right">
+          <svg id="vis-svg-2-pkg-tree-map"
+            preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
+            viewBox="0 0 200 246" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          </svg>
+        </div>
+      </div>
+      
+      <div id="div-fun-info">
+        <div id="div-fun-tree-map" class="side-left">
+          <svg id="vis-svg-3-fun-tree-map"
+            preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
+            viewBox="0 0 400 236" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          </svg>
+        </div>
+        <div id="barchart-1" class="side-right"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Your writeup goes here -->
-
-  <div class = "content-column">
+  <div class="content-column" style="width:100%">
 
     <h1>Demo Video</h1>
 
