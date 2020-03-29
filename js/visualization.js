@@ -60,7 +60,7 @@
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
     dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch,
-            PKGS_LABELS, PKGS_GETTERS, "testpkgs"
+            PKGS_LABELS, PKGS_GETTERS, "pull.pkg-tree-map"
         );
     dataTreeMap()
         .width(400)
