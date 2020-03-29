@@ -120,6 +120,16 @@ h1, h2, h3 {
 	font-family: monospace;
 }
 
+.tm-node {
+}
+.tm-node:hover {
+	cursor: pointer;
+}
+.tm-node:hover rect {
+	stroke: white;
+	stroke-width: 2px;
+}
+
 .side-right {
 	float: right;
 /*	overflow-y: auto;

@@ -9,9 +9,9 @@ function dataTreeMap() {
         footerHeight = 15,
         colorPalette = COLOR_PALETTE_BLUE,
         tmHeight = height - headerHeight - footerHeight;
-    
+
     checkColorPalette(colorPalette);
-    
+
     // selector  -- element with svg
     // dispatch  -- d3 dispatch
     // labels    -- header and footer labels
@@ -20,13 +20,14 @@ function dataTreeMap() {
     function chart(selector, dispatch, labels, getters, pullEvent) {
 
         const getValue = tmGetValue;
-        const getName = d => 
+        const getName = d =>
             getters.hasName(d) ? getters.getName(d) : labels.moreData;
         const hasChildren = tmHasChildren;
 
         const svg = d3.select(selector);
 
         dispatch.on(pullEvent, function(query, data) {
+            data = data.functions;
             //alert("pkgsTreeMap :: on | START");
             //console.log(data);
 
@@ -48,7 +49,7 @@ function dataTreeMap() {
                 .sum(getValue); // compute values for children
             // prepare treemap layout info
             applyTreeMapLayout(
-                dataRoot, 
+                dataRoot,
                 { width: width, height: tmHeight }
             );
             //console.log(dataRoot);
@@ -62,9 +63,9 @@ function dataTreeMap() {
             x.domain([0, width]);
             y.domain([0, tmHeight]);
 
-            
+
             const svgInner = svg.append("g")
-                .attr("transform", 
+                .attr("transform",
                     `translate(${margin.left},${margin.top})`
                 );
 
@@ -122,31 +123,31 @@ function dataTreeMap() {
                     .selectAll("g")
                     .data(root.children)
                     .join("g");
-            
+
                 node.filter(hasChildren)
                     .attr("cursor", "pointer")
                     .on("click", d => zoomin(d));
-                
+
                 // footer behaves as "..." node
                 const childrenNode = root.children.find(hasChildren);
                 footerGroup
                     .style("opacity", childrenNode ? 1 : 0)
                     .on("click", childrenNode ? (_ => zoomin(childrenNode)) : null)
                     .attr("cursor", childrenNode ? "pointer" : "default")
-                
+
                 headerGroup
                     .on("click", root.parent ? (_ => zoomout(root)) : null)
                     .attr("cursor", root.parent ? "pointer" : "default");
                 headerText
                     .text(root.parent ? labels.titleMore : labels.title);
-                
+
                 node.append("title")
                     .text(d => `${getName(d.data)}\n${d.value}`);
 
                 node.append("rect")
                     .attr("class", "tm-block")
                     .attr("fill", d => d.data.color.background);
-                
+
                 node.append("text")
                     .attr("class", "tm-block-text")
                     .attr("fill", d => d.data.color.font)
@@ -159,7 +160,7 @@ function dataTreeMap() {
                     .attr("x", blockMargin.left)
                     .attr("y", blockMargin.top*2)
                     .text(d => d.value);
-                
+
                 group.call(position, root);
             }
 
@@ -172,7 +173,7 @@ function dataTreeMap() {
                     .attr("width",  d => x(d.x1) - x(d.x0))
                     .attr("height", d => y(d.y1) - y(d.y0));
             }
-            
+
             // Zooming
             // ----------------------------------------
 
@@ -229,27 +230,27 @@ function dataTreeMap() {
     // --------------------------------------------------
 
     chart.colorPalette = function(_) {
-        if (!arguments.length) 
+        if (!arguments.length)
             return colorPalette;
         colorPalette = _;
         return chart;
     };
 
     /*chart.margin = function(_) {
-        if (!arguments.length) 
+        if (!arguments.length)
             return margin;
         margin = _;
         return chart;
     };*/
 
     chart.width = function(_) {
-        if (!arguments.length) 
+        if (!arguments.length)
             return width;
         width = _;
         return chart;
     };
     chart.height = function(_) {
-        if (!arguments.length) 
+        if (!arguments.length)
             return height;
         height = _;
         tmHeight = height - headerHeight - footerHeight;
@@ -258,4 +259,3 @@ function dataTreeMap() {
 
     return chart;
 }
-

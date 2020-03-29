@@ -33,24 +33,27 @@
 
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
-    /*
+    d3.json(PACKAGE_ENDPOINT).then(function(data) {
+        packageFilter()("#filter", dispatch, data);
+    });
+
     dataTreeMap()("#vis-svg-2-pkg-tree-map",
                   dispatch,
-                  PKGS_LABELS, PKGS_GETTERS,
-                  "pull_packages.pkg-tree-map");
-    dataTreeMap().width(400).height(236).colorPalette(COLOR_PALETTE_VIOLET)
-    ("#vis-svg-3-fun-tree-map",
-     dispatch,
-     FUNCS_LABELS, FUNCS_GETTERS,
-     "pull.fun-tree-map");
-*/
-    barChart()("#barchart-1", dispatch);
-
-    // Data about packages (without functions)
+                  PKGS_LABELS,
+                  PKGS_GETTERS,
+                  "pull.pkg-treemap",
+                  PKGS_EVENTS);
     /*
-    d3.json("/api/packages").then(data => {
-        //alert(0);
-        //console.log(data);
-        dispatch.call("pull_packages", this, null, data)
-    }); */
+    dataTreeMap()
+        .width(400)
+        .height(236)
+        .colorPalette(COLOR_PALETTE_VIOLET)
+        .call("#vis-svg-3-fun-tree-map",
+              dispatch,
+              FUNCS_LABELS,
+              FUNCS_GETTERS,
+              "pull.fun-treemap",
+              FUNCS_EVENTS);
+    */
+    barChart()("#barchart-1", dispatch);
 })());

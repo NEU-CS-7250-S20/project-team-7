@@ -1,23 +1,22 @@
 //adapted from bl.ocks.org/jurb/raw/5d42c6de467d7a71b2fc855e6aa3157f/d7f582728e6a1c199b7006f8f618478a4422c018/
-function filterChart() {
+function packageFilter() {
     const margin = {top: 80, right: 20, bottom: 20, left: 80},
         width = 300,
         height = 180;
-       
 
-    function chart(selector,dispatch,data) {
-        const filter_on = 'package';
+    function chart(selector, dispatch, data) {
+        const filter_on = 'package_being_analyzed';
            // Building an array with the values to filter on
         const filter_list = d3.map(data, function (d) {
             return d[filter_on];
-          
+
         }).keys();
         const svg= d3.select(selector);
-                    
-       
+
+
        //.attr("width", width + margin.left  + margin.right )
        //.attr("height", height + margin.top  + margin.bottom )
-            
+
         svg.append('ul')
             .attr('class','vertical-menu')
             .style("overflow-y" , "scroll")
@@ -48,7 +47,7 @@ function filterChart() {
                     return " " + d
             })
 
-        
+
         //listen for checkboxes
         const checked = d3.selectAll(".filter-check")
               checked.on("change",updateVis);
@@ -62,26 +61,26 @@ function filterChart() {
                 choices.push(cb.property("value"));
               }
             });
-          
-            
+
+            //TODO: change to analyzed
                 //construct Query
                 const INIT_LIMIT=15;
                 const SELECTED_PACKAGES=choices;
                 const new_query = {
                     packages: SELECTED_PACKAGES,
                     limit: INIT_LIMIT
-                       };   
-                
-             
-            
-                   //calling event in visualization.js      
+                       };
+
+
+
+                   //calling event in visualization.js
             dispatch.call("push",this,new_query,data);
 
 
-         };     
+         };
 
 
-     
+
     }
 
 

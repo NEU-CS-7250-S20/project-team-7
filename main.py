@@ -69,6 +69,10 @@ def function_where(args):
 def index():
     return send_file("index.html")
 
+@app.route("/api/packages")
+def packages():
+    return json.dumps(query_from_post("SELECT package_being_analyzed, COUNT(*) as count FROM types GROUP BY package_being_analyzed", []))
+
 @app.route("/api/query")
 def query():
     parameters = [(package_where, "package", lambda x: x.split(",")),
