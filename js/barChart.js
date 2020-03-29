@@ -12,23 +12,22 @@ function barChart() {
                 .attr("height", height + margin.top  + margin.bottom )
                 .append('g')
                 .attr("transform",`translate(${margin.left},${margin.top})`);
-            
+
             const xAxisDraw= svg.append('g')
                 .attr('class','x axis')
-                 
+
             const yAxisDraw= svg.append('g')
-                .attr('class', 'y axis')
-              
+                  .attr('class', 'y axis')
        //draw bars
       function update(da,yScale,xScale,xAxis,yAxis){
-    //update scales
+          //update scales
         xScale.domain([0,d3.max(da, d=>d.count)]);
-        yScale.domain(da.map(d=> d.fun_name));
-        const bars= svg.selectAll('.bar')
+          yScale.domain(da.map(d=> d.fun_name));
+        const bars = svg.selectAll('.bar')
             //join in data
             .data(da)
             .join(
-               enter=>{enter 
+               enter=>{enter
                .append('rect')
                .attr('class','bar')
             //position
@@ -62,7 +61,7 @@ function barChart() {
             //Update axes
             xAxisDraw.transition().duration(1000).call(xAxis.scale(xScale));
             yAxisDraw.transition().duration(1000).call(yAxis.scale(yScale));
-            
+
             yAxisDraw.selectAll('text').attr('dx','-0.6em');
         }
          //headers ....
@@ -73,22 +72,23 @@ function barChart() {
          .append('text');
 //headline
         header.append('tspan').text('Functions and Number of Times Called');
-        
+
     dispatch.on("pull.barChart", function(query, data) {
         //console.log({query: query, data: data});
-        // Setup    
+        // Setup
 
         // sorting the data
+        data = data.functions;
         data=data.sort((a,b)=>b.count-a.count)
                 .filter((d,i)=>i<15);
-      
-      
+
+
 
        const xScale =d3.scaleLinear()
-            
+
             .range([0,width]);
        const yScale=d3.scaleBand()
-            
+
             .rangeRound([0,height])
             .paddingInner(0.25);
 
@@ -99,7 +99,7 @@ function barChart() {
                         .tickFormat(formatTicks)
                         .tickSizeInner(-height)
                         .tickSizeOuter(0)
-      
+
         //position of y axis
         const yAxis = d3.axisLeft(yScale).tickSize(0);
 
@@ -107,7 +107,7 @@ function barChart() {
         //space between y axis and labels(fun_name)
         yAxisDraw.selectAll('text').attr('dx','-0.6em');
 
-       
+
         // calling the update function
         update(data,yScale,xScale,xAxis,yAxis);
         //tooltip handler
@@ -118,7 +118,7 @@ function barChart() {
                 ['First Argument', barData.arg_t0],
                 ['Second Argument', barData.arg_t1],
                 ['Count',barData.count]
-            
+
             ]
             d3.select('.tip-body')
                 .selectAll('p')

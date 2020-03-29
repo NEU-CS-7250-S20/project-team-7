@@ -44,7 +44,7 @@
      FUNCS_LABELS, FUNCS_GETTERS,
      "pull.fun-tree-map");
 */
-    //barChart()("#barchart-1", dispatch);
+    barChart()("#barchart-1", dispatch);
 
     // Data about packages (without functions)
     /*
