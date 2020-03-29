@@ -138,14 +138,12 @@ h1, h2, h3 {
 
 .side-left {
 	float: left;
-/*	overflow-y: auto;
-	overflow: hidden;*/
+ 
 }
 
 .side {
 	float: left;
-/*	overflow-y: auto;
-	overflow: hidden;*/
+ 
 }
 
 #div-fun-info {
