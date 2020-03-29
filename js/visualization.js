@@ -1,60 +1,4 @@
 // --------------------------------------------------
-// Data preparation
-// --------------------------------------------------
-
-// Sample data for pkg-fun
-function testDataPkgFun(){ return {
-    name: PKGS_TITLE,
-    children: [
-        {
-            name: "pkg1",
-            isPkg: true,
-            children: [
-                { name: "minus",  value: 1000 },
-                { name: "foo",    value: 570
-                },
-                {
-                    name: PKGFUNS_MORE,
-                    children: [
-                        { name: "zoo",  value: 70 },
-                        { name: "bar",  value: 300 }
-                    ]
-                }
-            ]
-        },
-        {
-            name: "pkg2",
-            isPkg: true,
-            children: [
-                { name: "plus",     value: 180 },
-                { name: "times",    value: 166 },
-            ]
-        },
-        {
-            name: PKGFUNS_MORE,
-            isPkg: true,
-            children: [
-                {
-                    name: "pkg3",
-                    isPkg: true,
-                    children: [
-                        { name: "baz", value: 700 }
-                    ]
-                },
-                {
-                    name: "pkg4",
-                    isPkg: true,
-                    children: [
-                        { name: "baz", value: 170 },
-                        { name: "gas", value: 4300 }
-                    ]
-                }
-            ]
-        }
-    ]
-}}
-
-// --------------------------------------------------
 // Main Dispatch
 // --------------------------------------------------
 
@@ -115,19 +59,16 @@ function testDataPkgFun(){ return {
     });
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
-    //pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
     dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch, 
-        PKGS_LABELS, PKGS_GETTERS, "testpkgs"
-    );
+            PKGS_LABELS, PKGS_GETTERS, "testpkgs"
+        );
     dataTreeMap()
-    .colorPalette(COLOR_PALETTE_VIOLET)
-    ("#vis-svg-3-fun-tree-map", dispatch, 
-        FUNCS_LABELS, FUNCS_GETTERS, "pull.fun-tree-map"
-    );
+        .colorPalette(COLOR_PALETTE_VIOLET)
+        ("#vis-svg-3-fun-tree-map", dispatch, 
+            FUNCS_LABELS, FUNCS_GETTERS, "pull.fun-tree-map"
+        );
     barChart()("#barchart-1",dispatch);
-     
-    // sample data for pkg-fun
-    //dispatch.call("testpkgfun", this, testDataPkgFun());
+    
     // Sample data about packages (without functions)
     d3.json("data/pkgs_test.json").then(data => 
         dispatch.call("testpkgs", this, null, data)
@@ -184,57 +125,6 @@ function  prepareBarChart(data){
      //converting the map to array
     const dataArray= Array.from(dataMap, d=>({fun_name: d[0],count: d[1] }));
     return dataArray;
-}
-
-let testDataPkgFun = {
-    name: PKGS_TITLE,
-    children: [
-        {
-            name: "pkg1",
-            isPkg: true,
-            children: [
-                { name: "minus",  value: 1000 },
-                { name: "foo",    value: 570
-                },
-                {
-                    name: PKGFUNS_MORE,
-                    children: [
-                        { name: "zoo",  value: 70 },
-                        { name: "bar",  value: 300 }
-                    ]
-                }
-            ]
-        },
-        {
-            name: "pkg2",
-            isPkg: true,
-            children: [
-                { name: "plus",     value: 180 },
-                { name: "times",    value: 166 },
-            ]
-        },
-        {
-            name: PKGFUNS_MORE,
-            isPkg: true,
-            children: [
-                {
-                    name: "pkg3",
-                    isPkg: true,
-                    children: [
-                        { name: "baz", value: 700 }
-                    ]
-                },
-                {
-                    name: "pkg4",
-                    isPkg: true,
-                    children: [
-                        { name: "baz", value: 170 },
-                        { name: "gas", value: 4300 }
-                    ]
-                }
-            ]
-        }
-    ]
 }
 
 // --------------------------------------------------

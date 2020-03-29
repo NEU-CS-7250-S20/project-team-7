@@ -125,7 +125,7 @@ function dataTreeMap() {
             
                 node.filter(hasChildren)
                     .attr("cursor", "pointer")
-                    .on("click", d => {console.log(d); return zoomin(d)});
+                    .on("click", d => zoomin(d));
                 
                 // footer behaves as "..." node
                 const childrenNode = root.children.find(hasChildren);
