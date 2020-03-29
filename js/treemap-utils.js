@@ -7,6 +7,10 @@ function tmERROR(msg) {
     alert(`ERROR | ${msg}`);
 }
 
+// ==================================================
+// Data processing
+// ==================================================
+
 // Transforms source data into the format
 // suitable for the TreeMap layout processing
 function data2TreeMapData(data, colorPalette) {
@@ -85,3 +89,62 @@ function applyTreeMapLayout(root, params) {
         .size([params.width, params.height]);
     return treeMapLayout(root);
 }
+
+const tmHasChildren = d => d.children;
+const tmGetValue = d => d.count;
+
+const PKGS_GETTERS = {
+    hasName: d => d.package,
+    getName: d => d.package
+};
+
+// ==================================================
+// Color palettes
+// ==================================================
+
+// color-blind palette (from color brewer)
+// #f7fcf0 #e0f3db #ccebc5 #a8ddb5 #7bccc4 #4eb3d3 #2b8cbe #0868ac #084081
+
+const COLOR_DARK = "black";
+const COLOR_LIGHT = "white";
+
+const COLOR_PALETTE_BLUE = {
+    length: 7,
+    header: "#f7fcf0",
+    footer: "#084081",
+    background: [
+        "#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4",
+        "#4eb3d3", "#2b8cbe", "#0868ac", "#084081"
+    ],
+    font: [
+        COLOR_DARK, COLOR_DARK, COLOR_DARK, COLOR_DARK, 
+        COLOR_LIGHT, COLOR_LIGHT, COLOR_LIGHT, COLOR_LIGHT
+    ]
+};
+
+function checkColorPalette(colorPalette){
+    if (colorPalette.background.length < colorPalette.length+1) {
+        tmERROR("color palette size less than length");
+    }
+    if (colorPalette.background.length != colorPalette.font.length) {
+        tmERROR("color palette sizes do not match");
+    }
+}
+
+// ==================================================
+// Labels
+// ==================================================
+
+const MORE_DATA_LABEL = "…";
+const SHOW_MORE_DATA_LABEL = name => `[show more ${name}]`;
+const TITLE_MORE_DATA_LABEL = name => `${name} [go back]`;
+
+const PKGS_TITLE_LABEL = "Packages";
+
+const PKGS_LABELS = {
+    title:      PKGS_TITLE_LABEL,
+    titleMore:  TITLE_MORE_DATA_LABEL(PKGS_TITLE_LABEL),
+    moreData:   MORE_DATA_LABEL,
+    showMore:   SHOW_MORE_DATA_LABEL(PKGS_TITLE_LABEL.toLowerCase())
+};
+//alert(pkgsLabels.titleMore);

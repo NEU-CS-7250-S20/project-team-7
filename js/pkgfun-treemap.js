@@ -1,192 +1,229 @@
-const PKGS_TITLE = "Packages"
-const PKGFUNS_MORE = "<...>"
-
-// Create a tree map of packages and functions
-function pkgFunTreeMap() {
+// Create a tree map of packages
+function dataTreeMap() {
     let margin = {
-          top: 10, right: 10, bottom: 10, left: 10
+          top: 0, right: 0, bottom: 0, left: 0
         },
         width = 400,
-        height = 200,
-        rootHeight = 20;
+        height = 236,
+        headerHeight = 18,
+        footerHeight = 18,
+        colorPalette = COLOR_PALETTE_BLUE,
+        tmHeight = height - headerHeight - footerHeight;
+    
+    checkColorPalette(colorPalette);
+    
+    // selector  -- element with svg
+    // dispatch  -- d3 dispatch
+    // labels    -- header and footer labels
+    // getters   -- data-specific getters
+    // pullEvent -- name of the event to dispatch on
+    function chart(selector, dispatch, labels, getters, pullEvent) {
 
-    function applyTreemapLayout(root) {
-        // basic layout
-        const treemapLayout = d3.treemap()
-            .tile(d3.treemapSquarify)
-            //.padding(1)
-            .round(true)
-            .size([width, height]);
-        return treemapLayout(root);
-    }
+        const getValue = tmGetValue;
+        const getName = d => 
+            getters.hasName(d) ? getters.getName(d) : labels.moreData;
+        const hasChildren = tmHasChildren;
 
-    function isMoreNode(node) {
-        return node.data.name == PKGFUNS_MORE;
-    }
+        dispatch.on(pullEvent, function(data) {
+            //alert("pkgsTreeMap :: on | START");
+            //console.log(data);
 
-    function hasMoreNode(node) {
-        return node.children && node.children.some(isMoreNode);
-    }
+            if (data.length === 0) {
+                tmERROR("no data");
+            }
 
-    function chart(selector, dispatch) {
-      dispatch.on("testpkgfun", function(data) {
-        // Data preprocessing
-        // ----------------------------------------
+            // Data preprocessing
+            // ----------------------------------------
+            const tmData = data2TreeMapData(data, colorPalette);
+            console.log(data);
+            console.log(tmData);
 
-        // prepare data from hierarchial object/array
-        const dataRoot = d3.hierarchy(data)
-            .sum(d => d.value) // compute value for children
-            .sort((a, b) => b.value - a.value); 
-        // prepare treemap layout info
-        applyTreemapLayout(dataRoot);
-
-        // Basic chart components
-        // ----------------------------------------
-
-        const x = d3.scaleLinear().rangeRound([0, width]);
-        const y = d3.scaleLinear().rangeRound([0, height]);
-
-        // Color
-        const color = d3.scaleOrdinal(d3.schemePastel2);
-        // color-blind palette (from color brewer)
-        // #f7fcf0 #e0f3db #ccebc5 #a8ddb5 #7bccc4 #4eb3d3 #2b8cbe #0868ac #084081
-        let colorPalette = ["#e0f3db", "#ccebc5", "#a8ddb5",
-          "#7bccc4", "#4eb3d3", "#2b8cbe", "#0868ac"];
-        //const color = d3.scaleOrdinal(colorPalette);
-
-        x.domain([0, width]);
-        y.domain([0, height]);
-
-        const svg = d3.select(selector);
-        const svgInner = svg.append("g")
-            .attr("transform", 
-                  "translate(" + 0 + "," + 0 + ")"
+            // prepare data from hierarchial object/array
+            const dataRoot = d3.hierarchy(tmData)
+                .sum(getValue); // compute values for children
+            // prepare treemap layout info
+            applyTreeMapLayout(
+                dataRoot, 
+                { width: width, height: tmHeight }
             );
-        let group = svgInner.append("g");
-        group.call(render, dataRoot);
+            console.log(dataRoot);
 
-        // ----------------------------------------
-        function getText(node, root) {
-            if (node === root)
-                if (isMoreNode(node))
-                    if (node.data.isPkg)
-                        return PKGS_TITLE + "...";
-                    else
-                        return "???";
-                else
-                    return node.data.name;
-            else
-                return node.data.name + 
-                       (node.data.value ? (" " + node.data.value) : "");
-        }
+            // Basic chart components
+            // ----------------------------------------
 
-        function render(group, root) {
-            const node = group
-                .selectAll("g")
-                .data(root.children.concat(root))
-                .join("g");
-        
-            node.filter(d => d === root ? d.parent : d.children)
-                .attr("cursor", "pointer")
-                .on("click", d => d === root ? zoomout(root) : zoomin(d));
-        
-            node.append("title")
-                .text(d => `${d.data.name}\n${d.value}`);
-        
-            node.append("rect")
-                //.attr("id", d => (d.leafUid = DOM.uid("leaf")).id)
-                .attr("fill", d => d === root ? "#fff" : color(d.data.name))
-                .attr("stroke", d => d === root ? "#fff" : 
-                                d.children ? "#fff" : color(d.data.name));
+            const x = d3.scaleLinear().rangeRound([0, width]);
+            const y = d3.scaleLinear().rangeRound([0, tmHeight]);
 
-            node.append("text")
-                .attr("class", d => d.data.isPkg ? "pkg-node" : "fun-node")
-                .attr("fill", d => d === dataRoot ? "gray" : 
-                              d.children ? "black" : "gray")
-                .attr("dx", 2)
-                .attr("dy", 12)
-                .style("margin", 2)
-                .text(d => getText(d, root));
-        
-            /*node.append("clipPath")
-                //.attr("id", d => (d.clipUid = DOM.uid("clip")).id)
-                .append("use")
-                .attr("xlink:href", d => d.leafUid.href);*/
-        
-            /*node.append("text")
-                .attr("clip-path", d => d.clipUid)
-                .attr("font-weight", d => d === root ? "bold" : null)
-                .selectAll("tspan")
-                .data(d => d.name + " " + d.value)
-                .join("tspan")
-                .attr("x", 3)
-                .attr("y", (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`)
-                .attr("fill-opacity", (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
-                .attr("font-weight", (d, i, nodes) => i === nodes.length - 1 ? "normal" : null)
-                .text(d => d);*/
-        
-            group.call(position, root);
-        }
+            x.domain([0, width]);
+            y.domain([0, tmHeight]);
 
-        // ----------------------------------------
-        function position(group, root) {
-            group.selectAll("g")
+            const svg = d3.select(selector);
+            const svgInner = svg.append("g")
                 .attr("transform", 
-                    d => d === root ? 
-                        `translate(0,0)` : 
-                        `translate(${x(d.x0)},
-                                   ${rootHeight + y(d.y0)})`)
-                .select("rect")
-                .attr("width",  d => d === root ? width : x(d.x1) - x(d.x0))
-                .attr("height", d => d === root ? rootHeight : y(d.y1) - y(d.y0));
-        }
+                    `translate(${margin.left},${margin.top})`
+                );
 
-        // Zooming
-        // ----------------------------------------
+            // text margins
+            const headerMargin = {
+                left: 2,
+                top: 12
+            };
+            const blockMargin = {
+                left: 2,
+                top: 10
+            };
 
-        // When zooming in, draw the new nodes on top, and fade them in.
-        function zoomin(d) {
-            const group0 = group.attr("pointer-events", "none");
-            const group1 = group = svgInner.append("g").call(render, d);
+            // header for all packages
+            const headerGroup = svgInner.append("g");
+            const headerRect = headerGroup.append("rect")
+                .attr("class", "tm-header")
+                .attr("fill", colorPalette.header)
+                .attr("x", 0)
+                .attr("y", 0)
+                .attr("width", width)
+                .attr("height", headerHeight);
+            const headerText = headerGroup.append("text")
+                .attr("class", "tm-header-text")
+                .attr("x", headerMargin.left)
+                .attr("y", headerMargin.top)
+                .text(labels.title);
 
-            x.domain([d.x0, d.x1]);
-            y.domain([d.y0, d.y1]);
+            // footer for "more" packages
+            const footerGroup = svgInner.append("g");
+            const footerRect = footerGroup.append("rect")
+                .attr("class", "tm-footer")
+                .attr("fill", colorPalette.footer)
+                .attr("x", 0)
+                .attr("y", height - footerHeight)
+                .attr("width", width)
+                .attr("height", footerHeight);
+            const footerText = footerGroup.append("text")
+                .attr("class", "tm-footer-text")
+                .attr("dx", headerMargin.left)
+                .attr("dy", height - footerHeight + headerMargin.top)
+                .text(labels.showMore);
 
-            svgInner.transition()
-                .duration(500)
-                .call(t => group0.transition(t).remove()
-                    .call(position, d.parent))
-                .call(t => group1.transition(t)
-                    .attrTween("opacity", () => d3.interpolate(0, 1))
-                    .call(position, d));
-        }
+            let group = svgInner.append("g")
+                .attr("transform", d =>
+                      `translate(0, ${headerHeight})`);
+            group.call(render, dataRoot);
 
-        // When zooming out, draw the old nodes on top, and fade them out.
-        function zoomout(d) {
-            const group0 = group.attr("pointer-events", "none");
-            const group1 = group = svgInner.insert("g", "*").call(render, d.parent);
+            // Blocks' placement
+            // ----------------------------------------
 
-            x.domain([d.parent.x0, d.parent.x1]);
-            y.domain([d.parent.y0, d.parent.y1]);
+            // Prepare data as a tree map
+            function render(group, root) {
+                const node = group
+                    .selectAll("g")
+                    .data(root.children)
+                    .join("g");
+            
+                node.filter(hasChildren)
+                    .attr("cursor", "pointer")
+                    .on("click", d => {console.log(d); return zoomin(d)});
+                
+                // footer behaves as "..." node
+                const childrenNode = root.children.find(hasChildren);
+                footerGroup
+                    .style("opacity", childrenNode ? 1 : 0)
+                    .on("click", childrenNode ? (_ => zoomin(childrenNode)) : null)
+                    .attr("cursor", childrenNode ? "pointer" : "default")
+                
+                headerGroup
+                    .on("click", root.parent ? (_ => zoomout(root)) : null)
+                    .attr("cursor", root.parent ? "pointer" : "default");
+                headerText
+                    .text(root.parent ? labels.titleMore : labels.title);
+                
+                node.append("title")
+                    .text(d => `${getName(d.data)}\n${d.value}`);
 
-            svgInner.transition()
-                .duration(750)
-                .call(t => group0.transition(t).remove()
-                    .attrTween("opacity", () => d3.interpolate(1, 0))
-                    .call(position, d))
-                .call(t => group1.transition(t)
-                    .call(position, d.parent));
-        }
+                node.append("rect")
+                    .attr("class", "tm-block")
+                    .attr("fill", d => d.data.color.background);
+                
+                node.append("text")
+                    .attr("class", "tm-block-text")
+                    .attr("fill", d => d.data.color.font)
+                    .attr("x", blockMargin.left)
+                    .attr("y", blockMargin.top)
+                    .text(d => getName(d.data));
+                node.append("text")
+                    .attr("class", "tm-block-number")
+                    .attr("fill", d => d.data.color.font)
+                    .attr("x", blockMargin.left)
+                    .attr("y", blockMargin.top*2)
+                    .text(d => d.value);
+                
+                group.call(position, root);
+            }
 
-        //return chart;
-      });
+            // Position blocks
+            function position(group, root) {
+                group.selectAll("g")
+                    .attr("transform", d =>
+                        `translate(${x(d.x0)}, ${y(d.y0)})`)
+                    .select("rect")
+                    .attr("width",  d => x(d.x1) - x(d.x0))
+                    .attr("height", d => y(d.y1) - y(d.y0));
+            }
+            
+            // Zooming
+            // ----------------------------------------
+
+            // When zooming in, draw the new nodes on top, and fade them in.
+            function zoomin(d) {
+                const group0 = group.attr("pointer-events", "none");
+                const group1 = group = svgInner.append("g")
+                    .attr("transform", d =>
+                        `translate(0, ${headerHeight})`)
+                    .call(render, d);
+
+                x.domain([d.x0, d.x1]);
+                y.domain([d.y0, d.y1]);
+
+                group.transition()
+                    .duration(750)
+                    .call(t => group0.transition(t).remove()
+                            .attrTween("opacity", () => d3.interpolate(1, 0))
+                            .call(position, d.parent)
+                    )
+                    .call(t => group1.transition(t)
+                            .attrTween("opacity", () => d3.interpolate(0, 1))
+                            .call(position, d)
+                    );
+            }
+
+            // When zooming out, draw the old nodes on top, and fade them out.
+            function zoomout(d) {
+                const group0 = group.attr("pointer-events", "none");
+                const group1 = group = svgInner.insert("g", "*")
+                    .attr("transform", d =>
+                        `translate(0, ${headerHeight})`)
+                    .call(render, d.parent);
+
+                x.domain([d.parent.x0, d.parent.x1]);
+                y.domain([d.parent.y0, d.parent.y1]);
+
+                group.transition()
+                    .duration(750)
+                    .call(t => group0.transition(t).remove()
+                        .attrTween("opacity", () => d3.interpolate(1, 0))
+                        .call(position, d))
+                    .call(t => group1.transition(t)
+                        .call(position, d.parent));
+            }
+
+            //alert("pkgsTreeMap :: on | END");
+            //return chart;
+        });
     }
 
     // --------------------------------------------------
     // Getters/Setters
     // --------------------------------------------------
 
-    chart.margin = function(_) {
+    /*chart.margin = function(_) {
         if (!arguments.length) 
             return margin;
         margin = _;
@@ -204,7 +241,7 @@ function pkgFunTreeMap() {
             return height;
         height = _;
         return chart;
-    };
+    };*/
 
     return chart;
 }

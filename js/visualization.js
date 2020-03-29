@@ -116,7 +116,9 @@ function testDataPkgFun(){ return {
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
     //pkgFunTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
-    pkgsTreeMap()("#vis-svg-2-pkg-tree-map", dispatch);
+    dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch, 
+        PKGS_LABELS, PKGS_GETTERS, "testpkgs"
+    );
     barChart()("#barchart-1",dispatch);
      
     // sample data for pkg-fun
