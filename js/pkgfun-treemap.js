@@ -17,7 +17,9 @@ function dataTreeMap() {
     // labels    -- header and footer labels
     // getters   -- data-specific getters
     // pullEvent -- name of the event to dispatch on
-    function chart(selector, dispatch, labels, getters, pullEvent) {
+    function chart(selector, dispatch, labels, getters,
+        pullEvent, eventHandlers
+    ) {
 
         const getValue = tmGetValue;
         const getName = d => 
@@ -27,6 +29,8 @@ function dataTreeMap() {
         const svg = d3.select(selector);
 
         dispatch.on(pullEvent, function(query, data) {
+            //TODO: is it reasonable?!
+            data = JSON.parse(JSON.stringify(data));
             //alert("pkgsTreeMap :: on | START");
             //console.log(data);
 
@@ -108,6 +112,9 @@ function dataTreeMap() {
                 .attr("dy", height - footerHeight + headerMargin.top)
                 .text(labels.showMore);
 
+            // selected nodes
+            let selectedNodes = [];
+
             let group = svgInner.append("g")
                 .attr("transform", d =>
                       `translate(0, ${headerHeight})`);
@@ -122,10 +129,32 @@ function dataTreeMap() {
                     .selectAll("g")
                     .data(root.children)
                     .join("g");
-            
+
                 node.filter(hasChildren)
                     .attr("cursor", "pointer")
                     .on("click", d => zoomin(d));
+
+                node.filter(d => !hasChildren(d))
+                    .attr("class", "tm-node")
+                    .on(
+                        "click", 
+                        eventHandlers.onclick.active ?
+                            function(d) {
+                                //d3.select(this).style("stroke", "black")
+                                eventHandlers.onclick.handler(this, d, 
+                                    selectedNodes, dispatch, query);
+                            } :
+                            null
+                    )
+                    .on(
+                        "dblclick", 
+                        eventHandlers.ondblclick.active ?
+                            function(d) {
+                                eventHandlers.ondblclick.handler(this, d, 
+                                    selectedNodes, dispatch, query);
+                            } :
+                            null
+                    );
                 
                 // footer behaves as "..." node
                 const childrenNode = root.children.find(hasChildren);

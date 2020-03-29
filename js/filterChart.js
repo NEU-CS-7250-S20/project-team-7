@@ -63,7 +63,7 @@ function filterChart() {
               }
             });
           
-            
+            //TODO: change to analyzed
                 //construct Query
                 const INIT_LIMIT=15;
                 const SELECTED_PACKAGES=choices;

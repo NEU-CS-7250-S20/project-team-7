@@ -189,3 +189,79 @@ const FUNCS_LABELS = {
     moreData:   MORE_DATA_LABEL,
     showMore:   SHOW_MORE_DATA_LABEL(FUNCS_TITLE_LABEL.toLowerCase())
 };
+
+// ==================================================
+// Events
+// ==================================================
+
+function nodeDisableSelection(node) {
+    d3.select(node).selectAll("rect")
+        .style("stroke", "");
+}
+
+function nodeEnableSelection(node) {
+    d3.select(node).selectAll("rect")
+        .style("stroke", "black");
+}
+
+function PKG_BLOCK_ONCLICK(node, d, selectedNodes, dispatch, query) {
+    //console.log(query);
+    console.log(node);
+    //alert(d.selected);
+    d.selected = d.selected ? false : true;
+    //console.log(node);
+    //alert(d.selected);
+    if (d.selected) {
+        nodeEnableSelection(node);
+        selectedNodes.push({node: node, data: d});
+        //alert("boo");
+    }
+    else {
+        nodeDisableSelection(node);
+        selectedNodes = selectedNodes.filter(
+            nodeData => nodeData.node != node
+        );
+    }
+    query.packages = selectedNodes.map(
+        nd => PKGS_GETTERS.getName(nd.data.data)
+    );
+    //alert(query.packages);
+    dispatch.call("push", this, query, null);
+    //alert(PKGS_GETTERS.getName(d.data));
+}
+function PKG_BLOCK_ONDBLCLICK(node, d, selectedNodes, dispatch, query) {
+    //console.log(query);
+    console.log(node);
+    selectedNodes.map(function (nodeData) {
+        if (nodeData.node != node) {
+            nodeDisableSelection(nodeData.node);
+            nodeData.data.selected = false;
+        }
+    });
+    d.selected = true;
+    nodeEnableSelection(node);
+    selectedNodes = {node: node, data: d};
+    query.packages = [PKGS_GETTERS.getName(d.data)];
+    dispatch.call("push", this, query, null);
+}
+
+const PKGS_EVENTS = {
+    onclick: {
+        active: true,
+        handler: PKG_BLOCK_ONCLICK,
+    },
+    ondblclick: {
+        active: true,
+        handler: PKG_BLOCK_ONDBLCLICK,
+    }
+};
+
+const FUNCS_EVENTS = {
+    onclick: {
+        active: false,
+    },
+    ondblclick: {
+        active: false,
+    }
+};
+

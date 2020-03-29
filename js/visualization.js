@@ -51,37 +51,44 @@
                 });
                 */
                d3.json(endpoint).then((data) =>
-               dispatch.call("pull", this, newQuery, data));
+                dispatch.call("pull", this, newQuery, data)
+               );
         });
         //dispatch on update package
         //construct the query
         dispatch.call("push", this, initQuery);
     }
 
-    // packages will not change for my filterVis
-    d3.json(endpoint_packages).then(data=>{
-
-        filterChart()('#filter',dispatch,data);
-    });
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
     dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch,
-            PKGS_LABELS, PKGS_GETTERS, "pull_packages.pkg-tree-map"
+            PKGS_LABELS, PKGS_GETTERS,
+            // TODO: pull_packages
+            //"pull.pkg-tree-map", PKGS_EVENTS,
+            "pull_packages.pkg-tree-map", PKGS_EVENTS,
         );
     dataTreeMap()
         .width(400)
         .height(236)
         .colorPalette(COLOR_PALETTE_VIOLET)
         ("#vis-svg-3-fun-tree-map", dispatch,
-            FUNCS_LABELS, FUNCS_GETTERS, "pull.fun-tree-map"
+            FUNCS_LABELS, FUNCS_GETTERS,
+            "pull.fun-tree-map", FUNCS_EVENTS,
         );
     barChart()("#barchart-1",dispatch);
 
+    // packages will not change for my filterVis
+    d3.json(endpoint_packages).then(data=>{
+        filterChart()('#filter',dispatch,data);
+    });
+    
+
     // Data about packages (without functions)
-    d3.json("/api/packages").then(data => {
+    d3.json("data/pkgs_test.json").then(data => {
+    //d3.json("/api/packages").then(data => {
         //alert(0);
         //console.log(data);
-        dispatch.call("pull_packages", this, null, data)
+        dispatch.call("pull_packages", this, {limit: INIT_LIMIT}, data)
     });
 })());
 
