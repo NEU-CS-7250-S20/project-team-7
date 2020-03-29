@@ -11,40 +11,40 @@
     const PACKAGES=[];
     //ALL THE PACKAGES INSTEAD OF ONE, I need for my vis ...
     d3.json(endpoint_packages).then(d=>{
-        
+
 
         var keys=Object.keys(d);
         keys.forEach(function(key){
 
             PACKAGES.push(d[key]["package"])
         })
-        
+
         ;} );
     let dispatch = d3.dispatch("push", "pull","change_package",
       "testpkgfun", "testpkgs");
 
     // Query actor
-    
+
     //INIT_PACKAGES= json_packages.split(",");
     {
         let initQuery = {
             packages: PACKAGES,
             limit: INIT_LIMIT
         };
-       
+
         // TODO: Change from static
         dispatch.on("push.query", function(newQuery) {
             //console.log(newQuery);
             let endpoint = "/api/query?" + new URLSearchParams(newQuery);
-            
+
             //let endpoint = "data/query_static.json";
-           
+
            /* Promise.all([endpoint])
                 .then((data) =>{
                     dispatch.call("pull", this, newQuery, data[1]);
                 });
                 */
-               d3.json(endpoint).then((data) => 
+               d3.json(endpoint).then((data) =>
                dispatch.call("pull", this, newQuery, data));
         });
         //dispatch on update package
@@ -59,18 +59,18 @@
     });
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
-    dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch, 
+    dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch,
             PKGS_LABELS, PKGS_GETTERS, "testpkgs"
         );
     dataTreeMap()
         .colorPalette(COLOR_PALETTE_VIOLET)
-        ("#vis-svg-3-fun-tree-map", dispatch, 
+        ("#vis-svg-3-fun-tree-map", dispatch,
             FUNCS_LABELS, FUNCS_GETTERS, "pull.fun-tree-map"
         );
     barChart()("#barchart-1",dispatch);
-    
+
     // Sample data about packages (without functions)
-    d3.json("data/pkgs_test.json").then(data => 
+    d3.json("/api/packages").then(data =>
         dispatch.call("testpkgs", this, null, data)
     );
 })());

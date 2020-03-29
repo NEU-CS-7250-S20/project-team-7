@@ -74,7 +74,7 @@ def index():
 
 @app.route("/api/packages")
 def packages():
-    return query_from_post("SELECT DISTINCT package FROM types",
+    return query_from_post("SELECT package, COUNT(*) as count FROM types GROUP BY package",
                            [("LIMIT ?", "limit")])
 
 @app.route("/api/query")
