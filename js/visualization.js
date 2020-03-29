@@ -20,8 +20,14 @@
         })
 
         ;} );
-    let dispatch = d3.dispatch("push", "pull","change_package",
-      "testpkgfun", "testpkgs");
+    let dispatch = d3.dispatch(
+        // data about functions
+        "push", "pull",
+        // package being analyzed
+        "change_package",
+        // packages with functions
+        "pull_packages"
+    );
 
     // Query actor
 
@@ -60,7 +66,7 @@
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
     dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch,
-            PKGS_LABELS, PKGS_GETTERS, "pull.pkg-tree-map"
+            PKGS_LABELS, PKGS_GETTERS, "pull_packages.pkg-tree-map"
         );
     dataTreeMap()
         .width(400)
@@ -71,10 +77,12 @@
         );
     barChart()("#barchart-1",dispatch);
 
-    // Sample data about packages (without functions)
-    d3.json("/api/packages").then(data =>
-        dispatch.call("testpkgs", this, null, data)
-    );
+    // Data about packages (without functions)
+    d3.json("/api/packages").then(data => {
+        //alert(0);
+        //console.log(data);
+        dispatch.call("pull_packages", this, null, data)
+    });
 })());
 
 
