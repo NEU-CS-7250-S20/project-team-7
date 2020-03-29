@@ -1,63 +1,7 @@
-function tmERROR(msg) {
-    alert(`ERROR | ${msg}`);
-}
-
 const MORE_DATA_LABEL = "…";
 const SHOW_MORE_DATA_LABEL = "show more packages";
 const TITLE_LABEL = "Packages";
 const TITLE_MORE_DATA_LABEL = "Packages… go back";
-
-// Transforms source data into the format
-// suitable for the TreeMap layout processing
-function pkgData2TreeMapData(data, colorPalette) {
-    // sort by count in descending order
-    data.sort((d1, d2) => d2.count - d1.count);
-
-    // make hierarchical data
-    
-    // 1) the remainder of the smallest values
-    let remainderNum = data.length % colorPalette.length;
-    if (remainderNum === 0) // last chunk should not be empty
-        remainderNum = data.length;
-
-    // adds color info to the element
-    function mkDataElem(d, i) {
-        d.color = {
-            background: colorPalette.background[i],
-            font: colorPalette.font[i]
-        };
-        return d;
-    }
-
-    // end-of-chunk pointer
-    let iEnd = data.length;
-    // start-of-chunk pointer
-    let iStart = data.length - remainderNum;
-
-    // 2) make remainder array
-    let currLevel = data.slice(iStart, iEnd)
-        .map(mkDataElem);
-    
-    // 3) construct tree
-    while (iStart != 0) {
-        // move pointers to a previous chunk
-        iEnd = iStart;
-        iStart = iStart - colorPalette.length;
-        // make an upper level
-        let innerLevel = currLevel;
-        currLevel = data.slice(iStart, iEnd)
-            .map(mkDataElem);
-        currLevel.push(mkDataElem({
-            hasMore: true,
-            children: innerLevel
-        }, colorPalette.length));
-    }
-
-    return {
-        hasMore: true,
-        children: currLevel
-    };
-}
 
 // Create a tree map of packages
 function pkgsTreeMap() {
@@ -97,16 +41,6 @@ function pkgsTreeMap() {
     const MAX_ELEMS = colorPalette.background.length;
     //alert(`#elems = ${MAX_ELEMS}`);
     
-    function applyTreeMapLayout(root) {
-        // basic layout
-        const treeMapLayout = d3.treemap()
-            .tile(d3.treemapSquarify)
-            //.padding(1)
-            .round(true)
-            .size([width, tmHeight]);
-        return treeMapLayout(root);
-    }
-    
     function chart(selector, dispatch) {
 
       const getValue = d => d.count;
@@ -123,7 +57,7 @@ function pkgsTreeMap() {
 
         // Data preprocessing
         // ----------------------------------------
-        const tmData = pkgData2TreeMapData(data, colorPalette);
+        const tmData = data2TreeMapData(data, colorPalette);
         console.log(data);
         console.log(tmData);
 
@@ -131,7 +65,7 @@ function pkgsTreeMap() {
         const dataRoot = d3.hierarchy(tmData)
             .sum(getValue); // compute values for children
         // prepare treemap layout info
-        applyTreeMapLayout(dataRoot);
+        applyTreeMapLayout(dataRoot, {width: width, height: tmHeight});
         console.log(dataRoot);
 
         // Basic chart components

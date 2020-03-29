@@ -90,7 +90,7 @@ function testDataPkgFun(){ return {
        
         // TODO: Change from static
         dispatch.on("push.query", function(newQuery) {
-            
+            //console.log(newQuery);
             let endpoint = "/api/query?" + new URLSearchParams(newQuery);
             
             //let endpoint = "data/query_static.json";
