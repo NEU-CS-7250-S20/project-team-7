@@ -98,6 +98,11 @@ const PKGS_GETTERS = {
     getName: d => d.package
 };
 
+const FUNCS_GETTERS = {
+    hasName: d => d.fun_name,
+    getName: d => d.fun_name
+};
+
 // ==================================================
 // Color palettes
 // ==================================================
@@ -122,6 +127,34 @@ const COLOR_PALETTE_BLUE = {
     ]
 };
 
+const COLOR_PALETTE_VIOLET = {
+    length: 7,
+    header: "#f7fcfd",
+    footer: "#4d004b",
+    background: [
+        "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6",
+        "#8c6bb1", "#88419d", "#810f7c", "#4d004b"
+    ],
+    font: [
+        COLOR_DARK, COLOR_DARK, COLOR_DARK, COLOR_DARK, 
+        COLOR_LIGHT, COLOR_LIGHT, COLOR_LIGHT, COLOR_LIGHT
+    ]
+};
+
+const COLOR_PALETTE_PINK = {
+    length: 7,
+    header: "#fff7f3",
+    footer: "#49006a",
+    background: [
+        "#fde0dd", "#fcc5c0", "#fa9fb5", "#f768a1",
+        "#dd3497", "#ae017e", "#7a0177", "#49006a"
+    ],
+    font: [
+        COLOR_DARK, COLOR_DARK, COLOR_DARK, COLOR_DARK, 
+        COLOR_LIGHT, COLOR_LIGHT, COLOR_LIGHT, COLOR_LIGHT
+    ]
+};
+
 function checkColorPalette(colorPalette){
     if (colorPalette.background.length < colorPalette.length+1) {
         tmERROR("color palette size less than length");
@@ -139,7 +172,8 @@ const MORE_DATA_LABEL = "…";
 const SHOW_MORE_DATA_LABEL = name => `[show more ${name}]`;
 const TITLE_MORE_DATA_LABEL = name => `${name} [go back]`;
 
-const PKGS_TITLE_LABEL = "Packages";
+const PKGS_TITLE_LABEL  = "Packages";
+const FUNCS_TITLE_LABEL = "Functions";
 
 const PKGS_LABELS = {
     title:      PKGS_TITLE_LABEL,
@@ -148,3 +182,10 @@ const PKGS_LABELS = {
     showMore:   SHOW_MORE_DATA_LABEL(PKGS_TITLE_LABEL.toLowerCase())
 };
 //alert(pkgsLabels.titleMore);
+
+const FUNCS_LABELS = {
+    title:      FUNCS_TITLE_LABEL,
+    titleMore:  TITLE_MORE_DATA_LABEL(FUNCS_TITLE_LABEL),
+    moreData:   MORE_DATA_LABEL,
+    showMore:   SHOW_MORE_DATA_LABEL(FUNCS_TITLE_LABEL.toLowerCase())
+};

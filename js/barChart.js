@@ -75,7 +75,7 @@ function barChart() {
         header.append('tspan').text('Functions and Number of Times Called');
         
     dispatch.on("pull.barChart", function(query, data) {
-        console.log({query: query, data: data});
+        //console.log({query: query, data: data});
         // Setup    
 
         // sorting the data

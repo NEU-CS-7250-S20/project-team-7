@@ -24,19 +24,24 @@ function dataTreeMap() {
             getters.hasName(d) ? getters.getName(d) : labels.moreData;
         const hasChildren = tmHasChildren;
 
-        dispatch.on(pullEvent, function(data) {
+        const svg = d3.select(selector);
+
+        dispatch.on(pullEvent, function(query, data) {
             //alert("pkgsTreeMap :: on | START");
             //console.log(data);
 
-            if (data.length === 0) {
+            // remove all data if there is noe
+            svg.selectAll("g").remove();
+
+            if (data.length == 0) {
                 tmERROR("no data");
             }
 
             // Data preprocessing
             // ----------------------------------------
             const tmData = data2TreeMapData(data, colorPalette);
-            console.log(data);
-            console.log(tmData);
+            //console.log(data);
+            //console.log(tmData);
 
             // prepare data from hierarchial object/array
             const dataRoot = d3.hierarchy(tmData)
@@ -46,7 +51,7 @@ function dataTreeMap() {
                 dataRoot, 
                 { width: width, height: tmHeight }
             );
-            console.log(dataRoot);
+            //console.log(dataRoot);
 
             // Basic chart components
             // ----------------------------------------
@@ -57,7 +62,7 @@ function dataTreeMap() {
             x.domain([0, width]);
             y.domain([0, tmHeight]);
 
-            const svg = d3.select(selector);
+            
             const svgInner = svg.append("g")
                 .attr("transform", 
                     `translate(${margin.left},${margin.top})`
@@ -222,6 +227,13 @@ function dataTreeMap() {
     // --------------------------------------------------
     // Getters/Setters
     // --------------------------------------------------
+
+    chart.colorPalette = function(_) {
+        if (!arguments.length) 
+            return colorPalette;
+        colorPalette = _;
+        return chart;
+    };
 
     /*chart.margin = function(_) {
         if (!arguments.length) 

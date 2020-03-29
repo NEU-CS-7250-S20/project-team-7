@@ -119,13 +119,18 @@ function testDataPkgFun(){ return {
     dataTreeMap()("#vis-svg-2-pkg-tree-map", dispatch, 
         PKGS_LABELS, PKGS_GETTERS, "testpkgs"
     );
+    dataTreeMap()
+    .colorPalette(COLOR_PALETTE_VIOLET)
+    ("#vis-svg-3-fun-tree-map", dispatch, 
+        FUNCS_LABELS, FUNCS_GETTERS, "pull.fun-tree-map"
+    );
     barChart()("#barchart-1",dispatch);
      
     // sample data for pkg-fun
     //dispatch.call("testpkgfun", this, testDataPkgFun());
     // Sample data about packages (without functions)
     d3.json("data/pkgs_test.json").then(data => 
-        dispatch.call("testpkgs", this, data)
+        dispatch.call("testpkgs", this, null, data)
     );
 })());
 
