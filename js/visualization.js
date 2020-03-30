@@ -10,7 +10,7 @@
           PACKAGE_ENDPOINT = "/api/packages";
 
     // Dispatch
-    let dispatch = d3.dispatch("push", "pull");
+    let dispatch = d3.dispatch("push", "pull", "analyzed-push", "analyzed-pull");
 
     // Query actor
     {
@@ -25,6 +25,15 @@
             d3.json(endpoint).then(function(data) {
                 //console.log(data);
                 dispatch.call("pull", this, newQuery, data)
+            });
+        });
+
+        // New query (only analyzed)
+        dispatch.on("analyzed-push.query", function(newQuery) {
+            const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
+            d3.json(endpoint).then(function(data) {
+                dispatch.call("analyzed-pull", this, newQuery, data);
+                dispatch.call("pull", this, newQuery, data);
             });
         });
 

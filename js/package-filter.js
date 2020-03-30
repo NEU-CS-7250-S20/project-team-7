@@ -66,15 +66,14 @@ function packageFilter() {
                 //construct Query
                 const INIT_LIMIT=15;
                 const SELECTED_PACKAGES=choices;
-                const new_query = {
-                    packages: SELECTED_PACKAGES,
-                    limit: INIT_LIMIT
-                       };
+            const new_query = {
+                packages: SELECTED_PACKAGES,
+                limit: INIT_LIMIT
+            };
 
-
-
+            console.log(new_query);
                    //calling event in visualization.js
-            dispatch.call("push",this,new_query,data);
+            dispatch.call("analyzed-push",this,new_query,data);
 
 
          };
