@@ -234,6 +234,7 @@ function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
     query.package = selectionInfo.datums.map(
         d => PKGS_GETTERS.getName(d.data)
     );
+    console.log(query);
     //alert(query.packages);
     dispatch.call("push", this, query, null);
 }
@@ -285,7 +286,7 @@ const PKGS_EVENTS = {
 
 const FUNCS_EVENTS = {
     onclick: {
-        active: false,
+        active: true,
         handler: FUN_BLOCK_ONCLICK,
     }
 };
