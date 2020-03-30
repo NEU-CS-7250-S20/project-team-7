@@ -14,8 +14,7 @@ function packageFilter() {
         const svg= d3.select(selector);
 
 
-       //.attr("width", width + margin.left  + margin.right )
-       //.attr("height", height + margin.top  + margin.bottom )
+    
 
         svg.append('ul')
             .attr('class','vertical-menu')
@@ -54,6 +53,7 @@ function packageFilter() {
 
         //handling one selection at a time
         function updateVis() {
+         //   debugger;
             const choices = [];
             checked.each(function(d){
               cb = d3.select(this);

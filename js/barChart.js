@@ -20,8 +20,10 @@ function barChart() {
                   .attr('class', 'y axis')
        //draw bars
       function update(da,yScale,xScale,xAxis,yAxis){
-          //update scales
-        xScale.domain([0,d3.max(da, d=>d.count)]);
+         
+        //update scales
+          console.log(d3.max(da, d=>d.count));
+          xScale.domain([0,d3.max(da, d=>d.count)]);
           yScale.domain(da.map(d=> d.fun_name));
         const bars = svg.selectAll('.bar')
             //join in data
@@ -74,11 +76,20 @@ function barChart() {
         header.append('tspan').text('Functions and Number of Times Called');
 
     dispatch.on("pull.barChart", function(query, data) {
+        console.log("i am pulling");
+        data.functions.forEach(function(d,i){
+        console.log(typeof(d.count))
+        })
+
         //console.log({query: query, data: data});
         // Setup
 
         // sorting the data
         data = data.functions;
+        data.forEach(function(d,i){d.count=+d.count})
+        data.forEach(function(d,i){
+            console.log(typeof(d.count))
+            })
         data=data.sort((a,b)=>b.count-a.count)
                 .filter((d,i)=>i<15);
 
