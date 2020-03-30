@@ -35,6 +35,7 @@
             d3.json(endpoint).then(function(data) {
                 dispatch.call("analyzed-pull", this, newQuery, data);
                 dispatch.call("pull", this, newQuery, data);
+                console.log(data);
             });
         });
 
