@@ -11,10 +11,9 @@ function packageFilter() {
             return d[filter_on];
 
         }).keys();
-        const svg= d3.select(selector);
-
-
-    
+        const svg= d3.select(selector)
+        .append('text')
+            .append('tspan').text(' Packages being analyzed: ');
 
         svg.append('ul')
             .attr('class','vertical-menu')
@@ -22,8 +21,7 @@ function packageFilter() {
             .style("overflow-x" , "hidden")
             .append('g')
             .attr('class','filter-header')
-            //.append('text')
-            //.append('tspan').text(' Packages:')
+            
             .selectAll("input")
             .data(filter_list)
             .enter()
