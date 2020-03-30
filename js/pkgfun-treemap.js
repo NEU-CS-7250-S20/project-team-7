@@ -60,8 +60,9 @@ function dataTreeMap() {
             // Basic chart components
             // ----------------------------------------
 
-            const x = d3.scaleLinear().rangeRound([0, width]);
-            const y = d3.scaleLinear().rangeRound([0, tmHeight]);
+            const mkScale = _ => d3.scaleLinear();
+            const x = mkScale().rangeRound([0, width]);
+            const y = mkScale().rangeRound([0, tmHeight]);
 
             x.domain([0, width]);
             y.domain([0, tmHeight]);
