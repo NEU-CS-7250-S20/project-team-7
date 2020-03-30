@@ -167,6 +167,7 @@ h1, h2, h3 {
 }
 
 .vertical-menu li {
+	font-size: 13px;
 	height: 30px;
 	background-color: #eee; /* Grey background color */
 	color: black; /* Black text color */
