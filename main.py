@@ -51,17 +51,18 @@ def query_from_post(base, params):
 def package_where(args):
     args = args.split(",")
     in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
-    return "WHERE package IN " + in_template
-
-def package_being_analyzed_where(args):
-    args = args.split(",")
-    in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
-    return "WHERE package_being_analyzed IN " + in_template
+    return "AND package IN " + in_template
 
 def function_where(args):
     args = args.split(",")
     in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
-    return "WHERE fun_name IN " + in_template
+    return "AND fun_name IN " + in_template
+
+def package_being_analyzed_where(args):
+    args = args.split(",")
+    in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
+    return "AND package_being_analyzed IN " + in_template
+
 
 # Routes
 
@@ -75,7 +76,8 @@ def packages():
 
 @app.route("/api/query")
 def query():
-    parameters = [(package_where, "package", lambda x: x.split(",")),
+    parameters = ["WHERE 1 = 1",
+                  (package_where, "package", lambda x: x.split(",")),
                   (package_being_analyzed_where, "package_being_analyzed", lambda x: x.split(",")),
                   (function_where, "functions", lambda x: x.split(","))]
     extras = ["ORDER BY count DESC",

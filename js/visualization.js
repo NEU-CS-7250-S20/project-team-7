@@ -6,8 +6,9 @@
     // Configuration
     const INIT_ANALYZED_PACKAGES = [],//["anapuce", "approximator"],
           INIT_LIMIT = 15,
-          QUERY_ENDPOINT = "/api/query",
-          PACKAGE_ENDPOINT = "/api/packages";
+          ROOT_URL = "http://69.122.18.134:9898",
+          QUERY_ENDPOINT = ROOT_URL + "/api/query",
+          PACKAGE_ENDPOINT = ROOT_URL + "/api/packages";
 
     // Dispatch
     let dispatch = d3.dispatch("push", "pull", "analyzed-push", "analyzed-pull");
@@ -65,6 +66,6 @@
          FUNCS_GETTERS,
          "pull.fun-treemap",
          FUNCS_EVENTS);
-    
+
     barChart()("#barchart-1", dispatch);
 })());
