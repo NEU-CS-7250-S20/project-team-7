@@ -4,8 +4,8 @@
 
 ((() => {
     // Configuration
-    const INIT_ANALYZED_PACKAGES = ["approximator"],
-          INIT_LIMIT = 10,
+    const INIT_ANALYZED_PACKAGES = [],//["anapuce", "approximator"],
+          INIT_LIMIT = 15,
           QUERY_ENDPOINT = "/api/query",
           PACKAGE_ENDPOINT = "/api/packages";
 
@@ -39,6 +39,7 @@
 
         // Initial data request
         dispatch.call("push", this, initQuery);
+        dispatch.call("analyzed-push", this, initQuery);
     }
 
     // Initialize charts
@@ -52,19 +53,18 @@
                   dispatch,
                   PKGS_LABELS,
                   PKGS_GETTERS,
-                  "pull.pkg-treemap",
+                  "analyzed-pull.pkg-treemap",
                   PKGS_EVENTS);
-    /*
     dataTreeMap()
         .width(400)
         .height(236)
         .colorPalette(COLOR_PALETTE_VIOLET)
-        .call("#vis-svg-3-fun-tree-map",
-              dispatch,
-              FUNCS_LABELS,
-              FUNCS_GETTERS,
-              "pull.fun-treemap",
-              FUNCS_EVENTS);
-    */
+        ("#vis-svg-3-fun-tree-map",
+         dispatch,
+         FUNCS_LABELS,
+         FUNCS_GETTERS,
+         "pull.fun-treemap",
+         FUNCS_EVENTS);
+    
     barChart()("#barchart-1", dispatch);
 })());

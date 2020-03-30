@@ -63,11 +63,11 @@ function packageFilter() {
             });
 
             //TODO: change to analyzed
-                //construct Query
-                const INIT_LIMIT=15;
-                const SELECTED_PACKAGES=choices;
+            //construct Query
+            const INIT_LIMIT=15;
+            const SELECTED_PACKAGES=choices;
             const new_query = {
-                packages: SELECTED_PACKAGES,
+                package_being_analyzed: SELECTED_PACKAGES,
                 limit: INIT_LIMIT
             };
 

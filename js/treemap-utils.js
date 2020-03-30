@@ -231,7 +231,7 @@ function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
             _ => _ != d
         );
     }
-    query.packages = selectionInfo.datums.map(
+    query.package = selectionInfo.datums.map(
         d => PKGS_GETTERS.getName(d.data)
     );
     //alert(query.packages);
