@@ -30,6 +30,7 @@ function dataTreeMap() {
 
         dispatch.on(pullEvent, function(query, data) {
             data = getters.getData(data);
+            data = JSON.parse(JSON.stringify(data));
             //alert("pkgsTreeMap :: on | START");
             //console.log(data);
 
