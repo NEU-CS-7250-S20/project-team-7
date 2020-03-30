@@ -28,6 +28,26 @@ function data2TreeMapData(data, colorPalette) {
         return d;
     }
 
+    function cleanLevel(currLevel) {
+        for (let i = 1; i < currLevel.length; i++) {
+            if ((currLevel[i-1].count / currLevel[i].count) > 6) {
+                let innerLevel = currLevel.slice(i);
+                innerLevel = cleanLevel(innerLevel).level;
+                let newCurrLevel = currLevel.slice(0, i);
+                //console.log({foo: newCurrLevel});
+                newCurrLevel.push(
+                    mkDataElem({
+                        hasMore: true,
+                        children: innerLevel
+                        }, colorPalette.length
+                    )
+                );
+                return {level: newCurrLevel, changed: true};
+            }
+        }
+        return {level: currLevel, changed: false};
+    }
+
     // data checking
     // ------------------------------
 
@@ -55,6 +75,7 @@ function data2TreeMapData(data, colorPalette) {
     // 2) make remainder array
     let currLevel = data.slice(iStart, iEnd)
         .map(mkDataElem);
+    currLevel = cleanLevel(currLevel).level;
     
     // 3) construct tree of all the elements,
     //    starting from the remainder chunk
@@ -66,10 +87,15 @@ function data2TreeMapData(data, colorPalette) {
         let innerLevel = currLevel;
         currLevel = data.slice(iStart, iEnd)
             .map(mkDataElem);
-        currLevel.push(mkDataElem({
-            hasMore: true,
-            children: innerLevel
-        }, colorPalette.length));
+        let cleanedCurrLevel = cleanLevel(currLevel);
+        currLevel = cleanedCurrLevel.level;
+        //console.log({index: iStart, data: cleanedCurrLevel});
+        if (!cleanedCurrLevel.changed) {
+            currLevel.push(mkDataElem({
+                hasMore: true,
+                children: innerLevel
+            }, colorPalette.length));
+        }
     }
 
     // 4) return the outer level

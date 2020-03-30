@@ -58,7 +58,7 @@
                   PKGS_EVENTS);
     dataTreeMap()
         .width(400)
-        .height(236)
+        .height(200)
         .colorPalette(COLOR_PALETTE_VIOLET)
         ("#vis-svg-3-fun-tree-map",
          dispatch,
@@ -66,6 +66,6 @@
          FUNCS_GETTERS,
          "pull.fun-treemap",
          FUNCS_EVENTS);
-
+    
     barChart()("#barchart-1", dispatch);
 })());

@@ -1,6 +1,6 @@
 //adapted from bl.ocks.org/jurb/raw/5d42c6de467d7a71b2fc855e6aa3157f/d7f582728e6a1c199b7006f8f618478a4422c018/
 function packageFilter() {
-    const margin = {top: 80, right: 20, bottom: 20, left: 80},
+    const margin = {top: 8, right: 2, bottom: 2, left: 8},
         width = 300,
         height = 180;
 

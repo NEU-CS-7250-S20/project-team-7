@@ -4,7 +4,7 @@ function dataTreeMap() {
           top: 0, right: 0, bottom: 0, left: 0
         },
         width = 200,
-        height = 246,
+        height = 176,
         headerHeight = 15,
         footerHeight = 15,
         colorPalette = COLOR_PALETTE_BLUE,
