@@ -62,6 +62,7 @@ function typesOverviewChart() {
                   .attr("stroke", "#c39bd3")
                   .attr("stroke-width", d => d.width)
                   .style("mix-blend-mode", "multiply");
+            let reachableNodes = [];
 
             // Brushing
             linkPaths.each(function(d) {
@@ -72,10 +73,10 @@ function typesOverviewChart() {
 
             brush.on("start brush", function(){
                 let [x, y] = d3.mouse(this);
+                reachableNodes = [];
                 if (d3.event.selection === null) return;
                 const [[x0, y0], [x3, y3]] = d3.event.selection;
                 linkPaths.each((d) => d.selected = false);
-
                 quadtree
                     .extent(d3.event.selection)
                     .visit(function(node, x1, y1, x2, y2) {
@@ -84,6 +85,9 @@ function typesOverviewChart() {
                                 let d = node.data;
                                 if ((d.x >= x0) && (d.x < x3) && (d.y >= y0) && (d.y < y3)) {
                                     d.data.selected = true;
+                                    if (!reachableNodes.includes(d.data.source)) {
+                                        reachableNodes.push(d.data.source);
+                                    }
                                 }
                             } while (node = node.next);
                         }
@@ -96,6 +100,33 @@ function typesOverviewChart() {
                         return "#c39bd3";
                     }
                 });
+            });
+
+            brush.on("end", function() {
+                let neighbors = [];
+                do {
+                    neighbors = [];
+                    for (link of data.links) {
+                        if (reachableNodes.includes(link.target) && !reachableNodes.includes(link.source)) {
+                            neighbors.push(link.source);
+                            link.selected = true;
+                        }
+                    }
+                    reachableNodes = reachableNodes.concat(neighbors);
+                } while (neighbors.length > 0);
+
+                linkPaths.attr("stroke", function(d) {
+                    if (d.selected) {
+                        return "#ebbaff";
+                    } else {
+                        return "#c39bd3";
+                    }
+                });
+
+                let reachableFunctions = reachableNodes.filter((d) => d.depth === 0).map((d) => d.name);
+                query.functions = reachableFunctions;
+                console.log(query);
+                dispatch.call("push", this, query);
             });
             g.call(brush);
         });

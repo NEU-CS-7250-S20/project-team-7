@@ -24,8 +24,8 @@
         dispatch.on("push.query", function(newQuery) {
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
-                //console.log(data);
-                dispatch.call("pull", this, newQuery, data)
+                console.log(data);
+                dispatch.call("pull", this, newQuery, data);
             });
         });
 
