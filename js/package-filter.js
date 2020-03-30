@@ -14,8 +14,7 @@ function packageFilter() {
         const svg= d3.select(selector);
 
 
-       //.attr("width", width + margin.left  + margin.right )
-       //.attr("height", height + margin.top  + margin.bottom )
+    
 
         svg.append('ul')
             .attr('class','vertical-menu')
@@ -54,6 +53,7 @@ function packageFilter() {
 
         //handling one selection at a time
         function updateVis() {
+         //   debugger;
             const choices = [];
             checked.each(function(d){
               cb = d3.select(this);
@@ -63,18 +63,17 @@ function packageFilter() {
             });
 
             //TODO: change to analyzed
-                //construct Query
-                const INIT_LIMIT=15;
-                const SELECTED_PACKAGES=choices;
-                const new_query = {
-                    packages: SELECTED_PACKAGES,
-                    limit: INIT_LIMIT
-                       };
+            //construct Query
+            const INIT_LIMIT=15;
+            const SELECTED_PACKAGES=choices;
+            const new_query = {
+                package_being_analyzed: SELECTED_PACKAGES,
+                limit: INIT_LIMIT
+            };
 
-
-
+            console.log(new_query);
                    //calling event in visualization.js
-            dispatch.call("push",this,new_query,data);
+            dispatch.call("analyzed-push",this,new_query,data);
 
 
          };

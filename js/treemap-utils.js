@@ -94,11 +94,13 @@ const tmHasChildren = d => d.children;
 const tmGetValue = d => d.count;
 
 const PKGS_GETTERS = {
+    getData: data => data.packages,
     hasName: d => d.package,
     getName: d => d.package
 };
 
 const FUNCS_GETTERS = {
+    getData: data => data.functions,
     hasName: d => d.fun_name,
     getName: d => d.fun_name
 };
@@ -229,7 +231,7 @@ function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
             _ => _ != d
         );
     }
-    query.packages = selectionInfo.datums.map(
+    query.package = selectionInfo.datums.map(
         d => PKGS_GETTERS.getName(d.data)
     );
     //alert(query.packages);
