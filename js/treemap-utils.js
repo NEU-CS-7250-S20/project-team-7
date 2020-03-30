@@ -29,11 +29,9 @@ function data2TreeMapData(data, colorPalette) {
     }
 
     function cleanLevel(currLevel) {
-        for (i = 1; i < currLevel.length; i++) {
-            if (currLevel[i-1].count / currLevel[i].count > 5) {
-                //alert(0);
+        for (let i = 1; i < currLevel.length; i++) {
+            if ((currLevel[i-1].count / currLevel[i].count) > 6) {
                 let innerLevel = currLevel.slice(i);
-                //console.log(innerLevel);
                 innerLevel = cleanLevel(innerLevel).level;
                 let newCurrLevel = currLevel.slice(0, i);
                 //console.log({foo: newCurrLevel});
@@ -90,9 +88,9 @@ function data2TreeMapData(data, colorPalette) {
         currLevel = data.slice(iStart, iEnd)
             .map(mkDataElem);
         let cleanedCurrLevel = cleanLevel(currLevel);
-        console.log({index: iStart, data: cleanedCurrLevel});
+        currLevel = cleanedCurrLevel.level;
+        //console.log({index: iStart, data: cleanedCurrLevel});
         if (!cleanedCurrLevel.changed) {
-            currLevel = cleanedCurrLevel.level;
             currLevel.push(mkDataElem({
                 hasMore: true,
                 children: innerLevel
