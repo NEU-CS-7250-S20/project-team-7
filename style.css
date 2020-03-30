@@ -59,7 +59,7 @@ h1, h2, h3 {
 }
 
 #div-vis-1 {
-	width: 60%;
+	width: 70%;
 	float: left;
 }
 #div-vis-1 h4 {
@@ -71,20 +71,20 @@ h1, h2, h3 {
 }
 
 .vis-filter-div {
-	width: 40%;
+	width: 28%;
 	float: right;
-	display: table;
+	display: block;
 }
 .vis-filter-div h4 {
 	text-align: center;
 }
 
 #filter {
-	width: 33%;
+	width: 100%;
 	padding: 5px;
 }
 #div-pkg-tree-map {
-	width: 63%;
+	width: 100%;
 }
 
 .vis-svg-pkgfun {
@@ -187,7 +187,7 @@ h1, h2, h3 {
 .vertical-menu  {
 	overflow-x:hidden;
 	overflow-y: scroll;
-	height: 400px;
+	height: 200px;
 }
 
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */
