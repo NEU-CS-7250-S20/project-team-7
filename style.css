@@ -9,7 +9,7 @@ body {
 	stroke: none;
 }
 .tooltip{
-	 position: fixed;
+	 position: sticky;
 	opacity:0;
 	background: #eee;
 	max-width: 200px;
