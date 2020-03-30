@@ -1,16 +1,18 @@
 // Create types overview chart. This is the main view in the visualization.
 function typesOverviewChart() {
     let margin = {top: 20, right: 20, bottom: 20, left: 20},
-        width = 550,
-        height = 400,
+        width = 900,
+        height = 500,
         density = 6;
 
     function chart(selector, dispatch) {
+        const svg = d3.select(selector);
         dispatch.on("pull.typesoverview", function(query, data) {
+            svg.select("g").remove();
+
             // Setup
             const w = width - margin.left - margin.right,
                   h = height - margin.top - margin.bottom,
-                  svg = d3.select(selector),
                   g = svg.append("g"),
                   brush = d3.brush(),
                   quadtree = d3.quadtree().x((d) => d.x).y((d) => d.y);
