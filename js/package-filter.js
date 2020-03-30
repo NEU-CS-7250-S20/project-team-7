@@ -69,7 +69,7 @@ function packageFilter() {
                 limit: INIT_LIMIT
             };
 
-            console.log(new_query);
+            //console.log(new_query);
                    //calling event in visualization.js
             dispatch.call("analyzed-push",this,new_query,data);
 

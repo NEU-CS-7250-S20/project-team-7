@@ -24,7 +24,7 @@
         dispatch.on("push.query", function(newQuery) {
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
-                console.log(data);
+                //console.log(data);
                 dispatch.call("pull", this, newQuery, data);
             });
         });
@@ -35,7 +35,7 @@
             d3.json(endpoint).then(function(data) {
                 dispatch.call("analyzed-pull", this, newQuery, data);
                 dispatch.call("pull", this, newQuery, data);
-                console.log(data);
+                //console.log(data);
             });
         });
 

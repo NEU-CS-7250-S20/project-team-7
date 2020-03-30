@@ -55,7 +55,6 @@ function dataTreeMap() {
                 dataRoot,
                 { width: width, height: tmHeight }
             );
-            //console.log(dataRoot);
 
             // Basic chart components
             // ----------------------------------------

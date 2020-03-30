@@ -22,7 +22,7 @@ function barChart() {
       function update(da,yScale,xScale,xAxis,yAxis){
          
         //update scales
-          console.log(d3.max(da, d=>d.count));
+          //console.log(d3.max(da, d=>d.count));
           xScale.domain([0,d3.max(da, d=>d.count)]);
           yScale.domain(da.map(d=> d.fun_name));
         const bars = svg.selectAll('.bar')
