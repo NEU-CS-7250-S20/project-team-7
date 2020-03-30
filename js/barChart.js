@@ -65,6 +65,11 @@ function barChart() {
             yAxisDraw.transition().duration(1000).call(yAxis.scale(yScale));
 
             yAxisDraw.selectAll('text').attr('dx','-0.6em');
+        
+            d3.selectAll('.bar')
+            .on('mouseover',mouseover)
+            .on('mousemove',mousemove)
+            .on('mouseout',mouseout);
         }
          //headers ....
          const header = svg.append('g')
@@ -74,7 +79,39 @@ function barChart() {
          .append('text');
 //headline
         header.append('tspan').text('Functions and Number of Times Called');
+        function mouseover(){
+            const barData=d3.select(this).data()[0];
+            const bodyData=[
+                ['Return Type',barData.arg_t_r],
+                ['First Argument', barData.arg_t0],
+                ['Second Argument', barData.arg_t1],
+                ['Count',barData.count]
 
+            ]
+            d3.select('.tip-body')
+                .selectAll('p')
+                .data(bodyData)
+                .join('p')
+                .attr('class','tip-info')
+                .html(d=> `${d[0]}: ${d[1]}`);
+            tip.style('left',`${d3.event.clientX+15}px`)
+               .style('top',`${d3.event.clientY}px`)
+               .style('opacity',0.98)
+            tip.select('h3').html(`Function name: ${barData.fun_name}`);
+
+        }
+        function mouseout(){
+            tip.style('opacity',0);
+
+        }
+        function mousemove(){
+            tip.style('left',`${d3.event.clientX +15}px`)
+              .style('right',`${d3.event.clientY}px`)
+        }
+        //Add tooltip
+        const tip= d3.select('.tooltip')
+        
+              
     dispatch.on("pull.barChart", function(query, data) {
         console.log("i am pulling");
         data.functions.forEach(function(d,i){
@@ -122,41 +159,8 @@ function barChart() {
         // calling the update function
         update(data,yScale,xScale,xAxis,yAxis);
         //tooltip handler
-        function mouseover(){
-            const barData=d3.select(this).data()[0];
-            const bodyData=[
-                ['Return Type',barData.arg_t_r],
-                ['First Argument', barData.arg_t0],
-                ['Second Argument', barData.arg_t1],
-                ['Count',barData.count]
-
-            ]
-            d3.select('.tip-body')
-                .selectAll('p')
-                .data(bodyData)
-                .join('p')
-                .attr('class','tip-info')
-                .html(d=> `${d[0]}: ${d[1]}`);
-            tip.style('left',`${d3.event.clientX+15}px`)
-               .style('top',`${d3.event.clientY}px`)
-               .style('opacity',0.98)
-            tip.select('h3').html(`Function name: ${barData.fun_name}`);
-
-        }
-        function mouseout(){
-            tip.style('opacity',0);
-
-        }
-        function mousemove(){
-            tip.style('left',`${d3.event.clientX +15}px`)
-              .style('right',`${d3.event.clientY}px`)
-        }
-        //Add tooltip
-        const tip= d3.select('.tooltip');
-        d3.selectAll('.bar')
-              .on('mouseover',mouseover)
-              .on('mousemove',mousemove)
-              .on('mouseout',mouseout);
+       
+  
     });
 }
 
