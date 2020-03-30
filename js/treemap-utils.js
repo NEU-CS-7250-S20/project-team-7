@@ -260,9 +260,10 @@ function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
     query.package = selectionInfo.datums.map(
         d => PKGS_GETTERS.getName(d.data)
     );
+    query.functions = [];
     //console.log(query);
     //alert(query.packages);
-    dispatch.call("push", this, query, null);
+    dispatch.call("funcs-push", this, query, null);
 }
 
 function FUN_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {

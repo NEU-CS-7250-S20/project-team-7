@@ -75,7 +75,7 @@ function barChart() {
 //headline
         header.append('tspan').text('Functions and Number of Times Called');
 
-    dispatch.on("pull.barChart", function(query, data) {
+    dispatch.on("funcs-pull.barChart", function(query, data) {
      
       
         // Setup

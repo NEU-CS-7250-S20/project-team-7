@@ -11,7 +11,11 @@
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages";
 
     // Dispatch
-    let dispatch = d3.dispatch("push", "pull", "analyzed-push", "analyzed-pull");
+    let dispatch = d3.dispatch(
+        "push", "pull", 
+        "analyzed-push", "analyzed-pull",
+        "funcs-push", "funcs-pull"
+    );
 
     // Query actor
     {
@@ -39,9 +43,18 @@
             });
         });
 
+        // Functions list query
+        dispatch.on("funcs-push.query", function(newQuery) {
+            const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
+            d3.json(endpoint).then(function(data) {
+                dispatch.call("funcs-pull", this, newQuery, data);
+            });
+        });
+
         // Initial data request
         dispatch.call("push", this, initQuery);
         dispatch.call("analyzed-push", this, initQuery);
+        dispatch.call("funcs-push", this, initQuery);
     }
 
     // Initialize charts
@@ -65,7 +78,7 @@
          dispatch,
          FUNCS_LABELS,
          FUNCS_GETTERS,
-         "pull.fun-treemap",
+         "funcs-pull.fun-treemap",
          FUNCS_EVENTS);
     
     barChart()("#barchart-1", dispatch);
