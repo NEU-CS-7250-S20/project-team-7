@@ -6,7 +6,7 @@
     // Configuration
     const INIT_ANALYZED_PACKAGES = [],//["anapuce", "approximator"],
           INIT_LIMIT = 15,
-          ROOT_URL = "http://69.122.18.134:9898",
+          ROOT_URL = "//69.122.18.134:9898",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages";
 
