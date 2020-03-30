@@ -291,7 +291,7 @@ function FUN_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
         );
     }
     query.functions = selectionInfo.datums.map(
-        d => FUNCS_GETTERS.getName(d.data)
+        d => d.data.fun_name
     );
     //alert(query.packages);
     dispatch.call("push", this, query, null);
