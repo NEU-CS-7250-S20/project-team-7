@@ -2,7 +2,7 @@
 function typesOverviewChart() {
     let margin = {top: 10, right: 10, bottom: 10, left: 10},
         width = 900,
-        height = 480,
+        height = 500,
         density = 6;
 
     function chart(selector, dispatch) {

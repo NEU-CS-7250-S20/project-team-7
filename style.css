@@ -26,11 +26,13 @@ h1, h2, h3 {
 
 /* But your visualization should be full-width and full-height */
 .vis-holder {
-	width: 100%;
+	/*width: 100%;*/
 	/*height: 100%;*/
+	max-width: 1600px;
+	margin: 0 auto;
 	display: grid;
-	grid-template-columns: repeat(9, 1fr);
-	grid-template-rows: repeat(5, 1fr);
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: 33% 33% 33%;
 	grid-gap: 10px 10px;
 }
 
@@ -38,43 +40,43 @@ h1, h2, h3 {
 #div-vis-1 {
 	/*width: 70%;*/
 	grid-column-start: 1;
-	grid-column-end: 8;
+	grid-column-end: 5;
 	grid-row-start: 1;
-	grid-row-end: 4;
+	grid-row-end: 3;
 	/*float: left;*/
 }
 
 /* analyzed package filter */
 #div-filter-vis {
-	grid-column-start: 8;
-	grid-column-end: 10;
+	grid-column-start: 5;
+	grid-column-end: 6;
 	grid-row-start: 1;
-	grid-row-end: 3;
+	grid-row-end: 2;
 }
 
 /* bar chart */
 #div-barchart-1 {
-	grid-column-start: 8;
-	grid-column-end: 10;
-	grid-row-start: 3;
-	grid-row-end: 6;
+	grid-column-start: 5;
+	grid-column-end: 6;
+	grid-row-start: 2;
+	grid-row-end: 4;
 }
 
 /* package tree map */
 #div-pkg-tree-map {
 	grid-column-start: 1;
-	grid-column-end: 4;
-	grid-row-start: 4;
-	grid-row-end: 6;
+	grid-column-end: 3;
+	grid-row-start: 3;
+	grid-row-end: 4;
 	/*width: 100%;*/
 }
 
 /* functions tree map */
 #div-fun-tree-map {
-	grid-column-start: 5;
-	grid-column-end: 8;
-	grid-row-start: 4;
-	grid-row-end: 6;
+	grid-column-start: 3;
+	grid-column-end: 5;
+	grid-row-start: 3;
+	grid-row-end: 4;
 }
 
 /* Vertical Screen */
@@ -84,30 +86,30 @@ h1, h2, h3 {
 	/* But your visualization should be full-width and full-height */
 	.vis-holder {
 		/*background-color: #eee;*/
-		width: 100%;
+		/*width: 100%;*/
 		/*height: 100%;*/
 		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(5, 1fr);
 		/*grid-template-rows: repeat(4, 1fr);*/
-		grid-template-rows: repeat(6, 160px);
+		grid-template-rows: repeat(7, 140px);
 	}
 	
 	/* types overview */
 	#div-vis-1 {
 		/*width: 70%;*/
 		grid-column-start: 1;
-		grid-column-end: 4;
+		grid-column-end: 6;
 		grid-row-start: 1;
-		grid-row-end: 5;
+		grid-row-end: 6;
 		/*float: left;*/
 	}
 
 	/* analyzed package filter */
 	#div-filter-vis {
-		grid-column-start: 4;
-		grid-column-end: 5;
-		grid-row-start: 1;
-		grid-row-end: 4;
+		grid-column-start: 5;
+		grid-column-end: 6;
+		grid-row-start: 6;
+		grid-row-end: 8;
 	}
 
 	/* bar chart */
@@ -123,8 +125,10 @@ h1, h2, h3 {
 	#div-pkg-tree-map {
 		grid-column-start: 1;
 		grid-column-end: 3;
-		grid-row-start: 5;
-		grid-row-end: 7;
+		grid-row-start: 6;
+		grid-row-end: 8;
+		display: block;
+		/*height: 300px;*/
 		/*width: 100%;*/
 	}
 
@@ -132,8 +136,8 @@ h1, h2, h3 {
 	#div-fun-tree-map {
 		grid-column-start: 3;
 		grid-column-end: 5;
-		grid-row-start: 5;
-		grid-row-end: 7;
+		grid-row-start: 6;
+		grid-row-end: 8;
 	}
 }
 
