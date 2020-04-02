@@ -1,6 +1,6 @@
 function barChart() {
-    let margin = {top: 80, right: 20, bottom: 20, left: 100},
-        width = 550,
+    let margin = {top: 40, right: 0, bottom: 0, left: 80},
+        width = 200,
         height = 400;
 
     function chart(selector, dispatch) {

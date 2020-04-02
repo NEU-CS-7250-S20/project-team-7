@@ -4,12 +4,193 @@ body {
 	font: 18px/1.5 -apple-system, BlinkMacSystemFont, "avenir next",avenir, "Segoe UI", "lucida grande", "helvetica neue", helvetica, "Fira Sans",roboto, noto, "Droid Sans", cantarell, oxygen, ubuntu, "franklin gothic medium", "century gothic", "Liberation Sans",
 	sans-serif;
 }
+
+h1, h2, h3 {
+	line-height: 1.2
+}
+
+/* Your text should be in a nice narrow column */
+.content-column {
+	max-width: 650px;
+	margin: 40px auto;
+	display: block;
+}
+
+.vis-svg {
+  background-color: #f4f1f0;
+}
+
+/* ---------------------- Position */
+
+/* Default Horizontal Screen */
+
+/* But your visualization should be full-width and full-height */
+.vis-holder {
+	width: 100%;
+	/*height: 100%;*/
+	display: grid;
+	grid-template-columns: repeat(9, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	grid-gap: 10px 10px;
+}
+
+/* types overview */
+#div-vis-1 {
+	/*width: 70%;*/
+	grid-column-start: 1;
+	grid-column-end: 8;
+	grid-row-start: 1;
+	grid-row-end: 4;
+	/*float: left;*/
+}
+
+/* analyzed package filter */
+#div-filter-vis {
+	grid-column-start: 8;
+	grid-column-end: 10;
+	grid-row-start: 1;
+	grid-row-end: 3;
+}
+
+/* bar chart */
+#div-barchart-1 {
+	grid-column-start: 8;
+	grid-column-end: 10;
+	grid-row-start: 3;
+	grid-row-end: 6;
+}
+
+/* package tree map */
+#div-pkg-tree-map {
+	grid-column-start: 1;
+	grid-column-end: 4;
+	grid-row-start: 4;
+	grid-row-end: 6;
+	/*width: 100%;*/
+}
+
+/* functions tree map */
+#div-fun-tree-map {
+	grid-column-start: 5;
+	grid-column-end: 8;
+	grid-row-start: 4;
+	grid-row-end: 6;
+}
+
+/* Vertical Screen */
+
+@media (orientation:portrait) {
+
+	/* But your visualization should be full-width and full-height */
+	.vis-holder {
+		/*background-color: #eee;*/
+		width: 100%;
+		/*height: 100%;*/
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		/*grid-template-rows: repeat(4, 1fr);*/
+		grid-template-rows: repeat(6, 160px);
+	}
+	
+	/* types overview */
+	#div-vis-1 {
+		/*width: 70%;*/
+		grid-column-start: 1;
+		grid-column-end: 4;
+		grid-row-start: 1;
+		grid-row-end: 5;
+		/*float: left;*/
+	}
+
+	/* analyzed package filter */
+	#div-filter-vis {
+		grid-column-start: 4;
+		grid-column-end: 5;
+		grid-row-start: 1;
+		grid-row-end: 4;
+	}
+
+	/* bar chart */
+	#div-barchart-1 {
+		display: none;
+		/*grid-column-start: 4;
+		grid-column-end: 5;
+		grid-row-start: 2;
+		grid-row-end: 3;*/
+	}
+
+	/* package tree map */
+	#div-pkg-tree-map {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 5;
+		grid-row-end: 7;
+		/*width: 100%;*/
+	}
+
+	/* functions tree map */
+	#div-fun-tree-map {
+		grid-column-start: 3;
+		grid-column-end: 5;
+		grid-row-start: 5;
+		grid-row-end: 7;
+	}
+}
+
+/* ---------------------- Style */
+
+/* types overview */
+#div-vis-1 h4 {
+	text-align: center;
+}
+.vis-svg-types {
+	width: 100%;
+	background-color: #f4f1f0;
+}
+
+/* analyzed package filter */
+.vis-filter-div {
+	/*height: 100%;
+	float: right;
+	display: block;*/
+}
+.vis-filter-div h4 {
+	text-align: center;
+}
+#filter {
+	/*width: 100%;*/
+	padding: 0px;
+}
+.vertical-menu li {
+	font-size: 16px;
+	height: 30px;
+	background-color: #eee; /* Grey background color */
+	color: black; /* Black text color */
+	display: block; /* Make the links appear below each other */
+	padding: 2px; /* Add some padding */
+	text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu li:hover {
+	background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu li.active {
+	background-color: #4CAF50; /* Add a green color to the "active/current" link */
+	color: white;
+}
+.vertical-menu  {
+	overflow-x:hidden;
+	overflow-y: scroll;
+	/*height: 200px;*/
+}
+
 /* for barchart*/
 .axis.domain{
 	stroke: none;
 }
 .tooltip{
-	 position: sticky;
+	position: sticky;
 	opacity:0;
 	background: #eee;
 	max-width: 200px;
@@ -36,60 +217,10 @@ h3{
 	stroke: white;
 }
 /*end for barchart*/
-h1, h2, h3 {
-	line-height: 1.2
-}
-
-/* Your text should be in a nice narrow column */
-.content-column {
-	max-width: 650px;
-	margin: 40px auto;
-	display: block;
-}
-
-/* But your visualization should be full-width and full-height */
-.vis-holder {
-  width: 100%;
-  height: 100%;
-  display: table;
-}
-
-.vis-svg {
-  background-color: #f4f1f0;
-}
-
-#div-vis-1 {
-	width: 70%;
-	float: left;
-}
-#div-vis-1 h4 {
-	text-align: center;
-}
-
-.vis-svg-types {
-	background-color: #f4f1f0;
-}
-
-.vis-filter-div {
-	width: 28%;
-	float: right;
-	display: block;
-}
-.vis-filter-div h4 {
-	text-align: center;
-}
-
-#filter {
-	width: 100%;
-	padding: 5px;
-}
-#div-pkg-tree-map {
-	width: 100%;
-}
 
 .vis-svg-pkgfun {
 	background-color: #f4f1f0;
-	font-size: 8px;
+	font-size: 14px;
 	padding: 6px;
 }
 
@@ -98,7 +229,7 @@ h1, h2, h3 {
 }
 .vis-svg-pkgfun .tm-header-text {
 	fill: black;
-	font-size: 9px;
+	font-size: 13px;
 }
 
 .vis-svg-pkgfun .tm-footer {
@@ -106,17 +237,17 @@ h1, h2, h3 {
 }
 .vis-svg-pkgfun .tm-footer-text {
 	fill: white;
-	font-size: 7px;
+	font-size: 12px;
 }
 
 .vis-svg-pkgfun .tm-block {
 }
 .vis-svg-pkgfun .tm-block-text {
-	font-size: 6px;
+	font-size: 10px;
 	font-family: monospace;	
 }
 .vis-svg-pkgfun .tm-block-number {
-	font-size: 6px;
+	font-size: 10px;
 	font-family: monospace;
 }
 
@@ -145,50 +276,6 @@ h1, h2, h3 {
 	float: left;
 /*	overflow-y: auto;
 	overflow: hidden;*/
-}
-
-.side {
-	float: left;
-/*	overflow-y: auto;
-	overflow: hidden;*/
-}
-
-#div-fun-info {
-	width: 100%;
-	display: block;
-}
-
-#div-fun-tree-map {
-	width: 60%;
-}
-
-#barchart-1 {
-	width: 40%;
-}
-
-.vertical-menu li {
-	font-size: 13px;
-	height: 30px;
-	background-color: #eee; /* Grey background color */
-	color: black; /* Black text color */
-	display: block; /* Make the links appear below each other */
-	padding: 12px; /* Add some padding */
-	text-decoration: none; /* Remove underline from links */
-}
-
-.vertical-menu li:hover {
-	background-color: #ccc; /* Dark grey background on mouse-over */
-}
-
-.vertical-menu li.active {
-	background-color: #4CAF50; /* Add a green color to the "active/current" link */
-	color: white;
-}
-
-.vertical-menu  {
-	overflow-x:hidden;
-	overflow-y: scroll;
-	height: 200px;
 }
 
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */

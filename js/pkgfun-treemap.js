@@ -3,10 +3,10 @@ function dataTreeMap() {
     let margin = {
           top: 0, right: 0, bottom: 0, left: 0
         },
-        width = 200,
-        height = 176,
-        headerHeight = 15,
-        footerHeight = 15,
+        width = 400,
+        height = 220,
+        headerHeight = 17,
+        footerHeight = 17,
         colorPalette = COLOR_PALETTE_BLUE,
         tmHeight = height - headerHeight - footerHeight;
 
@@ -74,11 +74,11 @@ function dataTreeMap() {
             // text margins
             const headerMargin = {
                 left: 2,
-                top: 10
+                top: 12
             };
             const blockMargin = {
                 left: 2,
-                top: 8
+                top: 11
             };
 
             // header for all packages

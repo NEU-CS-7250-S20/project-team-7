@@ -1,8 +1,8 @@
 //adapted from bl.ocks.org/jurb/raw/5d42c6de467d7a71b2fc855e6aa3157f/d7f582728e6a1c199b7006f8f618478a4422c018/
 function packageFilter() {
-    const margin = {top: 8, right: 2, bottom: 2, left: 8},
-        width = 300,
-        height = 180;
+    const margin = {top: 0, right: 2, bottom: 2, left: 0},
+        width = 200,
+        height = 380;
 
     function chart(selector, dispatch, data) {
         const filter_on = 'package_being_analyzed';
@@ -11,9 +11,9 @@ function packageFilter() {
             return d[filter_on];
 
         }).keys();
-        const svg= d3.select(selector)
-        .append('text')
-            .append('tspan').text(' Packages being analyzed: ');
+        const svg= d3.select(selector);
+        //.append('text')
+        //    .append('tspan').text(' Packages being analyzed: ');
 
         svg.append('ul')
             .attr('class','vertical-menu')
@@ -37,7 +37,7 @@ function packageFilter() {
                     return d
             });
 
-        d3.selectAll("label")
+        svg.selectAll("label")
             .data(filter_list)
             .attr("class", "checkbox")
             .append("text").text(function (d) {

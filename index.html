@@ -65,38 +65,50 @@
 
   <div class="vis-holder">
     <!-- Your visualization here -->
-    <div id="div-main-vis">
       <div id="div-vis-1">
         <h4> Types Overview </h4>
-        <svg id="vis-svg-1" preserveAspectRatio="xMidYMid meet"
-          class="vis-svg-types" viewBox="0 0 1000 600" version="1.1"
+        <svg id="vis-svg-1" class="vis-svg-types"
+          viewBox="0 0 960 480" preserveAspectRatio="xMidYMid meet"
+          version="1.1"
           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
-      </div>
-      <div id="div-filter-vis" class="vis-filter-div">
-        <h4> Filtering </h4>
-        <div id="filter" class="">
-        </div>
-        <div id="div-pkg-tree-map" class="">
-          <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
-          <label for="checkboxPkgMultiple">Select multiple packages</label>
-          <svg id="vis-svg-2-pkg-tree-map"
-            preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
-            viewBox="0 0 200 176" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          </svg>
+        <div id="div-select-function">
+          <label for="textboxFunctionName">Function:</label>
+          <input type="text" id="textboxFunctionName" name="textboxFunctionName"
+            disabled="true"/>
+          <input type="button" value="show" disabled="true">
         </div>
       </div>
 
-      <div id="div-fun-info">
-        <div id="div-fun-tree-map" class="side-left">
-          <svg id="vis-svg-3-fun-tree-map"
-            preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
-            viewBox="0 0 400 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          </svg>
+      <div id="div-filter-vis" class="vis-filter-div">
+        <h4> Analyzed packages </h4>
+        <input type="checkbox" id="checkboxAnalyzedAll" name="checkboxAnalyzedAll"/>
+        <label for="checkboxAnalyzedAll">All</label>
+        <div id="filter" class="">
         </div>
-        <div id="barchart-1" class="side-right"></div>
       </div>
-    </div>
+      
+      <div id="div-barchart-1" class="">
+        <svg id="barchart-1" preserveAspectRatio="xMidYMid meet" 
+          viewBox="0 0 300 500">
+        </svg>
+      </div>
+
+      <div id="div-pkg-tree-map" class="">
+        <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
+        <label for="checkboxPkgMultiple">Select multiple packages</label>
+        <svg id="vis-svg-2-pkg-tree-map"
+          preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
+          viewBox="0 0 400 220" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
+      </div>
+
+      <div id="div-fun-tree-map" class="">
+        <svg id="vis-svg-3-fun-tree-map"
+          preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
+          viewBox="0 0 400 220" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
+      </div>
   </div>
 
   <div class="content-column" style="width:100%">
