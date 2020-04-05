@@ -66,9 +66,15 @@ function dataTreeMap() {
             x.domain([0, width]);
             y.domain([0, tmHeight]);
 
+            // svg for header+treemap+footer
             const svgInner = svg.append("g")
                 .attr("transform",
                     `translate(${margin.left},${margin.top})`
+                );
+            // svg for treemap only
+            const svgTreeMap = svgInner.append("g")
+                .attr("transform",
+                      `translate(0,${headerHeight})`
                 );
 
             // text margins
@@ -101,6 +107,7 @@ function dataTreeMap() {
             const footerRect = footerGroup.append("rect")
                 .attr("class", "tm-footer")
                 .attr("fill", colorPalette.footer)
+                .attr("stroke", colorPalette.footer)
                 .attr("x", 0)
                 .attr("y", height - footerHeight)
                 .attr("width", width)
@@ -117,9 +124,7 @@ function dataTreeMap() {
                 currNodes: []
             };
 
-            let group = svgInner.append("g")
-                .attr("transform", d =>
-                      `translate(0, ${headerHeight})`);
+            let group = svgTreeMap.append("g");
             group.call(render, dataRoot);
 
             // Blocks' placement
@@ -209,15 +214,13 @@ function dataTreeMap() {
             // When zooming in, draw the new nodes on top, and fade them in.
             function zoomin(d) {
                 const group0 = group.attr("pointer-events", "none");
-                const group1 = group = svgInner.append("g")
-                    .attr("transform", d =>
-                        `translate(0, ${headerHeight})`)
+                const group1 = group = svgTreeMap.append("g")
                     .call(render, d);
 
                 x.domain([d.x0, d.x1]);
                 y.domain([d.y0, d.y1]);
 
-                group.transition()
+                svgTreeMap.transition()
                     .duration(750)
                     .call(t => group0.transition(t).remove()
                             .attrTween("opacity", () => d3.interpolate(1, 0))
@@ -232,15 +235,13 @@ function dataTreeMap() {
             // When zooming out, draw the old nodes on top, and fade them out.
             function zoomout(d) {
                 const group0 = group.attr("pointer-events", "none");
-                const group1 = group = svgInner.insert("g", "*")
-                    .attr("transform", d =>
-                        `translate(0, ${headerHeight})`)
+                const group1 = group = svgTreeMap.insert("g", "*")
                     .call(render, d.parent);
 
                 x.domain([d.parent.x0, d.parent.x1]);
                 y.domain([d.parent.y0, d.parent.y1]);
 
-                group.transition()
+                svgTreeMap.transition()
                     .duration(750)
                     .call(t => group0.transition(t).remove()
                         .attrTween("opacity", () => d3.interpolate(1, 0))
