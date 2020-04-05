@@ -53,6 +53,11 @@ def package_where(args):
     in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
     return "AND package IN " + in_template
 
+def package_where_not(args):
+    args = args.split(",")
+    in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
+    return "AND NOT package IN " + in_template
+
 def function_where(args):
     args = args.split(",")
     in_template = "(" + ",".join(map(lambda x: "?", args)) + ")"
@@ -74,10 +79,16 @@ def index():
 def packages():
     return json.dumps(query_from_post("SELECT package_being_analyzed, COUNT(*) as count FROM types GROUP BY package_being_analyzed", []))
 
+@app.route("/api/definednums")
+def definednums():
+    return json.dumps(query_from_post(
+        "SELECT COUNT(DISTINCT package) AS packages, COUNT(DISTINCT fun_name) AS functions FROM types", []))
+
 @app.route("/api/query")
 def query():
     parameters = ["WHERE 1 = 1",
                   (package_where, "package", lambda x: x.split(",")),
+                  (package_where_not, "excluded", lambda x: x.split(",")),
                   (package_being_analyzed_where, "package_being_analyzed", lambda x: x.split(",")),
                   (function_where, "functions", lambda x: x.split(","))]
     extras = ["ORDER BY count DESC",

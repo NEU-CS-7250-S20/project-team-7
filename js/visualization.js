@@ -6,9 +6,26 @@
     // Configuration
     const INIT_ANALYZED_PACKAGES = [],//["anapuce", "approximator"],
           INIT_LIMIT = 15,
-          ROOT_URL = "//69.122.18.134:9898",
+          INIT_EXCLUDED_PACKAGES = ["base", "foo"],
+          //ROOT_URL = "//69.122.18.134:9898",
+          ROOT_URL = "//127.0.0.1:5000",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
-          PACKAGE_ENDPOINT = ROOT_URL + "/api/packages";
+          PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",
+          DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums";
+
+    const initQuery = {
+        package_being_analyzed: INIT_ANALYZED_PACKAGES,
+        excluded: INIT_EXCLUDED_PACKAGES,
+        limit: INIT_LIMIT
+    };
+
+    let currentQuery = initQuery;
+
+    // Init settings
+    const limitElem = d3.select("#textSelectionsNum");
+    limitElem.attr("value", INIT_LIMIT);
+    d3.select("#textPackagesExclude")
+        .text(INIT_EXCLUDED_PACKAGES.join("\n"));
 
     // Dispatch
     let dispatch = d3.dispatch(
@@ -17,15 +34,37 @@
         "funcs-push", "funcs-pull"
     );
 
+    function updateAllData(obj, newQuery) {
+        dispatch.call("push", obj, newQuery);
+        dispatch.call("analyzed-push", obj, newQuery);
+        dispatch.call("funcs-push", obj, newQuery);
+    }
+
+    // Settings updates
+    d3.select("#buttonSelectionsNum")
+        .on("click", function() {
+            const newLimit = Number(limitElem.property("value"));
+            //alert(newLimit);
+            if (!(Number.isInteger(newLimit)))
+                alert("ERROR: New limit must be an integer");
+            else if (newLimit < 1)
+                alert("ERROR: New limit must be positive");
+            else {
+                currentQuery.limit = newLimit;
+                updateAllData(this, currentQuery);
+            }
+        });
+    d3.select("#buttonPackagesExclude")
+        .on("click", function() {
+            alert("Not implemented yet");
+            //currentQuery
+        });
+
     // Query actor
     {
-        const initQuery = {
-            package_being_analyzed: INIT_ANALYZED_PACKAGES,
-            limit: INIT_LIMIT
-        };
-
         // Someone requested new data
         dispatch.on("push.query", function(newQuery) {
+            currentQuery = newQuery;
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 //console.log(data);
@@ -52,16 +91,24 @@
         });
 
         // Initial data request
-        dispatch.call("push", this, initQuery);
-        dispatch.call("analyzed-push", this, initQuery);
-        dispatch.call("funcs-push", this, initQuery);
+        updateAllData(this, initQuery);
     }
 
     // Initialize charts
     typesOverviewChart()("#vis-svg-1", dispatch);
 
     d3.json(PACKAGE_ENDPOINT).then(function(data) {
+        d3.select("#infoAnalyzedPackagesNum")
+            .text(data.length);
         packageFilter()("#filter", dispatch, data);
+    });
+
+    d3.json(DEF_NUMS_ENDPOINT).then(function(data) {
+        //console.log(data);
+        d3.select("#infoDefiningPackagesNum")
+            .text(data[0].packages);
+        d3.select("#infoDefinedFunctionsNum")
+            .text(data[0].functions);
     });
 
     dataTreeMap()("#vis-svg-2-pkg-tree-map",

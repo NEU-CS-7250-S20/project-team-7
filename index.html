@@ -21,7 +21,7 @@
   <meta name="msapplication-config" content="favicons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
   <!-- Temporary redirect while we get an SSL certificate... -->
-  <meta http-equiv="refresh" content="0; url=http://69.122.18.134:9898/" />
+  <!--<meta http-equiv="refresh" content="0; url=http://69.122.18.134:9898/" />-->
 </head>
 
 <!-- Main page content -->
@@ -63,8 +63,43 @@
     <div class="tip-body"></div>
   </div>
 
-  <div class="vis-holder">
+  <div id="div-entire-vis">
     <!-- Your visualization here -->
+    <div id="div-analysis-info" class="blockDiv">
+      <h2>Analysis Info</h2>
+      <table class="table-info">
+        <tr>
+          <td># analyzed packages</td>
+          <td><span id="infoAnalyzedPackagesNum">???</span></td>
+        </tr>
+        <tr>
+          <td># packages that define functions</td>
+          <td><span id="infoDefiningPackagesNum">???</span></td>
+        </tr>
+        <tr>
+          <td># defined functions</td>
+          <td><span id="infoDefinedFunctionsNum">???</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="div-vis-settings" class="blockDiv">
+      <h2>Visualization Settings</h2>
+      <div>
+        <span>Show # selections at once:</span>
+        <input type="textbox" id="textSelectionsNum"/>
+        <input type="button" id="buttonSelectionsNum"
+          value="update"/>
+      </div>
+      <div>
+        <span>Exclude functions from packages:</span><br/>
+        <textarea id="textPackagesExclude"></textarea><br/>
+        <input type="button" id="buttonPackagesExclude"
+          value="update"/>
+      </div>
+    </div>
+
+    <div class="vis-holder">
       <div id="div-vis-1">
         <h4> Types Overview </h4>
         <svg id="vis-svg-1" class="vis-svg-types"
@@ -112,6 +147,7 @@
           viewBox="0 0 400 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
       </div>
+    </div>
   </div>
 
   <div class="content-column" style="width:100%">
