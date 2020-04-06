@@ -32,11 +32,8 @@
     );
 
     // Init settings
-    const limitElem = d3.select("#textSelectionsNum");
-    const excludedElem = d3.select("#textPackagesExclude");
-
-    limitElem.property("value", INIT_LIMIT);
-    excludedElem.property("value", INIT_EXCLUDED_PACKAGES.join("\n"));
+    limitText.property("value", INIT_LIMIT);
+    excludedText.property("value", INIT_EXCLUDED_PACKAGES.join("\n"));
 
     // Function selection
     const funNameText = d3.select("#textFunctionName");
@@ -88,7 +85,7 @@
     // Settings updates
     d3.select("#buttonSelectionsNum")
         .on("click", function() {
-            const newLimit = Number(limitElem.property("value"));
+            const newLimit = Number(limitText.property("value"));
             //alert(newLimit);
             if (!(Number.isInteger(newLimit)))
                 alert("ERROR: New limit must be an integer");
@@ -101,7 +98,7 @@
         });
     d3.select("#buttonPackagesExclude")
         .on("click", function() {
-            const newExcluded = excludedElem.property("value")
+            const newExcluded = excludedText.property("value")
                 .split("\n");
             currentQuery.excluded = newExcluded;
             updateAllData(this, currentQuery);
@@ -145,9 +142,23 @@
     typesOverviewChart()("#vis-svg-1", dispatch);
 
     d3.json(PACKAGE_ENDPOINT).then(function(data) {
+        //console.log(data);
+        const pkgNames = data.map(
+            d => d.package_being_analyzed
+        );
         d3.select("#infoAnalyzedPackagesNum")
             .text(data.length);
         packageFilter()("#filter", dispatch, data, currentQuery);
+        analyzedPkgButtonSelect
+            .on("click", function() {
+                const pkgName = getAnalyzedPkgName();
+                if (checkAnalyzedPkgName(pkgName, pkgNames)) {
+                    //alert(pkgName);
+                    // select checkbox in the appropriate svg
+                    const pkgCheckBox = d3.select(`#${pkgName}`);
+                    d3ElemMakeChecked(pkgCheckBox);
+                }
+            });
     });
 
     d3.json(DEF_NUMS_ENDPOINT).then(function(data) {
