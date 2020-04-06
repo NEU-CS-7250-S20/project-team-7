@@ -7,8 +7,8 @@
     const INIT_ANALYZED_PACKAGES = [],//["anapuce", "approximator"],
           INIT_LIMIT = 15,
           INIT_EXCLUDED_PACKAGES = ["base", "foo"],
-          //ROOT_URL = "//69.122.18.134:9898",
-          ROOT_URL = "//127.0.0.1:5000",
+          ROOT_URL = "//69.122.18.134:9898",
+          //ROOT_URL = "//127.0.0.1:5000",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",
           DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums";
@@ -35,12 +35,17 @@
     const limitElem = d3.select("#textSelectionsNum");
     const excludedElem = d3.select("#textPackagesExclude");
 
-    limitElem.attr("value", INIT_LIMIT);
-    excludedElem.text(INIT_EXCLUDED_PACKAGES.join("\n"));
+    limitElem.property("value", INIT_LIMIT);
+    excludedElem.property("value", INIT_EXCLUDED_PACKAGES.join("\n"));
 
     // Function selection
     const funNameText = d3.select("#textFunctionName");
     const funNameButton = d3.select("#buttonFunctionName");
+    const funNameCheckbox = d3.select("#checkboxKeepFunction");
+
+    funNameText.property("value", "");
+    funNameCheckbox.property("checked", false);
+
     funNameButton
         .on("click", function() {
             const funNameSelect = funNameText.property("value");
@@ -61,15 +66,22 @@
             }
             const newQuery = deepCopy(currentQuery);
             newQuery.package = [selectionElems[0]];
+            newQuery.functions = [];
             if (selectionElems.length > 1) {
                 newQuery.functions = [selectionElems[1]];
             }
             dispatch.call("push", this, newQuery);
         });
+    funNameText
+        .on("change", function() {
+            funNameCheckbox.property("checked", false);
+        });
 
     function updateAllData(obj, newQuery) {
-        newQuery.package = [];
-        newQuery.functions = [];
+        if (!funNameCheckbox.property("checked")) {
+            newQuery.package = [];
+            newQuery.functions = [];
+        }
         dispatch.call("analyzed-push", obj, newQuery);
     }
 

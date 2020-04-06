@@ -72,8 +72,13 @@ function packageFilter() {
                 package_being_analyzed: choices,
                 limit: query.limit,
                 excluded: query.excluded,
-                package: []
+                package: [],
+                functions: []
             };
+            /*if (d3.select("#checkboxKeepFunction").property("checked")) {
+                new_query.package = query.package;
+                new_query.functions = query.functions;
+            }*/
 
             //console.log(new_query);
                    //calling event in visualization.js
