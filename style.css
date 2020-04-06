@@ -230,7 +230,7 @@ h1, h2, h3 {
 	padding: 0px;
 	overflow-x:hidden;
 	overflow-y: scroll;
-	/*height: 200px;*/
+	height: 250px;
 }
 
 /* for barchart*/

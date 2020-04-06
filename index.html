@@ -87,7 +87,7 @@
       <h2>Visualization Settings</h2>
       <div>
         <span>Show # selections at once:</span>
-        <input type="textbox" id="textSelectionsNum"/>
+        <input type="text" id="textSelectionsNum"/>
         <input type="button" id="buttonSelectionsNum"
           value="update"/>
       </div>
@@ -99,6 +99,7 @@
       </div>
     </div>
 
+    <h2>Main Visualization</h2>
     <div class="vis-holder">
       <div id="div-vis-1">
         <h4> Types Overview </h4>
@@ -117,7 +118,8 @@
 
       <div id="div-filter-vis" class="vis-filter-div">
         <h4> Analyzed packages </h4>
-        <input type="checkbox" id="checkboxAnalyzedAll" name="checkboxAnalyzedAll"/>
+        <input type="checkbox" id="checkboxAnalyzedAll" 
+          name="checkboxAnalyzedAll" disabled/>
         <label for="checkboxAnalyzedAll">All</label>
         <div id="filter" class="">
         </div>

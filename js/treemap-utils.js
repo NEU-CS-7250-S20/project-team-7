@@ -126,9 +126,9 @@ const PKGS_GETTERS = {
 };
 
 const FUNCS_GETTERS = {
-    getData: data => data.functions,
+    getData: data => data.function_names, //data.functions,
     hasName: d => d.fun_name,
-    getName: d => `${d.fun_name} (-> ${d.arg_t_r})`
+    getName: d => `${d.fun_name}` //`${d.fun_name} (-> ${d.arg_t_r})`
 };
 
 // ==================================================
