@@ -96,18 +96,24 @@ h1, h2, h3 {
 /* Analyzed Packages Filter */
 /* ---------------------------------------- */
 
-/* analyzed package filter */
-.vis-filter-div {
-	
-}
 .vis-filter-div h4 {
 	text-align: center;
 }
 
+#textAnalyzedPackage {
+	max-width: 160px;
+	font-family: monospace;
+}
+
 #filter {
-	/*width: 100%;*/
 	padding: 0px;
 	margin: 0px;
+}
+
+.vertical-menu  {
+	padding: 0px;
+	overflow-x:hidden;
+	overflow-y: scroll;
 }
 
 .vertical-menu li {
@@ -128,20 +134,47 @@ h1, h2, h3 {
 	background-color: #4CAF50; /* Add a green color to the "active/current" link */
 	color: white;
 }
-.vertical-menu  {
-	padding: 0px;
-	overflow-x:hidden;
-	overflow-y: scroll;
-}
-
-#textAnalyzedPackage {
-	max-width: 160px;
-	font-family: monospace;
-}
 
 /* ---------------------------------------- */
 /* Packages/Functions TreeMaps */
 /* ---------------------------------------- */
+
+.vis-svg-pkgfun {
+	background-color: #f4f1f0;
+	font-size: 13px;
+	padding: 6px;
+}
+
+.vis-svg-pkgfun .tm-header-text {
+	fill: black;
+	font-size: 12px;
+}
+
+.vis-svg-pkgfun .tm-footer-text {
+	fill: white;
+	font-size: 11px;
+}
+
+.vis-svg-pkgfun .tm-block-text {
+	font-size: 9px;
+	font-family: monospace;	
+}
+.vis-svg-pkgfun .tm-block-number {
+	font-size: 9px;
+	font-family: monospace;
+}
+
+.tm-node:hover {
+	cursor: pointer;
+}
+.tm-node:hover rect {
+	stroke: white;
+	stroke-width: 2px;
+}
+
+.tm-node-selected {
+	font-weight: bold;
+}
 
 /* ---------------------------------------- */
 /* BarChart */
@@ -149,194 +182,6 @@ h1, h2, h3 {
 
 #div-barchart-1 {
 	max-width: 700px;
-}
-
-/* ************************************************** */
-/* Layout */
-/* ************************************************** */
-
-/* Narrow Screen */
-
-@media (max-width: 1000px) {
-
-	.vis-holder {
-		display: grid;
-		grid-template-columns: auto auto;
-		grid-template-rows: auto auto auto;
-		grid-gap: 2px 6px;
-	}
-
-	/* analyzed package filter */
-	#div-filter-vis {
-		grid-column-start: 1;
-		grid-column-end: 3;
-		grid-row-start: 1;
-		grid-row-end: 2;
-	}
-	.vertical-menu {
-		max-height: 200px;
-		max-width: 250px;
-	}
-
-	#div-vis-1 {
-		grid-column-start: 1;
-		grid-column-end: 3;
-		grid-row-start: 2;
-		grid-row-end: 3;
-	}
-
-	/* package tree map */
-	#div-pkg-tree-map {
-		grid-column-start: 1;
-		grid-column-end: 2;
-		grid-row-start: 3;
-		grid-row-end: 4;
-		max-width: 420px;
-	}
-
-	/* functions tree map */
-	#div-fun-tree-map {
-		grid-column-start: 2;
-		grid-column-end: 3;
-		grid-row-start: 3;
-		grid-row-end: 4;
-		max-width: 420px;
-	}
-
-}
-
-/* Default Horizontal Screen */
-@media (orientation:landscape) and (min-width:1400px) {
-
-	/* But your visualization should be full-width and full-height */
-	.vis-holder {
-		/*width: 100%;*/
-		/*height: 100%;*/
-		display: grid;
-		grid-template-columns: auto auto;
-		grid-template-rows: auto auto auto;
-		grid-gap: 10px 6px;
-	}
-
-	/* types overview */
-	#div-vis-1 {
-		min-width: 1000px;
-		grid-column-start: 1;
-		grid-column-end: 2;
-		grid-row-start: 1;
-		grid-row-end: 4;
-		/*float: left;*/
-	}
-
-	/* analyzed package filter */
-	#div-filter-vis {
-		grid-column-start: 2;
-		grid-column-end: 3;
-		grid-row-start: 1;
-		grid-row-end: 2;
-	}
-	.vertical-menu {
-		max-height: 210px;
-		max-width: 250px;
-	}
-
-	/* bar chart */
-	#div-barchart-1 {
-		max-width: 700px;
-		/*grid-column-start: 5;
-		grid-column-end: 6;
-		grid-row-start: 2;
-		grid-row-end: 4;*/
-	}
-
-	/* package tree map */
-	#div-pkg-tree-map {
-		grid-column-start: 2;
-		grid-column-end: 3;
-		grid-row-start: 2;
-		grid-row-end: 3;
-		max-width: 460px;
-		/*width: 100%;*/
-	}
-
-	/* functions tree map */
-	#div-fun-tree-map {
-		grid-column-start: 2;
-		grid-column-end: 3;
-		grid-row-start: 3;
-		grid-row-end: 4;
-		max-width: 460px;
-	}
-
-}
-
-/* Vertical Screen */
-
-@media (min-width: 1000px) and (max-width:1400px) {
-
-	/* But your visualization should be full-width and full-height */
-	.vis-holder {
-		/*background-color: #eee;*/
-		/*width: 100%;*/
-		/*height: 100%;*/
-		display: grid;
-		grid-template-columns: repeat(6, 1fr);
-		/*grid-template-rows: repeat(4, 1fr);*/
-		/*grid-template-rows: repeat(7, 140px);*/
-		grid-gap: 2px 10px;
-	}
-	
-	/* types overview */
-	#div-vis-1 {
-		/*width: 70%;*/
-		grid-column-start: 1;
-		grid-column-end: 6;
-		grid-row-start: 1;
-		grid-row-end: 4;
-		/*float: left;*/
-	}
-
-	/* analyzed package filter */
-	#div-filter-vis {
-		grid-column-start: 6;
-		grid-column-end: 7;
-		grid-row-start: 1;
-		grid-row-end: 3;
-	}
-	.vertical-menu {
-		max-height: 400px;
-		max-width: 250px;
-	}
-
-	/* bar chart */
-	#div-barchart-1 {
-		/*display: none;*/
-		/*grid-column-start: 4;
-		grid-column-end: 5;
-		grid-row-start: 2;
-		grid-row-end: 3;*/
-	}
-
-	/* package tree map */
-	#div-pkg-tree-map {
-		grid-column-start: 1;
-		grid-column-end: 4;
-		grid-row-start: 4;
-		grid-row-end: 5;
-		/*display: block;*/
-		/*height: 300px;*/
-		/*width: 100%;*/
-		max-width: 420px;
-	}
-
-	/* functions tree map */
-	#div-fun-tree-map {
-		grid-column-start: 4;
-		grid-column-end: 7;
-		grid-row-start: 4;
-		grid-row-end: 5;
-		max-width: 420px;
-	}
 }
 
 /* for barchart*/
@@ -372,64 +217,181 @@ h1, h2, h3 {
 }
 /*end for barchart*/
 
-.vis-svg-pkgfun {
-	background-color: #f4f1f0;
-	font-size: 13px;
-	padding: 6px;
+/* ************************************************** */
+/* Layout */
+/* ************************************************** */
+
+/* Narrow Screen */
+@media (max-width: 1000px) {
+
+	.vis-holder {
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-template-rows: auto auto auto;
+		grid-gap: 2px 6px;
+	}
+
+	/* analyzed package filter */
+	#div-filter-vis {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 2;
+	}
+	.vertical-menu {
+		max-height: 200px;
+		max-width: 250px;
+	}
+
+	#div-vis-1 {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 2;
+		grid-row-end: 3;
+	}
+
+	/* both tree maps */
+	.vis-svg-pkgfun {
+		max-width: 420px;
+	}
+
+	/* package tree map */
+	#div-pkg-tree-map {
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 3;
+		grid-row-end: 4;
+	}
+
+	/* functions tree map */
+	#div-fun-tree-map {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 3;
+		grid-row-end: 4;
+	}
+
 }
 
-.vis-svg-pkgfun .tm-header {
+/* Vertical-ish Screen */
+@media (min-width: 1000px) and (max-width:1400px) {
+
+	/* But your visualization should be full-width and full-height */
+	.vis-holder {
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		grid-gap: 2px 10px;
+	}
 	
-}
-.vis-svg-pkgfun .tm-header-text {
-	fill: black;
-	font-size: 12px;
+	/* types overview */
+	#div-vis-1 {
+		grid-column-start: 1;
+		grid-column-end: 6;
+		grid-row-start: 1;
+		grid-row-end: 4;
+	}
+
+	/* analyzed package filter */
+	#div-filter-vis {
+		grid-column-start: 6;
+		grid-column-end: 7;
+		grid-row-start: 1;
+		grid-row-end: 3;
+	}
+	.vertical-menu {
+		max-height: 400px;
+		max-width: 250px;
+	}
+
+	/* both tree maps */
+	.vis-svg-pkgfun {
+		max-width: 420px;
+	}
+
+	/* package tree map */
+	#div-pkg-tree-map {
+		grid-column-start: 1;
+		grid-column-end: 4;
+		grid-row-start: 4;
+		grid-row-end: 5;
+	}
+
+	/* functions tree map */
+	#div-fun-tree-map {
+		grid-column-start: 4;
+		grid-column-end: 7;
+		grid-row-start: 4;
+		grid-row-end: 5;
+	}
 }
 
-.vis-svg-pkgfun .tm-footer {
-	
-}
-.vis-svg-pkgfun .tm-footer-text {
-	fill: white;
-	font-size: 11px;
-}
+/* Default Horizontal Screen */
+@media (orientation:landscape) and (min-width:1400px) {
 
-.vis-svg-pkgfun .tm-block {
-}
-.vis-svg-pkgfun .tm-block-text {
-	font-size: 9px;
-	font-family: monospace;	
-}
-.vis-svg-pkgfun .tm-block-number {
-	font-size: 9px;
-	font-family: monospace;
-}
+	/* But your visualization should be full-width and full-height */
+	.vis-holder {
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-template-rows: auto auto auto;
+		grid-gap: 10px 6px;
+	}
 
-.tm-node {
-}
+	/* types overview */
+	#div-vis-1 {
+		min-width: 1000px;
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 1;
+		grid-row-end: 4;
+		/*float: left;*/
+	}
 
-.tm-node:hover {
-	cursor: pointer;
-}
-.tm-node:hover rect {
-	stroke: white;
-	stroke-width: 2px;
-}
+	/* analyzed package filter */
+	#div-filter-vis {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 2;
+	}
+	.vertical-menu {
+		max-height: 210px;
+		max-width: 250px;
+	}
 
-.tm-node-selected {
-	font-weight: bold;
+	/* bar chart */
+	#div-barchart-1 {
+		max-width: 700px;
+	}
+
+	/* both tree maps */
+	.vis-svg-pkgfun {
+		max-width: 460px;
+	}
+
+	/* package tree map */
+	#div-pkg-tree-map {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 2;
+		grid-row-end: 3;
+	}
+
+	/* functions tree map */
+	#div-fun-tree-map {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 3;
+		grid-row-end: 4;
+	}
+
 }
 
 .side-right {
 	float: right;
-/*	overflow-y: auto;
-	overflow: hidden;*/
 }
 
 .side-left {
 	float: left;
-/*	overflow-y: auto;
-	overflow: hidden;*/
 }
 
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */
