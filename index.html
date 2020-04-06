@@ -102,10 +102,14 @@
     <h2>Main Visualization</h2>
 
     <div id="div-select-function">
-      <label for="textboxFunctionName">Package.Function:</label>
-      <input type="text" id="textboxFunctionName" name="textboxFunctionName"
-        disabled/>
-      <input type="button" value="Show" disabled/>
+      <label for="textFunctionName">
+        Package/Function Info 
+        (<span style="font-family: monospace; font-size: smaller;">
+          "package [function]"
+        </span>):
+      </label>
+      <input type="text" id="textFunctionName" name="textFunctionName"/>
+      <input type="button" id="buttonFunctionName" value="Show"/>
     </div>
 
     <div class="vis-holder">
@@ -191,6 +195,7 @@
   <!-- Scriptt the end avoid need for dealing with async, defer, or onload event handlers -->
   <script src="lib/d3.v5.15.0/d3.min.js"></script>
   <script src="lib/d3-sankey.js"></script>
+  <script src="js/utils.js"></script>
   <script src="js/types-overview.js"></script>
   <script src="js/barChart.js"></script>
   <script src="js/package-filter.js"></script>

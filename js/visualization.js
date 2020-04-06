@@ -24,6 +24,13 @@
     // and excluded packages
     let currentQuery = initQuery;
 
+    // Dispatch
+    let dispatch = d3.dispatch(
+        "push", "pull", 
+        "analyzed-push", "analyzed-pull",
+        "funcs-push", "funcs-pull"
+    );
+
     // Init settings
     const limitElem = d3.select("#textSelectionsNum");
     const excludedElem = d3.select("#textPackagesExclude");
@@ -31,12 +38,34 @@
     limitElem.attr("value", INIT_LIMIT);
     excludedElem.text(INIT_EXCLUDED_PACKAGES.join("\n"));
 
-    // Dispatch
-    let dispatch = d3.dispatch(
-        "push", "pull", 
-        "analyzed-push", "analyzed-pull",
-        "funcs-push", "funcs-pull"
-    );
+    // Function selection
+    const funNameText = d3.select("#textFunctionName");
+    const funNameButton = d3.select("#buttonFunctionName");
+    funNameButton
+        .on("click", function() {
+            const funNameSelect = funNameText.property("value");
+            //alert(funNameSelect);
+            if (funNameSelect == "") {
+                alert("ERROR: function name cannot be empty");
+                return;
+            }
+            const selectionElems = funNameSelect.split(" ")
+                .filter(s => s != "");
+            if (selectionElems.length == 0) {
+                alert("ERROR: function name cannot be empty");
+                return;
+            }
+            if (selectionElems.length > 2) {
+                alert("ERROR: function name cannot have more than elements");
+                return;
+            }
+            const newQuery = deepCopy(currentQuery);
+            newQuery.package = [selectionElems[0]];
+            if (selectionElems.length > 1) {
+                newQuery.functions = [selectionElems[1]];
+            }
+            dispatch.call("push", this, newQuery);
+        });
 
     function updateAllData(obj, newQuery) {
         newQuery.package = [];
