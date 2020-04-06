@@ -94,8 +94,10 @@ def query():
     extras = ["ORDER BY count DESC",
               ("LIMIT ?", "limit")]
     return json.dumps({
-        "packages": query_from_post("SELECT package, COUNT(*) as count FROM types", parameters + ["GROUP BY package"] + extras),
-        "function_names": query_from_post("SELECT fun_name, COUNT(*) as count FROM types", parameters + ["GROUP BY package, fun_name"] + extras),
+        "packages": query_from_post("SELECT package, SUM(count) as count FROM types", 
+            parameters + ["GROUP BY package"] + extras),
+        "function_names": query_from_post("SELECT fun_name, SUM(count) as count FROM types", 
+            parameters + ["GROUP BY package, fun_name"] + extras),
         "functions": query_from_post("SELECT * FROM types", parameters + extras)
     })
 
