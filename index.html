@@ -89,31 +89,33 @@
         <span>Show # selections at once:</span>
         <input type="text" id="textSelectionsNum"/>
         <input type="button" id="buttonSelectionsNum"
-          value="update"/>
+          value="Update"/>
       </div>
       <div>
         <span>Exclude functions from packages:</span><br/>
         <textarea id="textPackagesExclude"></textarea><br/>
         <input type="button" id="buttonPackagesExclude"
-          value="update"/>
+          value="Update"/>
       </div>
     </div>
 
     <h2>Main Visualization</h2>
+
+    <div id="div-select-function">
+      <label for="textboxFunctionName">Package.Function:</label>
+      <input type="text" id="textboxFunctionName" name="textboxFunctionName"
+        disabled/>
+      <input type="button" value="Show" disabled/>
+    </div>
+
     <div class="vis-holder">
       <div id="div-vis-1">
         <h4> Types Overview </h4>
         <svg id="vis-svg-1" class="vis-svg-types"
-          viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet" 
+          viewBox="0 0 870 550" preserveAspectRatio="xMidYMid meet" 
           version="1.1"
           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
-        <div id="div-select-function">
-          <label for="textboxFunctionName">Function:</label>
-          <input type="text" id="textboxFunctionName" name="textboxFunctionName"
-            disabled/>
-          <input type="button" value="show" disabled/>
-        </div>
       </div>
 
       <div id="div-filter-vis" class="vis-filter-div">
@@ -124,18 +126,12 @@
         <div id="filter" class="">
         </div>
       </div>
-      
-      <div id="div-barchart-1" class="">
-        <svg id="barchart-1" preserveAspectRatio="xMidYMid meet" 
-          viewBox="0 0 300 500">
-        </svg>
-      </div>
 
       <div id="div-pkg-tree-map" class="">
         <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
         <label for="checkboxPkgMultiple">Select multiple packages</label>
         <svg id="vis-svg-2-pkg-tree-map"
-        viewBox="0 0 400 180" preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 260 140" preserveAspectRatio="xMidYMid meet"
           class="vis-svg-pkgfun" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
       </div>
@@ -146,9 +142,15 @@
         <label for="checkboxFunMultiple">Select multiple functions</label>
         <svg id="vis-svg-3-fun-tree-map"
           preserveAspectRatio="xMidYMid meet" class="vis-svg-pkgfun"
-          viewBox="0 0 400 180" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          viewBox="0 0 260 140" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
       </div>
+    </div>
+
+    <div id="div-barchart-1" class="">
+      <svg id="barchart-1" preserveAspectRatio="xMidYMid meet" 
+        viewBox="0 0 500 440">
+      </svg>
     </div>
   </div>
 

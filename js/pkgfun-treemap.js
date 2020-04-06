@@ -3,8 +3,8 @@ function dataTreeMap() {
     let margin = {
           top: 0, right: 0, bottom: 0, left: 0
         },
-        width = 400,
-        height = 180,
+        width = 260,
+        height = 140,
         headerHeight = 17,
         footerHeight = 17,
         colorPalette = COLOR_PALETTE_BLUE,

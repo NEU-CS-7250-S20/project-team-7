@@ -23,7 +23,7 @@ h1, h2, h3 {
 /* General visualization formatting */
 
 #div-entire-vis {
-	max-width: 1600px;
+	max-width: 1800px;
 	margin: 0 auto;
 }
 
@@ -41,11 +41,11 @@ h1, h2, h3 {
 	margin: 0 auto;
 	border-radius: 6px;
 	border: silver 1px solid;
-	padding: 5px;
+	padding: 4px;
 	background-color: #fcfcfc;
 }
 .table-info td {
-	padding: 5px;
+	padding: 2px;
 	min-width: 80px;
 	text-align: center;
 }
@@ -67,64 +67,128 @@ h1, h2, h3 {
 
 /* ---------------------- Position */
 
-/* Default Horizontal Screen */
-
-/* But your visualization should be full-width and full-height */
-.vis-holder {
-	/*width: 100%;*/
-	/*height: 100%;*/
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: 33% 33% 33%;
-	grid-gap: 10px 10px;
-}
-
-/* types overview */
-#div-vis-1 {
-	/*width: 70%;*/
-	grid-column-start: 1;
-	grid-column-end: 5;
-	grid-row-start: 1;
-	grid-row-end: 3;
-	/*float: left;*/
-}
-
-/* analyzed package filter */
-#div-filter-vis {
-	grid-column-start: 5;
-	grid-column-end: 6;
-	grid-row-start: 1;
-	grid-row-end: 2;
-}
-
-/* bar chart */
 #div-barchart-1 {
-	grid-column-start: 5;
-	grid-column-end: 6;
-	grid-row-start: 2;
-	grid-row-end: 4;
+	max-width: 700px;
 }
 
-/* package tree map */
-#div-pkg-tree-map {
-	grid-column-start: 1;
-	grid-column-end: 3;
-	grid-row-start: 3;
-	grid-row-end: 4;
-	/*width: 100%;*/
+/* Narrow Screen */
+
+@media (max-width: 1000px) {
+
+	.vis-holder {
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-template-rows: auto auto auto;
+		grid-gap: 2px 6px;
+	}
+
+	/* analyzed package filter */
+	#div-filter-vis {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 2;
+	}
+	.vertical-menu {
+		max-height: 200px;
+		max-width: 250px;
+	}
+
+	#div-vis-1 {
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 2;
+		grid-row-end: 3;
+	}
+
+	/* package tree map */
+	#div-pkg-tree-map {
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 3;
+		grid-row-end: 4;
+		max-width: 420px;
+	}
+
+	/* functions tree map */
+	#div-fun-tree-map {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 3;
+		grid-row-end: 4;
+		max-width: 420px;
+	}
+
 }
 
-/* functions tree map */
-#div-fun-tree-map {
-	grid-column-start: 3;
-	grid-column-end: 5;
-	grid-row-start: 3;
-	grid-row-end: 4;
+/* Default Horizontal Screen */
+@media (orientation:landscape) and (min-width:1400px) {
+
+	/* But your visualization should be full-width and full-height */
+	.vis-holder {
+		/*width: 100%;*/
+		/*height: 100%;*/
+		display: grid;
+		grid-template-columns: auto auto;
+		grid-template-rows: auto auto auto;
+		grid-gap: 10px 10px;
+	}
+
+	/* types overview */
+	#div-vis-1 {
+		min-width: 1000px;
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 1;
+		grid-row-end: 4;
+		/*float: left;*/
+	}
+
+	/* analyzed package filter */
+	#div-filter-vis {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 2;
+	}
+	.vertical-menu {
+		max-height: 200px;
+		max-width: 250px;
+	}
+
+	/* bar chart */
+	#div-barchart-1 {
+		max-width: 700px;
+		/*grid-column-start: 5;
+		grid-column-end: 6;
+		grid-row-start: 2;
+		grid-row-end: 4;*/
+	}
+
+	/* package tree map */
+	#div-pkg-tree-map {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 2;
+		grid-row-end: 3;
+		max-width: 460px;
+		/*width: 100%;*/
+	}
+
+	/* functions tree map */
+	#div-fun-tree-map {
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 3;
+		grid-row-end: 4;
+		max-width: 460px;
+	}
+
 }
 
 /* Vertical Screen */
 
-@media (orientation:portrait) {
+@media (min-width: 1000px) and (max-width:1400px) {
 
 	/* But your visualization should be full-width and full-height */
 	.vis-holder {
@@ -132,9 +196,10 @@ h1, h2, h3 {
 		/*width: 100%;*/
 		/*height: 100%;*/
 		display: grid;
-		grid-template-columns: repeat(5, 1fr);
+		grid-template-columns: repeat(6, 1fr);
 		/*grid-template-rows: repeat(4, 1fr);*/
-		grid-template-rows: repeat(7, 140px);
+		/*grid-template-rows: repeat(7, 140px);*/
+		grid-gap: 2px 10px;
 	}
 	
 	/* types overview */
@@ -143,21 +208,25 @@ h1, h2, h3 {
 		grid-column-start: 1;
 		grid-column-end: 6;
 		grid-row-start: 1;
-		grid-row-end: 6;
+		grid-row-end: 4;
 		/*float: left;*/
 	}
 
 	/* analyzed package filter */
 	#div-filter-vis {
-		grid-column-start: 5;
-		grid-column-end: 6;
-		grid-row-start: 6;
-		grid-row-end: 8;
+		grid-column-start: 6;
+		grid-column-end: 7;
+		grid-row-start: 1;
+		grid-row-end: 3;
+	}
+	.vertical-menu {
+		max-height: 400px;
+		max-width: 250px;
 	}
 
 	/* bar chart */
 	#div-barchart-1 {
-		display: none;
+		/*display: none;*/
 		/*grid-column-start: 4;
 		grid-column-end: 5;
 		grid-row-start: 2;
@@ -167,20 +236,22 @@ h1, h2, h3 {
 	/* package tree map */
 	#div-pkg-tree-map {
 		grid-column-start: 1;
-		grid-column-end: 3;
-		grid-row-start: 6;
-		grid-row-end: 8;
-		display: block;
+		grid-column-end: 4;
+		grid-row-start: 4;
+		grid-row-end: 5;
+		/*display: block;*/
 		/*height: 300px;*/
 		/*width: 100%;*/
+		max-width: 420px;
 	}
 
 	/* functions tree map */
 	#div-fun-tree-map {
-		grid-column-start: 3;
-		grid-column-end: 5;
-		grid-row-start: 6;
-		grid-row-end: 8;
+		grid-column-start: 4;
+		grid-column-end: 7;
+		grid-row-start: 4;
+		grid-row-end: 5;
+		max-width: 420px;
 	}
 }
 
@@ -230,7 +301,6 @@ h1, h2, h3 {
 	padding: 0px;
 	overflow-x:hidden;
 	overflow-y: scroll;
-	height: 250px;
 }
 
 /* for barchart*/
@@ -268,7 +338,7 @@ h1, h2, h3 {
 
 .vis-svg-pkgfun {
 	background-color: #f4f1f0;
-	font-size: 14px;
+	font-size: 13px;
 	padding: 6px;
 }
 
@@ -277,7 +347,7 @@ h1, h2, h3 {
 }
 .vis-svg-pkgfun .tm-header-text {
 	fill: black;
-	font-size: 13px;
+	font-size: 12px;
 }
 
 .vis-svg-pkgfun .tm-footer {
@@ -285,17 +355,17 @@ h1, h2, h3 {
 }
 .vis-svg-pkgfun .tm-footer-text {
 	fill: white;
-	font-size: 12px;
+	font-size: 11px;
 }
 
 .vis-svg-pkgfun .tm-block {
 }
 .vis-svg-pkgfun .tm-block-text {
-	font-size: 10px;
+	font-size: 9px;
 	font-family: monospace;	
 }
 .vis-svg-pkgfun .tm-block-number {
-	font-size: 10px;
+	font-size: 9px;
 	font-family: monospace;
 }
 

@@ -1,8 +1,8 @@
 // Create types overview chart. This is the main view in the visualization.
 function typesOverviewChart() {
     let margin = {top: 10, right: 10, bottom: 10, left: 10},
-        width = 900,
-        height = 500,
+        width = 800,
+        height = 550,
         density = 6;
 
     function chart(selector, dispatch) {
