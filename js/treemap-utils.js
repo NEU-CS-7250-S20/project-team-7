@@ -257,14 +257,19 @@ function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
             _ => _ != d
         );
     }
-    query.package = selectionInfo.datums.map(
-        d => PKGS_GETTERS.getName(d.data)
-    );
-    query.functions = [];
+    const newQuery = {
+        package_being_analyzed: query.package_being_analyzed,
+        limit: query.limit,
+        excluded: query.excluded,
+        package: selectionInfo.datums.map(
+            d => PKGS_GETTERS.getName(d.data)
+        ),
+        functions: []
+    };
     //console.log(query);
-    //alert(query.packages);
-    dispatch.call("funcs-push", this, query, null);
-    dispatch.call("push", this, query, null);
+    //alert(newQuery.packages);
+    dispatch.call("funcs-push", this, newQuery, null);
+    dispatch.call("push", this, newQuery, null);
 }
 
 function FUN_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
@@ -292,11 +297,17 @@ function FUN_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
             _ => _ != d
         );
     }
-    query.functions = selectionInfo.datums.map(
-        d => d.data.fun_name
-    );
+    const newQuery = {
+        package_being_analyzed: query.package_being_analyzed,
+        limit: query.limit,
+        excluded: query.excluded,
+        package: query.package,
+        functions: selectionInfo.datums.map(
+            d => d.data.fun_name
+        )
+    };
     //alert(query.packages);
-    dispatch.call("push", this, query, null);
+    dispatch.call("push", this, newQuery, null);
 }
 
 const PKGS_EVENTS = {

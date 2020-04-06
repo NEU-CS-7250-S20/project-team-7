@@ -227,6 +227,7 @@ h1, h2, h3 {
 	color: white;
 }
 .vertical-menu  {
+	padding: 0px;
 	overflow-x:hidden;
 	overflow-y: scroll;
 	/*height: 200px;*/

@@ -4,7 +4,7 @@ function packageFilter() {
         width = 200,
         height = 380;
 
-    function chart(selector, dispatch, data) {
+    function chart(selector, dispatch, data, query) {
         const filter_on = 'package_being_analyzed';
            // Building an array with the values to filter on
         const filter_list = d3.map(data, function (d) {
@@ -62,11 +62,17 @@ function packageFilter() {
 
             //TODO: change to analyzed
             //construct Query
-            const INIT_LIMIT=15;
+            /*const INIT_LIMIT=15;
             const SELECTED_PACKAGES=choices;
             const new_query = {
                 package_being_analyzed: SELECTED_PACKAGES,
                 limit: INIT_LIMIT
+            };*/
+            const new_query = {
+                package_being_analyzed: choices,
+                limit: query.limit,
+                excluded: query.excluded,
+                package: []
             };
 
             //console.log(new_query);

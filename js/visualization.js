@@ -16,16 +16,20 @@
     const initQuery = {
         package_being_analyzed: INIT_ANALYZED_PACKAGES,
         excluded: INIT_EXCLUDED_PACKAGES,
-        limit: INIT_LIMIT
+        limit: INIT_LIMIT,
+        package: []
     };
 
+    // use this for global info such as limit
+    // and excluded packages
     let currentQuery = initQuery;
 
     // Init settings
     const limitElem = d3.select("#textSelectionsNum");
+    const excludedElem = d3.select("#textPackagesExclude");
+
     limitElem.attr("value", INIT_LIMIT);
-    d3.select("#textPackagesExclude")
-        .text(INIT_EXCLUDED_PACKAGES.join("\n"));
+    excludedElem.text(INIT_EXCLUDED_PACKAGES.join("\n"));
 
     // Dispatch
     let dispatch = d3.dispatch(
@@ -35,9 +39,9 @@
     );
 
     function updateAllData(obj, newQuery) {
-        dispatch.call("push", obj, newQuery);
+        newQuery.package = [];
+        newQuery.functions = [];
         dispatch.call("analyzed-push", obj, newQuery);
-        dispatch.call("funcs-push", obj, newQuery);
     }
 
     // Settings updates
@@ -56,15 +60,17 @@
         });
     d3.select("#buttonPackagesExclude")
         .on("click", function() {
-            alert("Not implemented yet");
-            //currentQuery
+            const newExcluded = excludedElem.property("value")
+                .split("\n");
+            currentQuery.excluded = newExcluded;
+            updateAllData(this, currentQuery);
         });
 
     // Query actor
     {
         // Someone requested new data
         dispatch.on("push.query", function(newQuery) {
-            currentQuery = newQuery;
+            //console.log(newQuery);
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 //console.log(data);
@@ -74,10 +80,13 @@
 
         // New query (only analyzed)
         dispatch.on("analyzed-push.query", function(newQuery) {
+            currentQuery.package_being_analyzed = 
+                newQuery.package_being_analyzed;
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 dispatch.call("analyzed-pull", this, newQuery, data);
                 dispatch.call("pull", this, newQuery, data);
+                dispatch.call("funcs-pull", this, newQuery, data);
                 //console.log(data);
             });
         });
@@ -89,9 +98,6 @@
                 dispatch.call("funcs-pull", this, newQuery, data);
             });
         });
-
-        // Initial data request
-        updateAllData(this, initQuery);
     }
 
     // Initialize charts
@@ -100,7 +106,7 @@
     d3.json(PACKAGE_ENDPOINT).then(function(data) {
         d3.select("#infoAnalyzedPackagesNum")
             .text(data.length);
-        packageFilter()("#filter", dispatch, data);
+        packageFilter()("#filter", dispatch, data, currentQuery);
     });
 
     d3.json(DEF_NUMS_ENDPOINT).then(function(data) {
@@ -129,4 +135,7 @@
          FUNCS_EVENTS);
     
     barChart()("#barchart-1", dispatch);
+
+    // Initial data request
+    updateAllData(this, initQuery);
 })());

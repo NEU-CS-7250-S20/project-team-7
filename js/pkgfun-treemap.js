@@ -165,9 +165,12 @@ function dataTreeMap() {
                 // footer behaves as "..." node
                 const childrenNode = root.children.find(hasChildren);
                 footerGroup
-                    .style("opacity", childrenNode ? 1 : 0)
+                    //.style("opacity", childrenNode ? 1 : 0)
                     .on("click", childrenNode ? (_ => zoomin(childrenNode)) : null)
                     .attr("cursor", childrenNode ? "pointer" : "default")
+                footerRect
+                    .style("fill", childrenNode ? colorPalette.footer : "#f4f1f0")
+                    .style("stroke", childrenNode ? colorPalette.footer : "#f4f1f0");
 
                 headerGroup
                     .on("click", root.parent ? (_ => zoomout(root)) : null)
