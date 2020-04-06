@@ -22,6 +22,17 @@ const excludedText = d3.select("#textPackagesExclude");
 // Function Selection
 // ----------------------------------------
 
+const funNameText = d3.select("#textFunctionName");
+const funNameButton = d3.select("#buttonFunctionName");
+const funNameClearButton = d3.select("#buttonClearFunctionName");
+const funNameCheckbox = d3.select("#checkboxKeepFunction");
+
+// No function is selected initially
+funNameText.property("value", "");
+// We are not keeping a function
+funNameCheckbox.property("checked", false);
+funNameCheckbox.property("disabled", true);
+
 // ----------------------------------------
 // Types Overview
 // ----------------------------------------
@@ -52,6 +63,14 @@ analyzedMultipleCheckbox
 // ==================================================
 // Functions
 // ==================================================
+
+// ----------------------------------------
+// Function Selection
+// ----------------------------------------
+
+function getFunctionName() {
+    return funNameText.property("value");
+}
 
 // ----------------------------------------
 // Analyzed Packages Filter

@@ -24,9 +24,14 @@
     // and excluded packages
     let currentQuery = initQuery;
 
+    // last query for the main diagram
+    let mainQuery = deepCopy(currentQuery);
+    // last query for selected function
+    let selectedQuery = deepCopy(currentQuery);
+
     // Dispatch
     let dispatch = d3.dispatch(
-        "push", "pull", 
+        "push", "pull", "selected-push",
         "analyzed-push", "analyzed-pull",
         "funcs-push", "funcs-pull"
     );
@@ -35,17 +40,9 @@
     limitText.property("value", INIT_LIMIT);
     excludedText.property("value", INIT_EXCLUDED_PACKAGES.join("\n"));
 
-    // Function selection
-    const funNameText = d3.select("#textFunctionName");
-    const funNameButton = d3.select("#buttonFunctionName");
-    const funNameCheckbox = d3.select("#checkboxKeepFunction");
-
-    funNameText.property("value", "");
-    funNameCheckbox.property("checked", false);
-
     funNameButton
         .on("click", function() {
-            const funNameSelect = funNameText.property("value");
+            const funNameSelect = getFunctionName();
             //alert(funNameSelect);
             if (funNameSelect == "") {
                 alert("ERROR: function name cannot be empty");
@@ -61,17 +58,26 @@
                 alert("ERROR: function name cannot have more than elements");
                 return;
             }
+            // enable keeping
+            funNameCheckbox.property("disabled", false);
             const newQuery = deepCopy(currentQuery);
+            newQuery.excluded = [];
             newQuery.package = [selectionElems[0]];
             newQuery.functions = [];
             if (selectionElems.length > 1) {
                 newQuery.functions = [selectionElems[1]];
             }
-            dispatch.call("push", this, newQuery);
+            selectedQuery = newQuery;
+            dispatch.call("selected-push", this, newQuery);
         });
     funNameText
         .on("change", function() {
-            funNameCheckbox.property("checked", false);
+            //funNameCheckbox.property("checked", false);
+            funNameCheckbox.property("disabled", true);
+        });
+    funNameClearButton
+        .on("click", function() {
+            dispatch.call("selected-push", this, mainQuery);
         });
 
     function updateAllData(obj, newQuery) {
@@ -108,7 +114,17 @@
     {
         // Someone requested new data
         dispatch.on("push.query", function(newQuery) {
+            mainQuery = newQuery; // remember main query
             //console.log(newQuery);
+            const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
+            d3.json(endpoint).then(function(data) {
+                //console.log(data);
+                dispatch.call("pull", this, newQuery, data);
+            });
+        });
+
+        // Data request for textbox-based function name
+        dispatch.on("selected-push.query", function(newQuery) {
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 //console.log(data);
@@ -123,8 +139,16 @@
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 dispatch.call("analyzed-pull", this, newQuery, data);
-                dispatch.call("pull", this, newQuery, data);
                 dispatch.call("funcs-pull", this, newQuery, data);
+                // depending on what we are showing,
+                // process either the main info
+                // or selected package/function
+                if (d3ElemIsChecked(funNameCheckbox) 
+                    && !funNameCheckbox.property("disabled")){
+                    dispatch.call("selected-push", this, selectedQuery);
+                }
+                else
+                    dispatch.call("pull", this, newQuery, data);
                 //console.log(data);
             });
         });
