@@ -21,7 +21,7 @@
   <meta name="msapplication-config" content="favicons/browserconfig.xml">
   <meta name="theme-color" content="#ffffff">
   <!-- Temporary redirect while we get an SSL certificate... -->
-  <meta http-equiv="refresh" content="0; url=http://69.122.18.134:9898/" />
+  <!--<meta http-equiv="refresh" content="0; url=http://69.122.18.134:9898/" />-->
 </head>
 
 <!-- Main page content -->
@@ -129,7 +129,13 @@
         <h4> Analyzed packages </h4>
         <input type="checkbox" id="checkboxAnalyzedAll" 
           name="checkboxAnalyzedAll" disabled/>
-        <label for="checkboxAnalyzedAll">All</label>
+        <label for="checkboxAnalyzedAll">All</label><br/>
+        <input type="text" id="textAnalyzedPackage" name="textAnalyzedPackage"/>
+        <input type="button" id="buttonAnalyzedPackageSelect" value="✓"/>
+        <input type="button" id="buttonAnalyzedPackageUnselect" value="✗"/><br/>
+        <input type="checkbox" id="checkboxAnalyzedMultiple" 
+          name="checkboxAnalyzedMultiple"/>
+        <label for="checkboxAnalyzedMultiple">Select multiple</label>
         <div id="filter" class="">
         </div>
       </div>

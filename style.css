@@ -20,7 +20,9 @@ h1, h2, h3 {
   background-color: #f4f1f0;
 }
 
-/* General visualization formatting */
+/* ************************************************** */
+/* Visualization Style */
+/* ************************************************** */
 
 #div-entire-vis {
 	max-width: 1800px;
@@ -37,6 +39,10 @@ h1, h2, h3 {
 	text-align: center;
 }
 
+/* ---------------------------------------- */
+/* Analysis Info */
+/* ---------------------------------------- */
+
 .table-info {
 	margin: 0 auto;
 	border-radius: 6px;
@@ -49,6 +55,10 @@ h1, h2, h3 {
 	min-width: 80px;
 	text-align: center;
 }
+
+/* ---------------------------------------- */
+/* Visualization Settings */
+/* ---------------------------------------- */
 
 #div-vis-settings {
 	max-width: 650px;
@@ -65,11 +75,85 @@ h1, h2, h3 {
 	font-size: 14px;
 }
 
-/* ---------------------- Position */
+/* ---------------------------------------- */
+/* Function Selection */
+/* ---------------------------------------- */
+
+/* ---------------------------------------- */
+/* Types Overview */
+/* ---------------------------------------- */
+
+/* types overview */
+#div-vis-1 h4 {
+	text-align: center;
+}
+.vis-svg-types {
+	width: 100%;
+	background-color: #f4f1f0;
+}
+
+/* ---------------------------------------- */
+/* Analyzed Packages Filter */
+/* ---------------------------------------- */
+
+/* analyzed package filter */
+.vis-filter-div {
+	
+}
+.vis-filter-div h4 {
+	text-align: center;
+}
+
+#filter {
+	/*width: 100%;*/
+	padding: 0px;
+	margin: 0px;
+}
+
+.vertical-menu li {
+	font-size: 16px;
+	height: 30px;
+	background-color: #eee; /* Grey background color */
+	color: black; /* Black text color */
+	display: block; /* Make the links appear below each other */
+	padding: 2px; /* Add some padding */
+	text-decoration: none; /* Remove underline from links */
+}
+
+.vertical-menu li:hover {
+	background-color: #ccc; /* Dark grey background on mouse-over */
+}
+
+.vertical-menu li.active {
+	background-color: #4CAF50; /* Add a green color to the "active/current" link */
+	color: white;
+}
+.vertical-menu  {
+	padding: 0px;
+	overflow-x:hidden;
+	overflow-y: scroll;
+}
+
+#textAnalyzedPackage {
+	max-width: 160px;
+	font-family: monospace;
+}
+
+/* ---------------------------------------- */
+/* Packages/Functions TreeMaps */
+/* ---------------------------------------- */
+
+/* ---------------------------------------- */
+/* BarChart */
+/* ---------------------------------------- */
 
 #div-barchart-1 {
 	max-width: 700px;
 }
+
+/* ************************************************** */
+/* Layout */
+/* ************************************************** */
 
 /* Narrow Screen */
 
@@ -131,7 +215,7 @@ h1, h2, h3 {
 		display: grid;
 		grid-template-columns: auto auto;
 		grid-template-rows: auto auto auto;
-		grid-gap: 10px 10px;
+		grid-gap: 10px 6px;
 	}
 
 	/* types overview */
@@ -152,7 +236,7 @@ h1, h2, h3 {
 		grid-row-end: 2;
 	}
 	.vertical-menu {
-		max-height: 200px;
+		max-height: 210px;
 		max-width: 250px;
 	}
 
@@ -253,54 +337,6 @@ h1, h2, h3 {
 		grid-row-end: 5;
 		max-width: 420px;
 	}
-}
-
-/* ---------------------- Style */
-
-/* types overview */
-#div-vis-1 h4 {
-	text-align: center;
-}
-.vis-svg-types {
-	width: 100%;
-	background-color: #f4f1f0;
-}
-
-/* analyzed package filter */
-.vis-filter-div {
-	/*height: 100%;
-	float: right;
-	display: block;*/
-}
-.vis-filter-div h4 {
-	text-align: center;
-}
-#filter {
-	/*width: 100%;*/
-	padding: 0px;
-}
-.vertical-menu li {
-	font-size: 16px;
-	height: 30px;
-	background-color: #eee; /* Grey background color */
-	color: black; /* Black text color */
-	display: block; /* Make the links appear below each other */
-	padding: 2px; /* Add some padding */
-	text-decoration: none; /* Remove underline from links */
-}
-
-.vertical-menu li:hover {
-	background-color: #ccc; /* Dark grey background on mouse-over */
-}
-
-.vertical-menu li.active {
-	background-color: #4CAF50; /* Add a green color to the "active/current" link */
-	color: white;
-}
-.vertical-menu  {
-	padding: 0px;
-	overflow-x:hidden;
-	overflow-y: scroll;
 }
 
 /* for barchart*/
