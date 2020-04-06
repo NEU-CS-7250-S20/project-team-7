@@ -65,7 +65,7 @@ function data2TreeMapData(data, colorPalette) {
     // 1) the remainder chunk with the smallest values
     let remainderNum = data.length % colorPalette.length;
     if (remainderNum == 0) // last chunk should not be empty
-        remainderNum = min(colorPalette.length, data.length);
+        remainderNum = Math.min(colorPalette.length, data.length);
     //console.log(remainderNum);
 
     // end-of-chunk pointer
