@@ -16,7 +16,10 @@
 // ----------------------------------------
 
 const limitText = d3.select("#textSelectionsNum");
+const limitButton = d3.select("#buttonSelectionsNum");
+
 const excludedText = d3.select("#textPackagesExclude");
+const excludedButton = d3.select("#buttonPackagesExclude");
 
 // ----------------------------------------
 // Function Selection
@@ -70,6 +73,20 @@ analyzedMultipleCheckbox
 
 function getFunctionName() {
     return funNameText.property("value");
+}
+
+function checkAndGetFunctionNameParams(funNameSelect) {
+    const selectionElems = funNameSelect.split(" ")
+        .filter(s => s != "");
+    if (selectionElems.length == 0) {
+        visERROR("Function name cannot be empty");
+        return false;
+    }
+    if (selectionElems.length > 2) {
+        visERROR("Function name cannot have more than 2 components");
+        return false;
+    }
+    return selectionElems;
 }
 
 // ----------------------------------------

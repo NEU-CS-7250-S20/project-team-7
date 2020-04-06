@@ -23,3 +23,10 @@ function d3ElemMakeChecked(elem) {
     }
     return false;
 }
+
+function d3ElemEnable(elem) {
+    elem.property("disabled", false);
+}
+function d3ElemDisable(elem) {
+    elem.property("disabled", true);
+}

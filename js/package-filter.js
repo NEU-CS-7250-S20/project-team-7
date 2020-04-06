@@ -4,7 +4,7 @@ function packageFilter() {
         width = 200,
         height = 380;
 
-    function chart(selector, dispatch, data, query) {
+    function chart(selector, dispatch, data, visSettings) {
         const filter_on = 'package_being_analyzed';
            // Building an array with the values to filter on
         const filter_list = d3.map(data, function (d) {
@@ -60,34 +60,13 @@ function packageFilter() {
               }
             });
 
-            //TODO: change to analyzed
-            //construct Query
-            /*const INIT_LIMIT=15;
-            const SELECTED_PACKAGES=choices;
-            const new_query = {
-                package_being_analyzed: SELECTED_PACKAGES,
-                limit: INIT_LIMIT
-            };*/
-            const new_query = {
-                package_being_analyzed: choices,
-                limit: query.limit,
-                excluded: query.excluded,
-                package: [],
-                functions: []
-            };
-            /*if (d3.select("#checkboxKeepFunction").property("checked")) {
-                new_query.package = query.package;
-                new_query.functions = query.functions;
-            }*/
+            const new_query = deepCopy(visSettings);
+            new_query.package_being_analyzed = choices;
 
             //console.log(new_query);
-                   //calling event in visualization.js
+            //calling event in visualization.js
             dispatch.call("analyzed-push",this,new_query,data);
-
-
          };
-
-
 
     }
 

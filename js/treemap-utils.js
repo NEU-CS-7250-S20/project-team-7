@@ -298,15 +298,11 @@ function FUN_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
             _ => _ != d
         );
     }
-    const newQuery = {
-        package_being_analyzed: query.package_being_analyzed,
-        limit: query.limit,
-        excluded: query.excluded,
-        package: query.package,
-        functions: selectionInfo.datums.map(
-            d => d.data.fun_name
-        )
-    };
+    const newQuery = deepCopy(query); 
+    newQuery.functions = selectionInfo.datums.map(
+                            d => d.data.fun_name
+                         );
+    //console.log(newQuery);
     //alert(query.packages);
     dispatch.call("push", this, newQuery, null);
 }
