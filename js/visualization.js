@@ -73,11 +73,13 @@
         // change of excluded packages,
         // or change of analyzed packages
         dispatch.on("analyzed-push.query", function(newQuery) {
-            // remember settings update
-            visSettings.package_being_analyzed = 
-                newQuery.package_being_analyzed;
-            lastFunctionNameQuery.package_being_analyzed = 
-                newQuery.package_being_analyzed;
+            // update settings and last query infos
+            [visSettings, lastFunctionNameQuery, lastMainQuery]
+                .map(q => q.package_being_analyzed = newQuery.package_being_analyzed);
+            // if analyzed packages changed, the main diagram
+            // selection of packages and functions are reset
+            lastMainQuery.package = [];
+            lastMainQuery.functions = [];
             // request new data
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
