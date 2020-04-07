@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Metadata -->
+<head>
+  <meta charset="utf-8">
+
+  <!-- Title -->
+  <title>Project Team 7: Visualization of Type Usage in R, CS 7250 S20</title>
+
+  <!-- CSS Styling -->
+  <link rel="stylesheet" href="static/style.css">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="static/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="static/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="static/favicons/favicon-16x16.png">
+  <link rel="manifest" href="static/favicons/site.webmanifest">
+  <link rel="shortcut icon" href="static/favicons/favicon.ico">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="static/favicons/browserconfig.xml">
+  <meta name="theme-color" content="#ffffff">
+  <!--<meta http-equiv="refresh" content="0; url=http://69.122.18.134:9898/" />-->
+</head>
+
+<!-- Main page content -->
+<body>
+
+  <!-- Update this with your GitHub repo URL -->
+  <span id="forkongithub"><a href="https://github.com/NEU-CS-7250-S20/project-team-7">Fork me on GitHub</a></span>
+
+  <!-- Your writeup goes here -->
+  <div class = "content-column">
+
+    <h1>Project Team 7: Visualization of Type Usage in R, CS 7250 S20</h1>
+
+    <p><strong>Julia Belyakova</strong>, <strong>Younes El Idrissi Yazami</strong>, <strong>Cameron Moy</strong></p>
+
+    <p>Service-Learning Course Project as part of
+      <a href="https://canvas.instructure.com/courses/1781732">CS 7250 S20: Information Visualization: Theory and Applications</a>,
+        taught by <a href="https://cody.khoury.northeastern.edu/">Prof. Cody Dunne</a>,
+	    <a href="https://visualization.khoury.northeastern.edu/">Data Visualization @ Khoury</a>,
+      <a href="https://www.khoury.northeastern.edu/">Northeastern University</a>.
+    </p>
+
+    <h1>Motivation</h1>
+
+    <p><em>Summary of user needs and motivating questions.</em></p>
+
+    <p><em>Expectation: There is a clear focus, and a developed explanation of the problem, and a reasonable response is proposed.</em></p>
+
+    <h1>Visualization</h1>
+    <!-- Your writeup goes here -->
+    <p>We show an alluvial visualization of R functions under analysis on a tiny subset of data and a bar chart of the popularity of functions in the given dataset.</p>
+
+  </div>
+
+  <div class="tooltip">
+    <div class="tip-header">
+      <h3></h3>
+    </div>
+    <div class="tip-body"></div>
+  </div>
+
+  <div id="div-entire-vis">
+    <!-- Your visualization here -->
+    <div id="div-analysis-info" class="blockDiv">
+      <h2>Analysis Info</h2>
+      <table class="table-info">
+        <tr>
+          <td># analyzed packages</td>
+          <td><span id="infoAnalyzedPackagesNum">???</span></td>
+        </tr>
+        <tr>
+          <td># packages that define functions</td>
+          <td><span id="infoDefiningPackagesNum">???</span></td>
+        </tr>
+        <tr>
+          <td># defined functions</td>
+          <td><span id="infoDefinedFunctionsNum">???</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="div-vis-settings" class="blockDiv">
+      <h2>Visualization Settings</h2>
+      <div>
+        <span>Show # selections at once:</span>
+        <input type="text" id="textSelectionsNum"/>
+        <input type="button" id="buttonSelectionsNum"
+          value="Update"/>
+      </div>
+      <div>
+        <span>Exclude functions from packages:</span><br/>
+        <textarea id="textPackagesExclude"></textarea><br/>
+        <input type="button" id="buttonPackagesExclude"
+          value="Update"/>
+      </div>
+    </div>
+
+    <h2>Main Visualization</h2>
+
+    <div id="div-select-function">
+      <label for="textFunctionName">
+        Package/Function Info
+        (<span style="font-family: monospace; font-size: smaller;"
+         >"package [function]"</span>):
+      </label>
+      <input type="text" id="textFunctionName" name="textFunctionName"/>
+      <input type="button" id="buttonFunctionName" value="Show"/>
+      <input type="button" id="buttonClearFunctionName" value="Clear"/>
+      <input type="checkbox" id="checkboxKeepFunction"
+          name="checkboxKeepFunction`"/>
+        <label for="checkboxKeepFunction">Keep showing</label>
+    </div>
+
+    <div class="vis-holder">
+      <div id="div-vis-1">
+        <h4> Types Overview </h4>
+        <svg id="vis-svg-1" class="vis-svg-types"
+          viewBox="0 0 870 550" preserveAspectRatio="xMidYMid meet"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
+      </div>
+
+      <div id="div-filter-vis" class="vis-filter-div">
+        <h4> Analyzed packages </h4>
+        <input type="checkbox" id="checkboxAnalyzedAll"
+          name="checkboxAnalyzedAll" disabled/>
+        <label for="checkboxAnalyzedAll">All</label><br/>
+        <input type="text" id="textAnalyzedPackage" name="textAnalyzedPackage"/>
+        <input type="button" id="buttonAnalyzedPackageSelect" value="✓"/>
+        <input type="button" id="buttonAnalyzedPackageUnselect" value="✗"/><br/>
+        <input type="checkbox" id="checkboxAnalyzedMultiple"
+          name="checkboxAnalyzedMultiple"/>
+        <label for="checkboxAnalyzedMultiple">Select multiple</label>
+        <div id="filter" class="">
+        </div>
+      </div>
+
+      <div id="div-pkg-tree-map" class="">
+        <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
+        <label for="checkboxPkgMultiple">Select multiple packages</label>
+        <svg id="vis-svg-2-pkg-tree-map" class="vis-svg-pkgfun"
+          viewBox="0 0 260 140" preserveAspectRatio="xMidYMid meet"
+          version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
+      </div>
+
+      <div id="div-fun-tree-map" class="">
+        <input type="checkbox" id="checkboxFunMultiple" name="checkboxFunMultiple"
+          disabled/>
+        <label for="checkboxFunMultiple">Select multiple functions</label>
+        <svg id="vis-svg-3-fun-tree-map" class="vis-svg-pkgfun"
+          viewBox="0 0 260 140" preserveAspectRatio="xMidYMid meet"
+          version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        </svg>
+      </div>
+    </div>
+
+    <div id="div-barchart-1" class="">
+      <svg id="barchart-1" preserveAspectRatio="xMidYMid meet"
+        viewBox="0 0 500 440">
+      </svg>
+    </div>
+  </div>
+
+  <div class="content-column" style="width:100%">
+
+    <h1>Demo Video</h1>
+
+    <p><em>Embedded MP4 demo video using the HTML5 &lt;video&gt; tag. For example, this screen recording Prof. Cody Dunne made of Mike Bostock's flexible transitions in D3 slide:</em></p>
+
+    <video controls width="100%">
+      <source src="http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4" type="video/mp4">
+      <p>Your browser doesn't support HTML5 video. Here is
+       a <a href="http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4">link to the video</a> instead.</p>
+    </video>
+
+    <h1>Visualization explanation</h1>
+
+    <p><em>Basic overview, UI walk-through, and linked presentation slides.</em></p>
+
+    <h1>Acknowledgments</h1>
+
+    <p><em>List here where any code, packages/libraries, text, images, designs, etc. that you leverage come from.</em></p>
+
+    <ul>
+      <li><a href="https://d3js.org/">D3: Data-Driven Documents</a> by Mike Bostock.</li>
+      <li><a href="https://codepo8.github.io/css-fork-on-github-ribbon/#">Pure CSS responsive "Fork me on GitHub" ribbon</a> by Chris Heilmann.</li>
+      <li><a href="https://github.com/d3/d3-sankey">D3: Sankey</a> by Mike Bostock.</li>
+      <li><a href="https://observablehq.com/@d3/parallel-sets?collection=@d3/d3-sankey">Parallel Sets</a> by Mike Bostock.</li>
+      <li><a href="https://observablehq.com/@d3/treemap">Treemap</a> by Mike Bostock.</li>
+      <li><a href="https://observablehq.com/@d3/zoomable-treemap">Zoomable Treemap</a> by Mike Bostock.</li>
+      <li><a href="https://www.d3indepth.com/layouts/">Layouts</a> from D3 in Depth.</li>
+      <li><a href="https://palletsprojects.com/p/flask/">Flask</a> by Armin Ronacher.</li>
+      <li><a href="https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/">Flask SQLite3 Example</a> by Armin Ronacher.</li>
+      <li><a href="https://lodash.com/">Lodash</a>.</li>
+    </ul>
+
+  </div>
+
+  <!-- Scriptt the end avoid need for dealing with async, defer, or onload event handlers -->
+  <script src="static/lib/lodash.min.js"></script>
+  <script src="static/lib/d3.v5.15.0/d3.min.js"></script>
+  <script src="static/lib/d3-sankey.js"></script>
+  <script src="static/js/utils.js"></script>
+  <script src="static/js/vis-dom.js"></script>
+  <script src="static/js/types-overview.js"></script>
+  <script src="static/js/barChart.js"></script>
+  <script src="static/js/package-filter.js"></script>
+  <script src="static/js/treemap-utils.js"></script>
+  <script src="static/js/pkgfun-treemap.js"></script>
+  <script src="static/js/visualization.js"></script>
+</body>
+</html>

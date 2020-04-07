@@ -7,12 +7,14 @@
     // Configuration
     const INIT_ANALYZED_PACKAGES = [],//["anapuce", "approximator"],
           INIT_LIMIT = 15,
-          INIT_EXCLUDED_PACKAGES = ["base", "foo"],
-          ROOT_URL = "//69.122.18.134:9898",
-          //ROOT_URL = "//127.0.0.1:5000",
+          INIT_EXCLUDED_PACKAGES = [], //["base", "foo"],
+          //ROOT_URL = "//69.122.18.134:9898",
+          ROOT_URL = "//127.0.0.1:5000",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
+          INIT_QUERY_ENDPOINT = ROOT_URL + "/api/init/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",
-          DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums";
+          DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums",
+          INIT_DEF_NUMS_ENDPOINT = ROOT_URL + "/api/init/definednums";
 
     // ----------------------------------------
     // Constants and global variables
@@ -29,16 +31,13 @@
     let visSettings  = {
         package_being_analyzed: initQuery.package_being_analyzed,
         excluded: initQuery.excluded,
-        limit: initQuery.limit,
-        package: [],
-        functions: []
+        limit: initQuery.limit
     };
 
     // last query used for main diagram
     let lastMainQuery = deepCopy(initQuery);
     // last query used for selected package/function name
     let lastFunctionNameQuery = deepCopy(initQuery);
-    lastFunctionNameQuery.excluded = [];
 
     // Dispatch
     let dispatch = d3.dispatch(
@@ -46,6 +45,14 @@
         "analyzed-push", "analyzed-pull",
         "funcs-push", "funcs-pull"
     );
+
+    /// Helper
+    function clean(obj) {
+        return _.pickBy(obj, function(x) {
+            if (_.isArray(x)) { return x.length > 0; }
+            return x;
+        });
+    }
 
     // ----------------------------------------
     // Dispatch Logic
@@ -75,7 +82,6 @@
         // change of excluded packages,
         // or change of analyzed packages
         dispatch.on("analyzed-push.query", function(newQuery) {
-            //console.log(newQuery);
             // update settings and last query infos
             [visSettings, lastFunctionNameQuery, lastMainQuery]
                 .map(q => q.package_being_analyzed = newQuery.package_being_analyzed);
@@ -84,14 +90,15 @@
             lastMainQuery.package = [];
             lastMainQuery.functions = [];
             // request new data
-            const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
+            let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
+            const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 //console.log(data);
                 dispatch.call("analyzed-pull", this, newQuery, data);
                 dispatch.call("funcs-pull", this, newQuery, data);
                 // depending on what we need to show in types overview,
                 // process either the main diagram or selected package/function
-                if (d3ElemIsChecked(funNameCheckbox) 
+                if (d3ElemIsChecked(funNameCheckbox)
                         && !funNameCheckbox.property("disabled"))
                     dispatch.call("selected-push", this, lastFunctionNameQuery);
                 else
@@ -111,21 +118,19 @@
         // Someone requested new data for types overview
         // from the main diagram
         dispatch.on("push.query", function(newQuery) {
-            // remember new info main query
-            lastMainQuery.package = newQuery.package;
-            lastMainQuery.functions = newQuery.functions;
-            //console.log(newQuery);
-            const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
+            lastMainQuery = newQuery;
+            let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
+            const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
-                //console.log(data);
-                dispatch.call("pull", this, lastMainQuery, data);
+                dispatch.call("pull", this, newQuery, data);
             });
         });
 
         // Someone requested new data for types overview
         // from the Package/Function selection
         dispatch.on("selected-push.query", function(newQuery) {
-            const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
+            let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
+            const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 //console.log(data);
                 dispatch.call("pull", this, newQuery, data);
@@ -142,7 +147,7 @@
     excludedText.property("value", INIT_EXCLUDED_PACKAGES.join("\n"));
 
     // Analysis info
-    d3.json(DEF_NUMS_ENDPOINT).then(function(data) {
+    d3.json(INIT_DEF_NUMS_ENDPOINT).then(function(data) {
         //console.log(data);
         d3.select("#infoDefiningPackagesNum")
             .text(data[0].packages);
@@ -181,17 +186,12 @@
     funNameClearButton
         .on("click", function() {
             // show types overview from the main diagram
-            dispatch.call("push", this, lastMainQuery);
+            dispatch.call("selected-push", this, lastMainQuery);
             d3ElemDisable(funNameCheckbox);
-            //console.log({clear: lastMainQuery});
         });
 
     // request packages and functions based on the main settings
-    // and update lastQueries info
     function updateAllData(obj, visSettings) {
-        lastFunctionNameQuery.limit = visSettings.limit;
-        lastMainQuery.limit = visSettings.limit;
-        lastMainQuery.excluded = visSettings.excluded;
         const newQuery = deepCopy(visSettings);
         dispatch.call("analyzed-push", obj, newQuery);
     }
@@ -261,7 +261,7 @@
          FUNCS_GETTERS,
          "funcs-pull.fun-treemap",
          FUNCS_EVENTS);
-    
+
     barChart()("#barchart-1", dispatch);
 
     // Initial data request

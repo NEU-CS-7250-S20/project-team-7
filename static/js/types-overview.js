@@ -15,7 +15,8 @@ function typesOverviewChart() {
                   h = height - margin.top - margin.bottom,
                   g = svg.append("g"),
                   brush = d3.brush(),
-                  quadtree = d3.quadtree().x((d) => d.x).y((d) => d.y);
+                  quadtree = d3.quadtree().x((d) => d.x).y((d) => d.y),
+                  colors = makeScale(d3.schemePastel2, data);
 
             g.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -26,7 +27,7 @@ function typesOverviewChart() {
                   .extent([[0, dataKeys.length - 1], [w, h]]);
 
             // Wrangling data
-            //console.log(data);
+            console.log(data);
             data = data.functions;
             data = sankeyData(data);
             const {nodes, links} = sankey(data);
@@ -42,14 +43,30 @@ function typesOverviewChart() {
                 .attr("width", d => d.x1 - d.x0);
 
             // Draw node labels
-            g.selectAll("text")
+            let widths = [];
+            g.selectAll("text.nodeLabel")
                 .data(nodes)
-                .join("text")
+                .enter()
+                .append("text")
                 .style("font", "10px sans-serif")
                 .attr("fill", "black")
                 .attr("x", d => d.x0 + 8)
                 .attr("y", d => (d.y0 + d.y1) / 2)
-                .text(d => d.name);
+                .text(d => d.name)
+                .each(function(d) {
+                    widths.push(this.getBBox().width);
+                });
+
+            // Draw node counts
+            g.selectAll("text.nodeCount")
+                .data(nodes)
+                .enter()
+                .append("text")
+                .style("font", "8px sans-serif")
+                .attr("fill", "grey")
+                .attr("x", d => d.x0 + 10 + widths.shift())
+                .attr("y", d => (d.y0 + d.y1) / 2)
+                .text(d => " (" + d.value + ")");
 
             // Draw links
             const layout = d3.sankeyLinkHorizontal();
@@ -59,7 +76,7 @@ function typesOverviewChart() {
                   .join("path")
                   .attr("d", layout)
                   .attr("fill", "none")
-                  .attr("stroke", "#c39bd3")
+                  .attr("stroke", d => colors(d.target.name))
                   .attr("stroke-width", d => d.width)
                   .style("mix-blend-mode", "multiply");
             let reachableNodes = [];
@@ -93,16 +110,8 @@ function typesOverviewChart() {
                         }
                         return x1 >= x3 || y1 >= y3 || x2 < x0 || y2 < y0;
                     });
-                linkPaths.attr("stroke", function(d) {
-                    if (d.selected) {
-                        return "#ebbaff";
-                    } else {
-                        return "#c39bd3";
-                    }
-                });
-            });
 
-            brush.on("end", function() {
+                // Find reachable nodes
                 let neighbors = [];
                 do {
                     neighbors = [];
@@ -115,17 +124,21 @@ function typesOverviewChart() {
                     reachableNodes = reachableNodes.concat(neighbors);
                 } while (neighbors.length > 0);
 
+                // Color
                 linkPaths.attr("stroke", function(d) {
+                    let curColor = colors(d.target.name);
                     if (d.selected) {
-                        return "#ebbaff";
+                        return d3.color(curColor).darker(0.5);
                     } else {
-                        return "#c39bd3";
+                        return curColor;
                     }
                 });
+            });
 
-                let reachableFunctions = reachableNodes.filter((d) => d.depth === 0).map((d) => d.name);
+            brush.on("end", function() {
+                let reachableFunctions =
+                    reachableNodes.filter((d) => d.depth === 0).map((d) => d.name);
                 query.functions = reachableFunctions;
-                console.log(query);
                 dispatch.call("push", this, query);
             });
             g.call(brush);
@@ -245,4 +258,15 @@ function verticalPoints(xRoot, yRoot, data, density, width) {
         pts.push({x: xRoot, y: yRoot + interp, data: data});
     }
     return pts;
+}
+
+/* Generate scale from function names. */
+function makeScale(scheme, data) {
+    let types = new Set();
+    for (fn of data.functions) {
+        for (field of dataKeys) {
+            types.add(fn[field]);
+        }
+    }
+    return d3.scaleOrdinal(scheme).domain(types);
 }
