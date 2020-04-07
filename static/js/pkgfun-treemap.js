@@ -17,7 +17,7 @@ function dataTreeMap() {
     // labels    -- header and footer labels
     // getters   -- data-specific getters
     // pullEvent -- name of the event to dispatch on
-    function chart(selector, dispatch, labels, getters, 
+    function chart(selector, dispatch, labels, getters,
         pullEvent, eventHandlers
     ) {
 
@@ -39,6 +39,7 @@ function dataTreeMap() {
 
             if (data.length == 0) {
                 tmERROR("no data");
+                return;
             }
 
             // Data preprocessing
@@ -146,22 +147,22 @@ function dataTreeMap() {
                 node.filter(d => !hasChildren(d))
                     .attr("class", "tm-node")
                     .on(
-                        "click", 
+                        "click",
                         eventHandlers.onclick.active ?
                             function(d) {
                                 //d3.select(this).style("stroke", "black")
-                                eventHandlers.onclick.handler(this, d, 
+                                eventHandlers.onclick.handler(this, d,
                                     selectionInfo, dispatch, query);
                             } :
                             null
                     );
-                
+
                 //alert(selectionInfo.datums);
                 node.filter(d => selectionInfo.datums.includes(d))
                     .each(function(d) {
                         eventHandlers.onselected(this, selectionInfo)
                     });
-                
+
                 // footer behaves as "..." node
                 const childrenNode = root.children.find(hasChildren);
                 footerGroup

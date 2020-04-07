@@ -31,13 +31,16 @@
     let visSettings  = {
         package_being_analyzed: initQuery.package_being_analyzed,
         excluded: initQuery.excluded,
-        limit: initQuery.limit
+        limit: initQuery.limit,
+        package: [],
+        functions: []
     };
 
     // last query used for main diagram
     let lastMainQuery = deepCopy(initQuery);
     // last query used for selected package/function name
     let lastFunctionNameQuery = deepCopy(initQuery);
+    lastFunctionNameQuery.excluded = [];
 
     // Dispatch
     let dispatch = d3.dispatch(
@@ -118,7 +121,8 @@
         // Someone requested new data for types overview
         // from the main diagram
         dispatch.on("push.query", function(newQuery) {
-            lastMainQuery = newQuery;
+            lastMainQuery.package = newQuery.package;
+            lastMainQuery.functions = newQuery.functions;
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
@@ -129,11 +133,10 @@
         // Someone requested new data for types overview
         // from the Package/Function selection
         dispatch.on("selected-push.query", function(newQuery) {
-            let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
-            const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
+            let baseEndpoint = _.isEqual(clean(lastMainQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
+            const endpoint = baseEndpoint + "?" + new URLSearchParams(lastMainQuery);
             d3.json(endpoint).then(function(data) {
-                //console.log(data);
-                dispatch.call("pull", this, newQuery, data);
+                dispatch.call("pull", this, lastMainQuery, data);
             });
         });
     }
@@ -186,12 +189,15 @@
     funNameClearButton
         .on("click", function() {
             // show types overview from the main diagram
-            dispatch.call("selected-push", this, lastMainQuery);
+            dispatch.call("push", this, lastMainQuery);
             d3ElemDisable(funNameCheckbox);
         });
 
     // request packages and functions based on the main settings
     function updateAllData(obj, visSettings) {
+        lastFunctionNameQuery.limit = visSettings.limit;
+        lastMainQuery.limit = visSettings.limit;
+        lastMainQuery.excluded = visSettings.excluded;
         const newQuery = deepCopy(visSettings);
         dispatch.call("analyzed-push", obj, newQuery);
     }
