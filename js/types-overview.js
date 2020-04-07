@@ -26,7 +26,7 @@ function typesOverviewChart() {
                   .extent([[0, dataKeys.length - 1], [w, h]]);
 
             // Wrangling data
-            console.log(data);
+            //console.log(data);
             data = data.functions;
             data = sankeyData(data);
             const {nodes, links} = sankey(data);

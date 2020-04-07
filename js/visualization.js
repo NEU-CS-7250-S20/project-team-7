@@ -8,8 +8,8 @@
     const INIT_ANALYZED_PACKAGES = [],//["anapuce", "approximator"],
           INIT_LIMIT = 15,
           INIT_EXCLUDED_PACKAGES = ["base", "foo"],
-          //ROOT_URL = "//69.122.18.134:9898",
-          ROOT_URL = "//127.0.0.1:5000",
+          ROOT_URL = "//69.122.18.134:9898",
+          //ROOT_URL = "//127.0.0.1:5000",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",
           DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums";
@@ -21,8 +21,7 @@
     const initQuery = {
         package_being_analyzed: INIT_ANALYZED_PACKAGES,
         excluded: INIT_EXCLUDED_PACKAGES,
-        limit: INIT_LIMIT,
-        package: []
+        limit: INIT_LIMIT
     };
 
     // global settings shared among treemaps
@@ -30,13 +29,16 @@
     let visSettings  = {
         package_being_analyzed: initQuery.package_being_analyzed,
         excluded: initQuery.excluded,
-        limit: initQuery.limit
+        limit: initQuery.limit,
+        package: [],
+        functions: []
     };
 
     // last query used for main diagram
     let lastMainQuery = deepCopy(initQuery);
     // last query used for selected package/function name
     let lastFunctionNameQuery = deepCopy(initQuery);
+    lastFunctionNameQuery.excluded = [];
 
     // Dispatch
     let dispatch = d3.dispatch(
@@ -73,6 +75,7 @@
         // change of excluded packages,
         // or change of analyzed packages
         dispatch.on("analyzed-push.query", function(newQuery) {
+            //console.log(newQuery);
             // update settings and last query infos
             [visSettings, lastFunctionNameQuery, lastMainQuery]
                 .map(q => q.package_being_analyzed = newQuery.package_being_analyzed);
@@ -108,12 +111,14 @@
         // Someone requested new data for types overview
         // from the main diagram
         dispatch.on("push.query", function(newQuery) {
-            lastMainQuery = newQuery; // remember main query
+            // remember new info main query
+            lastMainQuery.package = newQuery.package;
+            lastMainQuery.functions = newQuery.functions;
             //console.log(newQuery);
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
                 //console.log(data);
-                dispatch.call("pull", this, newQuery, data);
+                dispatch.call("pull", this, lastMainQuery, data);
             });
         });
 
@@ -176,12 +181,17 @@
     funNameClearButton
         .on("click", function() {
             // show types overview from the main diagram
-            dispatch.call("selected-push", this, lastMainQuery);
+            dispatch.call("push", this, lastMainQuery);
             d3ElemDisable(funNameCheckbox);
+            //console.log({clear: lastMainQuery});
         });
 
     // request packages and functions based on the main settings
+    // and update lastQueries info
     function updateAllData(obj, visSettings) {
+        lastFunctionNameQuery.limit = visSettings.limit;
+        lastMainQuery.limit = visSettings.limit;
+        lastMainQuery.excluded = visSettings.excluded;
         const newQuery = deepCopy(visSettings);
         dispatch.call("analyzed-push", obj, newQuery);
     }

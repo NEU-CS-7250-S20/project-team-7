@@ -38,7 +38,8 @@ function dataTreeMap() {
             svg.selectAll("g").remove();
 
             if (data.length == 0) {
-                tmERROR("no data");
+                tmERROR("no data for treemap");
+                return;
             }
 
             // Data preprocessing

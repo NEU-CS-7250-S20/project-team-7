@@ -91,14 +91,15 @@ def query():
                   (package_where_not, "excluded", lambda x: x.split(",")),
                   (package_being_analyzed_where, "package_being_analyzed", lambda x: x.split(",")),
                   (function_where, "functions", lambda x: x.split(","))]
-    extras = ["ORDER BY count DESC",
+    extras = ["ORDER BY CAST(count AS NUMBER) DESC",
               ("LIMIT ?", "limit")]
     return json.dumps({
         "packages": query_from_post("SELECT package, SUM(count) as count FROM types", 
             parameters + ["GROUP BY package"] + extras),
         "function_names": query_from_post("SELECT fun_name, SUM(count) as count FROM types", 
             parameters + ["GROUP BY package, fun_name"] + extras),
-        "functions": query_from_post("SELECT * FROM types", parameters + extras)
+        "functions": query_from_post("SELECT * FROM types", 
+            parameters + extras)
     })
 
 @app.teardown_appcontext
