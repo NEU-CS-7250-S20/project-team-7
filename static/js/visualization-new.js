@@ -134,10 +134,10 @@
         // Someone requested new data for types overview
         // from the Package/Function selection
         dispatch.on("selected-push.query", function(newQuery) {
-            let baseEndpoint = _.isEqual(clean(lastMainQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
-            const endpoint = baseEndpoint + "?" + new URLSearchParams(lastMainQuery);
+            let baseEndpoint = QUERY_ENDPOINT;
+            const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
-                dispatch.call("pull", this, lastMainQuery, data);
+                dispatch.call("pull", this, newQuery, data);
             });
         });
     }
