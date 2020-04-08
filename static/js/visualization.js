@@ -10,6 +10,7 @@
           INIT_EXCLUDED_PACKAGES = [], //["base", "foo"],
           //ROOT_URL = "//69.122.18.134:9898",
           ROOT_URL = "//127.0.0.1:5000",
+          //ROOT_URL = "http://prl1.ele.fit.cvut.cz:8135/",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
           INIT_QUERY_ENDPOINT = ROOT_URL + "/api/init/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",
@@ -96,7 +97,6 @@
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
-                //console.log(data);
                 dispatch.call("analyzed-pull", this, newQuery, data);
                 dispatch.call("funcs-pull", this, newQuery, data);
                 // depending on what we need to show in types overview,
@@ -114,6 +114,7 @@
             //console.log(newQuery);
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
+                console.log(data);
                 dispatch.call("funcs-pull", this, newQuery, data);
             });
         });
@@ -133,10 +134,10 @@
         // Someone requested new data for types overview
         // from the Package/Function selection
         dispatch.on("selected-push.query", function(newQuery) {
-            let baseEndpoint = _.isEqual(clean(lastMainQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
-            const endpoint = baseEndpoint + "?" + new URLSearchParams(lastMainQuery);
+            let baseEndpoint = QUERY_ENDPOINT;
+            const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
-                dispatch.call("pull", this, lastMainQuery, data);
+                dispatch.call("pull", this, newQuery, data);
             });
         });
     }
@@ -150,12 +151,19 @@
     excludedText.property("value", INIT_EXCLUDED_PACKAGES.join("\n"));
 
     // Analysis info
-    d3.json(INIT_DEF_NUMS_ENDPOINT).then(function(data) {
+    /*d3.json(INIT_DEF_NUMS_ENDPOINT).then(function(data) {
         //console.log(data);
         d3.select("#infoDefiningPackagesNum")
             .text(data[0].packages);
         d3.select("#infoDefinedFunctionsNum")
             .text(data[0].functions);
+    });*/
+    d3.json(DEF_NUMS_ENDPOINT).then(function(data) {
+        //console.log(data);
+        d3.select("#infoDefiningPackagesNum")
+            .text(data.packages[0].count);
+        d3.select("#infoDefinedFunctionsNum")
+            .text(data.functions[0].count);
     });
 
     funNameText
@@ -182,6 +190,7 @@
                 [selectionElems[1]] : [];
             // remember last query for function name selection
             lastFunctionNameQuery = newQuery;
+            console.log(newQuery);
             // request type overview data
             dispatch.call("selected-push", this, newQuery);
         });
