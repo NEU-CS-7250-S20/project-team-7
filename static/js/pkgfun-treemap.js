@@ -56,6 +56,7 @@ function dataTreeMap() {
                 dataRoot,
                 { width: width, height: tmHeight }
             );
+            //console.log(dataRoot);
 
             // Basic chart components
             // ----------------------------------------
@@ -185,7 +186,7 @@ function dataTreeMap() {
                 node.append("rect")
                     .attr("class", "tm-block")
                     .attr("fill", d => d.data.color.background);
-
+                
                 node.append("text")
                     .attr("class", "tm-block-text")
                     .attr("fill", d => d.data.color.font)

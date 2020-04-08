@@ -28,12 +28,19 @@ function data2TreeMapData(data, colorPalette) {
         return d;
     }
 
-    function cleanLevel(currLevel) {
+    function foldData(currLevel) {
         for (let i = 1; i < currLevel.length; i++) {
-            if ((currLevel[i-1].count / currLevel[i].count) > 6) {
+            const needsBreak = 
+                //chunk is too big
+                (i == colorPalette.length) ||
+                // sizes are too different
+                //(currLevel[i-1].count / currLevel[i].count) > 6;
+                (currLevel[0].count / currLevel[i].count) > 6;
+            if (needsBreak) {
                 let innerLevel = currLevel.slice(i);
-                innerLevel = cleanLevel(innerLevel).level;
+                innerLevel = foldData(innerLevel);
                 let newCurrLevel = currLevel.slice(0, i);
+                newCurrLevel.map((d, i) => mkDataElem(d, i));
                 //console.log({foo: newCurrLevel});
                 newCurrLevel.push(
                     mkDataElem({
@@ -42,10 +49,11 @@ function data2TreeMapData(data, colorPalette) {
                         }, colorPalette.length
                     )
                 );
-                return {level: newCurrLevel, changed: true};
+                return newCurrLevel;
             }
         }
-        return {level: currLevel, changed: false};
+        currLevel.map((d, i) => mkDataElem(d, i));
+        return currLevel;
     }
 
     // data checking
@@ -59,47 +67,10 @@ function data2TreeMapData(data, colorPalette) {
     // sort by count in descending order
     data.sort((d1, d2) => d2.count - d1.count);
 
-    // make hierarchical data
+    // make hierarchical data and return outer level
     // ------------------------------
-    
-    // 1) the remainder chunk with the smallest values
-    let remainderNum = data.length % colorPalette.length;
-    if (remainderNum == 0) // last chunk should not be empty
-        remainderNum = Math.min(colorPalette.length, data.length);
-    //console.log(remainderNum);
-
-    // end-of-chunk pointer
-    let iEnd = data.length;
-    // start-of-chunk pointer
-    let iStart = data.length - remainderNum;
-
-    // 2) make remainder array
-    let currLevel = data.slice(iStart, iEnd)
-        .map(mkDataElem);
-    currLevel = cleanLevel(currLevel).level;
-    
-    // 3) construct tree of all the elements,
-    //    starting from the remainder chunk
-    while (iStart != 0) {
-        // move pointers to the previous chunk
-        iEnd = iStart;
-        iStart = iStart - colorPalette.length;
-        // make an upper level
-        let innerLevel = currLevel;
-        currLevel = data.slice(iStart, iEnd)
-            .map(mkDataElem);
-        let cleanedCurrLevel = cleanLevel(currLevel);
-        currLevel = cleanedCurrLevel.level;
-        //console.log({index: iStart, data: cleanedCurrLevel});
-        if (!cleanedCurrLevel.changed) {
-            currLevel.push(mkDataElem({
-                hasMore: true,
-                children: innerLevel
-            }, colorPalette.length));
-        }
-    }
-
-    // 4) return the outer level
+    const currLevel = foldData(data);
+    //console.log(currLevel);
     return {
         hasMore: true,
         children: currLevel
