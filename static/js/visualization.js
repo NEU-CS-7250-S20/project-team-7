@@ -9,13 +9,13 @@
           INIT_LIMIT = 15,
           INIT_EXCLUDED_PACKAGES = [], //["base", "foo"],
           //ROOT_URL = "//69.122.18.134:9898",
-          ROOT_URL = "",
-          //ROOT_URL = "http://prl1.ele.fit.cvut.cz:8135/",
+          //ROOT_URL = "",
+          ROOT_URL = "http://prl1.ele.fit.cvut.cz:8135",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
           INIT_QUERY_ENDPOINT = ROOT_URL + "/api/init/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",
-          DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums",
-          INIT_DEF_NUMS_ENDPOINT = ROOT_URL + "/api/init/definednums";
+          DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums";
+          //INIT_DEF_NUMS_ENDPOINT = ROOT_URL + "/api/init/definednums";
 
     // ----------------------------------------
     // Constants and global variables
