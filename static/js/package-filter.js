@@ -6,11 +6,18 @@ function packageFilter() {
 
     function chart(selector, dispatch, data, visSettings) {
         const filter_on = 'package_being_analyzed';
+        const count = 'count';
            // Building an array with the values to filter on
         const filter_list = d3.map(data, function (d) {
-            return d[filter_on];
+            return  d[filter_on];
 
         }).keys();
+        const filter_list_q = d3.map(data, function (d) {
+            return `(${d[count]})`;
+
+        }).keys();
+
+        const groupData= [filter_list,filter_list_q];
         const svg= d3.select(selector);
         //.append('text')
         //    .append('tspan').text(' Packages being analyzed: ');
@@ -32,17 +39,21 @@ function packageFilter() {
             .attr("class", "filter-check")
             .attr("value", function (d) {
                     return d
-            })
+            }) 
             .attr("id", function (d) {
                     return d
             });
-
+        
         svg.selectAll("label")
             .data(filter_list)
             .attr("class", "checkbox")
             .append("text").text(function (d) {
                     return " " + d
             })
+            .data(filter_list_q)
+            .append("text").text(function (d) {
+                return " " + d
+        }).style('font-size','small')
 
 
         //listen for checkboxes
@@ -51,7 +62,6 @@ function packageFilter() {
 
         //handling one selection at a time
         function updateVis() {
-         //   debugger;
             const choices = [];
             checked.each(function(d){
               cb = d3.select(this);
@@ -59,7 +69,7 @@ function packageFilter() {
                 choices.push(cb.property("value"));
               }
             });
-
+             
             const new_query = deepCopy(visSettings);
             new_query.package_being_analyzed = choices;
 
