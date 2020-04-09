@@ -201,6 +201,11 @@ h1, h2, h3 {
 
 #div-barchart-1 {
 	max-width: 700px;
+	margin: 20px auto;
+}
+
+.bar-header {
+	font-size: 16px;
 }
 
 /* for barchart*/
