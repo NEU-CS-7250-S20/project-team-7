@@ -14,8 +14,8 @@ function barChart() {
                 .attr("transform",`translate(${margin.left},${margin.top})`);
 
           
-            const yAxisDraw= svg.append('g')
-                  .attr('class', 'y axis')
+          //  const yAxisDraw= svg.append('g')
+            //      .attr('class', 'y axis')
 
 
        const xScale =d3.scaleLinear()
@@ -95,8 +95,8 @@ function barChart() {
 
         //Event listener
     dispatch.on("funcs-pull.barChart", function(query, data) {
-     
         svg.selectAll('g.x.axis').remove();
+        svg.selectAll('g.y.axis').remove();
         // Setup
 
         // sorting the data
@@ -112,6 +112,8 @@ function barChart() {
         update(data);
         const xAxisDraw= svg.append('g')
         .attr('class','x axis')
+        const yAxisDraw= svg.append('g')
+        .attr('class', 'y axis')
         yAxisDraw.selectAll('text').attr('dx','-0.6em');
          //Update axes
          xAxisDraw.transition().duration(1000).call(xAxis.scale(xScale));

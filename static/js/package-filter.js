@@ -3,14 +3,21 @@ function packageFilter() {
     const margin = {top: 0, right: 2, bottom: 2, left: 0},
         width = 200,
         height = 380;
-
+        checked=null;
     function chart(selector, dispatch, data, visSettings) {
         const filter_on = 'package_being_analyzed';
+        const count = 'count';
            // Building an array with the values to filter on
         const filter_list = d3.map(data, function (d) {
-            return d[filter_on];
+            return  d[filter_on];
 
         }).keys();
+        const filter_list_q = d3.map(data, function (d) {
+            return `(${d[count]})`;
+
+        }).keys();
+
+        
         const svg= d3.select(selector);
         //.append('text')
         //    .append('tspan').text(' Packages being analyzed: ');
@@ -32,26 +39,29 @@ function packageFilter() {
             .attr("class", "filter-check")
             .attr("value", function (d) {
                     return d
-            })
+            }) 
             .attr("id", function (d) {
                     return d
             });
-
+        
         svg.selectAll("label")
             .data(filter_list)
             .attr("class", "checkbox")
             .append("text").text(function (d) {
                     return " " + d
             })
+            .data(filter_list_q)
+            .append("text").text(function (d) {
+                return " " + d
+        }).style('font-size','small')
 
 
         //listen for checkboxes
-        const checked = d3.selectAll(".filter-check")
+         checked = d3.selectAll(".filter-check")
               checked.on("change",updateVis);
 
         //handling one selection at a time
         function updateVis() {
-         //   debugger;
             const choices = [];
             checked.each(function(d){
               cb = d3.select(this);
@@ -59,7 +69,7 @@ function packageFilter() {
                 choices.push(cb.property("value"));
               }
             });
-
+             
             const new_query = deepCopy(visSettings);
             new_query.package_being_analyzed = choices;
 
@@ -88,6 +98,11 @@ function packageFilter() {
         height = _;
         return chart;
     };
+    chart.unselect=function(){
+        checked.property("checked",false);
+        // in d3 when we change property programatically, we need to fire the event ourselves
+        checked.on("change")();
+    }
 
     return chart;
 }
