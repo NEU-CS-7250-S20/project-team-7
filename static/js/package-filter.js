@@ -3,7 +3,7 @@ function packageFilter() {
     const margin = {top: 0, right: 2, bottom: 2, left: 0},
         width = 200,
         height = 380;
-
+        checked=null;
     function chart(selector, dispatch, data, visSettings) {
         const filter_on = 'package_being_analyzed';
         const count = 'count';
@@ -17,7 +17,7 @@ function packageFilter() {
 
         }).keys();
 
-        const groupData= [filter_list,filter_list_q];
+        
         const svg= d3.select(selector);
         //.append('text')
         //    .append('tspan').text(' Packages being analyzed: ');
@@ -57,7 +57,7 @@ function packageFilter() {
 
 
         //listen for checkboxes
-        const checked = d3.selectAll(".filter-check")
+         checked = d3.selectAll(".filter-check")
               checked.on("change",updateVis);
 
         //handling one selection at a time
@@ -98,6 +98,11 @@ function packageFilter() {
         height = _;
         return chart;
     };
+    chart.unselect=function(){
+        checked.property("checked",false);
+        // in d3 when we change property programatically, we need to fire the event ourselves
+        checked.on("change")();
+    }
 
     return chart;
 }

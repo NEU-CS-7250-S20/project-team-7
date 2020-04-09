@@ -240,6 +240,10 @@
             visSettings.excluded = newExcluded;
             updateAllData(this, visSettings);
         });
+   
+
+// define pckgFilter
+        const instancee=packageFilter();
 
     // ----------------------------------------
     // Initialize Visualization Charts
@@ -256,7 +260,7 @@
         );
         d3.select("#infoAnalyzedPackagesNum")
             .text(data.length);
-        packageFilter()("#filter", dispatch, data, visSettings);
+        instancee("#filter", dispatch, data, visSettings);
         // adding package
         analyzedPkgButtonSelect
             .on("click", function() {
@@ -287,6 +291,20 @@
 
     barChart()("#barchart-1", dispatch);
 
+    // If analyzedMultipleCheckbox is unchecked
+    //uncheck all packages 
+    analyzedMultipleCheckbox.on("change",function(){
+        if (!this.checked){
+            //I will need to unselect All Pckg filter checkboxes
+            instancee.unselect();
+            
+        }
+        //else, I will need to inform other 
+        // visualizations that we are not selecting multiple anymore
+
+
+
+    });
     // Initial data request
     updateAllData(this, visSettings);
 })());
