@@ -30,7 +30,8 @@ MAIN_DB = "aggregated_types" #"types"
 
 @APP.route("/")
 def index():
-    return render_template("index.html")
+    config = {'rootPath' : ''}
+    return render_template("index.html", data=config)
 
 #
 # API

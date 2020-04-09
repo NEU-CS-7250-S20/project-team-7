@@ -30,11 +30,19 @@ On the real server, run:
 FLASK_APP=main.py flask run -p 8005 -h 0.0.0.0
 ```
 
-Locally, run:
+Locally, there is a choice:
 
-```
-FLASK_APP=main-local.py flask run
-```
+1. Request data from the server:
+   
+   ```
+   FLASK_APP=main-local.py flask run
+   ```
+
+1. Build local server using a small subset of data:
+   
+   ```
+   FLASK_APP=main.py DATABASE=data/sample-data.db flask run
+   ```
 
 ## API
 

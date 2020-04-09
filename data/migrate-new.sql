@@ -204,7 +204,7 @@ ORDER BY count DESC;
 
 
 CREATE TABLE sums(
-   "package" TEXT, "fun_name" TEXT, "fun_id" TEXT, "package_being_analyzed" TEXT,
+   "package_being_analyzed" TEXT, "package" TEXT, "fun_name" TEXT, "fun_id" TEXT,
    "count" BIGINT
 );
 
