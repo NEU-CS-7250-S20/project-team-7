@@ -193,13 +193,14 @@ ORDER BY count DESC;
 
 
 CREATE TABLE init_functions(
+    "package" TEXT,
     "fun_name" TEXT,
     "count" BIGINT
 );
 
 INSERT INTO init_functions
-SELECT fun_name, SUM(count) as count FROM aggregated_types
-GROUP BY fun_name
+SELECT package, fun_name, SUM(count) as count FROM aggregated_types
+GROUP BY package, fun_name
 ORDER BY count DESC;
 
 
