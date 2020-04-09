@@ -9,13 +9,14 @@
           INIT_LIMIT = 15,
           INIT_EXCLUDED_PACKAGES = [], //["base", "foo"],
           //ROOT_URL = "//69.122.18.134:9898",
-          ROOT_URL = "//127.0.0.1:5000",
-          //ROOT_URL = "http://prl1.ele.fit.cvut.cz:8135/",
+          //ROOT_URL = "//127.0.0.1:5000",
+	  //ROOT_URL = "//127.0.0.1:8005",
+          ROOT_URL = "//prl1.ele.fit.cvut.cz:8135",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
           INIT_QUERY_ENDPOINT = ROOT_URL + "/api/init/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",
-          DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums",
-          INIT_DEF_NUMS_ENDPOINT = ROOT_URL + "/api/init/definednums";
+          DEF_NUMS_ENDPOINT = ROOT_URL + "/api/definednums";
+          //INIT_DEF_NUMS_ENDPOINT = ROOT_URL + "/api/init/definednums";
 
     // ----------------------------------------
     // Constants and global variables
@@ -122,7 +123,7 @@
         // Someone requested new data for types overview
         // from the main diagram
         dispatch.on("push.query", function(newQuery) {
-            lastMainQuery.package = newQuery.package;
+	    lastMainQuery.package = newQuery.package;
             lastMainQuery.functions = newQuery.functions;
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);

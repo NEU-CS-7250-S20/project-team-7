@@ -93,6 +93,10 @@ CREATE INDEX package_index ON types(package);
 .import "2020_04_13_all_very_simpl.csv" types
 DELETE FROM types WHERE rowid = 1;
 
+-- apparently, csv has been merged from multiple csv-files,
+-- so there are multiple title lines
+DELETE FROM types WHERE fun_id='fun_id' AND package='package' AND fun_name='fun_name';
+
 --
 -- initial data cache tables
 --

@@ -3,6 +3,7 @@
 #
 
 from flask import Flask, request, render_template, send_file, g
+from flask_cors import CORS
 import sqlite3
 import json
 
@@ -10,8 +11,9 @@ import json
 # config
 #
 
-DB = "data/data.db"
+DB = "/mnt/arraySSD/OOPSLA20_types_shared/2020_04_13_all_very_simpl.db" #"data/big_data.db" #"data/data.db"
 APP = Flask(__name__)
+CORS(APP)
 
 #
 # routes
@@ -28,17 +30,16 @@ def index():
 @APP.route("/api/packages")
 def packages():
     return json.dumps(
-        SEND("SELECT package_being_analyzed, COUNT(*) as count",
-             "FROM types",
-             "GROUP BY package_being_analyzed"))
+        SEND("SELECT * FROM analyzed_packages"))
 
 @APP.route("/api/definednums")
 def definednums():
-    return json.dumps(
-        SEND("SELECT",
-             """COUNT(DISTINCT package) AS packages,
-                   COUNT(DISTINCT fun_name) AS functions""",
-             "FROM types"))
+    return json.dumps({
+        "packages":
+            SEND("SELECT count FROM stats WHERE name = 'distinct_package'"),
+        "functions":
+            SEND("SELECT count FROM stats WHERE name = 'distinct_fun_name'")
+    })
 
 @APP.route("/api/query")
 def query():
@@ -50,16 +51,19 @@ def query():
     return json.dumps({
         "packages":
             SEND("SELECT package, SUM(count) as count",
-                 "FROM types",
-                 where_clauses,
+                 "FROM sums",
+                 WHERE(NOTIN("package", "excluded"),
+                       IN("package_being_analyzed")),
                  "GROUP BY package",
                  "ORDER BY count DESC",
                  LIMIT()),
 
         "function_names":
             SEND("SELECT fun_name, SUM(count) as count",
-                 "FROM types",
-                  where_clauses,
+                 "FROM sums",
+                  WHERE(IN("package"),
+                        NOTIN("package", "excluded"),
+                        IN("package_being_analyzed")),
                  "GROUP BY package, fun_name",
                  "ORDER BY count DESC",
                  LIMIT()),
@@ -76,15 +80,15 @@ def query():
 # API cached
 #
 
-@APP.route("/api/init/definednums")
-def init_definednums():
-    return json.dumps(SEND("SELECT * FROM init_definednums", LIMIT()))
+#@APP.route("/api/init/definednums")
+#def init_definednums():
+#    return json.dumps(SEND("SELECT * FROM init_definednums", LIMIT()))
 
 @APP.route("/api/init/query")
 def init_query():
     return json.dumps({
         "packages": SEND("SELECT * FROM init_packages", LIMIT()),
-        "function_names": SEND("SELECT * FROM init_function_names", LIMIT()),
+        "function_names": SEND("SELECT * FROM init_functions", LIMIT()),
         "functions":
             SEND("SELECT *",
                  "FROM types",
@@ -128,6 +132,14 @@ def IN(field, key = None):
         args = args.split(",")
         holes = ",".join(["?" for _ in args])
         return (f"{field} IN ({holes})", args)
+
+def NOTIN(field, key = None):
+    key = key and key or field
+    args = request.args.get(key, False)
+    if args:
+        args = args.split(",")
+        holes = ",".join(["?" for _ in args])
+        return (f"NOT {field} IN ({holes})", args)
 
 def LIMIT():
     arg = request.args.get("limit", False)

@@ -10,7 +10,7 @@ import json
 # config
 #
 
-DB = "data/big_data.db" #"data/data.db"
+DB = "data/data.db"
 APP = Flask(__name__)
 
 #
@@ -28,16 +28,17 @@ def index():
 @APP.route("/api/packages")
 def packages():
     return json.dumps(
-        SEND("SELECT * FROM analyzed_packages"))
+        SEND("SELECT package_being_analyzed, COUNT(*) as count",
+             "FROM types",
+             "GROUP BY package_being_analyzed"))
 
 @APP.route("/api/definednums")
 def definednums():
-    return json.dumps({
-        "packages":
-            SEND("SELECT count FROM stats WHERE name = 'distinct_package'"),
-        "functions":
-            SEND("SELECT count FROM stats WHERE name = 'distinct_fun_name'")
-    })
+    return json.dumps(
+        SEND("SELECT",
+             """COUNT(DISTINCT package) AS packages,
+                   COUNT(DISTINCT fun_name) AS functions""",
+             "FROM types"))
 
 @APP.route("/api/query")
 def query():
@@ -49,19 +50,16 @@ def query():
     return json.dumps({
         "packages":
             SEND("SELECT package, SUM(count) as count",
-                 "FROM sums",
-                 WHERE(NOTIN("package", "excluded"),
-                       IN("package_being_analyzed")),
+                 "FROM types",
+                 where_clauses,
                  "GROUP BY package",
                  "ORDER BY count DESC",
                  LIMIT()),
 
         "function_names":
             SEND("SELECT fun_name, SUM(count) as count",
-                 "FROM sums",
-                  WHERE(IN("package"),
-                        NOTIN("package", "excluded"),
-                        IN("package_being_analyzed")),
+                 "FROM types",
+                  where_clauses,
                  "GROUP BY package, fun_name",
                  "ORDER BY count DESC",
                  LIMIT()),
@@ -86,7 +84,7 @@ def init_definednums():
 def init_query():
     return json.dumps({
         "packages": SEND("SELECT * FROM init_packages", LIMIT()),
-        "function_names": SEND("SELECT * FROM init_functions", LIMIT()),
+        "function_names": SEND("SELECT * FROM init_function_names", LIMIT()),
         "functions":
             SEND("SELECT *",
                  "FROM types",
@@ -130,14 +128,6 @@ def IN(field, key = None):
         args = args.split(",")
         holes = ",".join(["?" for _ in args])
         return (f"{field} IN ({holes})", args)
-
-def NOTIN(field, key = None):
-    key = key and key or field
-    args = request.args.get(key, False)
-    if args:
-        args = args.split(",")
-        holes = ",".join(["?" for _ in args])
-        return (f"NOT {field} IN ({holes})", args)
 
 def LIMIT():
     arg = request.args.get("limit", False)
