@@ -7,6 +7,8 @@
 // Elements
 // ==================================================
 
+const loaderElem = d3.select(".loader");
+
 // ----------------------------------------
 // Analysis Info
 // ----------------------------------------
@@ -66,6 +68,13 @@ analyzedMultipleCheckbox
 // ==================================================
 // Functions
 // ==================================================
+
+function disableLoader() {
+    loaderElem.style("display", "none");
+}
+function enableLoader() {
+    loaderElem.style("display", "block");
+}
 
 // ----------------------------------------
 // Function Selection

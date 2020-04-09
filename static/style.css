@@ -20,6 +20,25 @@ h1, h2, h3 {
   background-color: #f4f1f0;
 }
 
+.loader {
+	border: 16px solid #7bccc4; /* #f3f3f3; /* Light grey */ 
+	border-top: 16px solid #0868ac; /* #3498db; /* Blue */
+	animation: spin 2s linear infinite;
+	border-radius: 50%;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -60px;
+    margin-left: -60px;
+    width: 120px;
+    height: 120px;
+  }
+  
+  @keyframes spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+  }
+
 /* ************************************************** */
 /* Visualization Style */
 /* ************************************************** */

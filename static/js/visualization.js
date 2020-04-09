@@ -88,6 +88,7 @@
         // change of excluded packages,
         // or change of analyzed packages
         dispatch.on("analyzed-push.query", function(newQuery) {
+            enableLoader();
             // update settings and last query infos
             [visSettings, lastFunctionNameQuery, lastMainQuery]
                 .map(q => q.package_being_analyzed = newQuery.package_being_analyzed);
@@ -99,6 +100,7 @@
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
+                disableLoader();
                 dispatch.call("analyzed-pull", this, newQuery, data);
                 dispatch.call("funcs-pull", this, newQuery, data);
                 // depending on what we need to show in types overview,
@@ -116,7 +118,7 @@
             //console.log(newQuery);
             const endpoint = QUERY_ENDPOINT + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
-                console.log(data);
+                //console.log(data);
                 dispatch.call("funcs-pull", this, newQuery, data);
             });
         });
@@ -124,11 +126,13 @@
         // Someone requested new data for types overview
         // from the main diagram
         dispatch.on("push.query", function(newQuery) {
-	    lastMainQuery.package = newQuery.package;
+            enableLoader();
+	        lastMainQuery.package = newQuery.package;
             lastMainQuery.functions = newQuery.functions;
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
+                disableLoader();
                 dispatch.call("pull", this, newQuery, data);
             });
         });
@@ -136,9 +140,11 @@
         // Someone requested new data for types overview
         // from the Package/Function selection
         dispatch.on("selected-push.query", function(newQuery) {
+            enableLoader();
             let baseEndpoint = QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
             d3.json(endpoint).then(function(data) {
+                disableLoader();
                 dispatch.call("pull", this, newQuery, data);
             });
         });
