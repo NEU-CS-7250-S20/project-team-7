@@ -12,6 +12,7 @@
           //ROOT_URL = "//127.0.0.1:5000",
 	  //ROOT_URL = "//127.0.0.1:8005",
           ROOT_URL = "//prl1.ele.fit.cvut.cz:8135",
+          //ROOT_URL = "",
           QUERY_ENDPOINT = ROOT_URL + "/api/query",
           INIT_QUERY_ENDPOINT = ROOT_URL + "/api/init/query",
           PACKAGE_ENDPOINT = ROOT_URL + "/api/packages",

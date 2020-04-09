@@ -14,12 +14,26 @@ Install `flask` via `pip`.
 $ pip3 install flask
 ```
 
-### Server
-
-Run:
+For accessing server from different pages we need CORS,
+otherwise there is an error
+(`CORS header 'Access-Control-Allow-Origin' missing`).
 
 ```
-FLASK_APP=main.py flask run
+pip install -U flask-cors
+```
+
+### Server
+
+On the real server, run:
+
+```
+FLASK_APP=main.py flask run -p 8005 -h 0.0.0.0
+```
+
+Locally, run:
+
+```
+FLASK_APP=main-local.py flask run
 ```
 
 ## API
