@@ -167,7 +167,8 @@ function typesOverviewChart() {
 }
 
 // These are the columns from the table that we will use for our visualization.
-const dataKeys = ["fun_name", "arg_t0", "arg_t1", "arg_t2", "arg_t3", "arg_t4"];
+const dataKeys =
+  ["fun_name", "arg_t0", "arg_t1", "arg_t2", "arg_t3", "arg_t4", "arg_t_r"];
 
 // Main function for transforming the input data into something that is usable
 // for the D3 Sankey library.
