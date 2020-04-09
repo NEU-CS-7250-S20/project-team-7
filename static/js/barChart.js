@@ -13,21 +13,42 @@ function barChart() {
                 .append('g')
                 .attr("transform",`translate(${margin.left},${margin.top})`);
 
-            const xAxisDraw= svg.append('g')
-                .attr('class','x axis')
-
+          
             const yAxisDraw= svg.append('g')
                   .attr('class', 'y axis')
+
+
+       const xScale =d3.scaleLinear()
+
+       .range([0,width]);
+  const yScale=d3.scaleBand()
+
+       .rangeRound([0,height])
+       .paddingInner(0.25);
+
+   //Axes
+
+   //position of x axis
+   
+   const xAxis = d3.axisTop(xScale)
+   .tickFormat(formatTicks)
+   .tickSizeInner(-height)
+   .tickSizeOuter(0)
+   //position of y axis
+   const yAxis = d3.axisLeft(yScale).tickSize(0);
        //draw bars
-      function update(da,yScale,xScale,xAxis,yAxis){
-         
+      function update(da){
+        
         //update scales
           //console.log(d3.max(da, d=>d.count));
           xScale.domain([0,d3.max(da, d=>d.count)]);
           yScale.domain(da.map(d=> d.fun_name));
+
+         
         const bars = svg.selectAll('.bar')
             //join in data
             .data(da)
+
             .join(
                enter=>{enter
                .append('rect')
@@ -41,6 +62,7 @@ function barChart() {
                .delay((d,i)=>i*20)
                .attr('width',d=> xScale(d.count))
                .style('fill','dodgerblue')
+                
             },
 
                update=> {update
@@ -60,11 +82,7 @@ function barChart() {
                     .remove()
                }
             );
-            //Update axes
-            xAxisDraw.transition().duration(1000).call(xAxis.scale(xScale));
-            yAxisDraw.transition().duration(1000).call(yAxis.scale(yScale));
-
-            yAxisDraw.selectAll('text').attr('dx','-0.6em');
+ 
         }
          //headers ....
          const header = svg.append('g')
@@ -75,9 +93,10 @@ function barChart() {
 //headline
         header.append('tspan').text('Functions and Number of Times Called');
 
+        //Event listener
     dispatch.on("funcs-pull.barChart", function(query, data) {
      
-      
+        svg.selectAll('g.x.axis').remove();
         // Setup
 
         // sorting the data
@@ -87,34 +106,18 @@ function barChart() {
         data=data.sort((a,b)=>b.count-a.count)
                 .filter((d,i)=>i<15);
 
-
-
-       const xScale =d3.scaleLinear()
-
-            .range([0,width]);
-       const yScale=d3.scaleBand()
-
-            .rangeRound([0,height])
-            .paddingInner(0.25);
-
-        //Axes
-
-        //position of x axis
-        const xAxis = d3.axisTop(xScale)
-                        .tickFormat(formatTicks)
-                        .tickSizeInner(-height)
-                        .tickSizeOuter(0)
-
-        //position of y axis
-        const yAxis = d3.axisLeft(yScale).tickSize(0);
-
-
         //space between y axis and labels(fun_name)
-        yAxisDraw.selectAll('text').attr('dx','-0.6em');
-
-
+      
         // calling the update function
-        update(data,yScale,xScale,xAxis,yAxis);
+        update(data);
+        const xAxisDraw= svg.append('g')
+        .attr('class','x axis')
+        yAxisDraw.selectAll('text').attr('dx','-0.6em');
+         //Update axes
+         xAxisDraw.transition().duration(1000).call(xAxis.scale(xScale));
+         yAxisDraw.transition().duration(1000).call(yAxis.scale(yScale));
+
+         yAxisDraw.selectAll('text').attr('dx','-0.6em');
         //tooltip handler
         function mouseover(){
             const barData=d3.select(this).data()[0];
@@ -157,7 +160,10 @@ function barChart() {
    //function for x axis format
    function formatTicks(d){
 
-    return d3.format('')(d);
+    return d3.format('~s')(d)
+        .replace('M','mil')
+        .replace('G','bil')
+        .replace('T','tril');
 
 
 }
