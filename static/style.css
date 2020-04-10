@@ -50,6 +50,7 @@ h1, h2, h3 {
 
 .blockDiv {
 	padding: 20px;
+	padding-top: 0px;
 }
 
 #div-entire-vis h2,h3,h4 {

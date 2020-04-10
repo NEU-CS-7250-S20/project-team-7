@@ -24,6 +24,7 @@ function packageFilter() {
         //    .append('tspan').text(' Packages being analyzed: ');
 
         svg.append('ul')
+            .attr("id", "pkgFilterList")
             .attr('class','vertical-menu')
             .style("overflow-y" , "scroll")
             .style("overflow-x" , "hidden")

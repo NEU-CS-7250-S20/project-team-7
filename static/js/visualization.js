@@ -275,14 +275,13 @@
             .on("click", function() {
                 const pkgName = getAnalyzedPkgName();
                 if (checkAnalyzedPkgName(pkgName, pkgNames)) {
-                    //alert(pkgName);
                     // select checkbox in the appropriate svg
-
-                    //if there is an already selected package 
-                    // allow multiple selection
-
                     const pkgCheckBox = d3.select(`#${pkgName}`);
                     d3ElemMakeChecked(pkgCheckBox);
+                    const pkg = document.getElementById(`${pkgName}`);
+                    const fstPkg = document.getElementById(`${pkgNames[0]}`);
+                    document.getElementById("pkgFilterList")
+                        .scrollTop = pkg.offsetTop - fstPkg.offsetTop;
                 }
             });
         // removing a package
@@ -293,6 +292,10 @@
                 // unselect checkbox in the appropriate svg
                 const pkgCheckBox = d3.select(`#${pkgName}`);
                 d3ElemMakeUnchecked(pkgCheckBox);
+                const pkg = document.getElementById(`${pkgName}`);
+                const fstPkg = document.getElementById(`${pkgNames[0]}`);
+                document.getElementById("pkgFilterList")
+                    .scrollTop = pkg.offsetTop - fstPkg.offsetTop;
             }
         });
     });
