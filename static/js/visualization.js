@@ -100,9 +100,6 @@
             // request new data
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
-            //debugger;
-            //console.log("i SHOULD SEE EMPTY PCKG")
-            console.log(newQuery);
             d3.json(endpoint).then(function(data) {
                 disableLoader();
                 dispatch.call("analyzed-pull", this, newQuery, data);
@@ -262,7 +259,7 @@
     typesOverviewChart()("#vis-svg-1", dispatch);
 
     // define package filter
-    const instancee = packageFilter();
+    const packagefilter = packageFilter();
 
     // Analyzed packages
     d3.json(PACKAGE_ENDPOINT).then(function(data) {
@@ -272,7 +269,7 @@
         );
         d3.select("#infoAnalyzedPackagesNum")
             .text(data.length);
-        instancee("#filter", dispatch, data, visSettings);
+        packagefilter("#filter", dispatch, data, visSettings);
         // adding package
         analyzedPkgButtonSelect
             .on("click", function() {
@@ -280,6 +277,10 @@
                 if (checkAnalyzedPkgName(pkgName, pkgNames)) {
                     //alert(pkgName);
                     // select checkbox in the appropriate svg
+
+                    //if there is an already selected package 
+                    // allow multiple selection
+
                     const pkgCheckBox = d3.select(`#${pkgName}`);
                     d3ElemMakeChecked(pkgCheckBox);
                 }
@@ -319,15 +320,12 @@
     // uncheck all packages 
     analyzedMultipleCheckbox.on("change", function() {
         if (!this.checked){
-            instancee.multiple(false);
+            packagefilter.multiple(false);
             //I will need to unselect All Pckg filter checkboxes
-            instancee.unselect();
+            packagefilter.unselect();
         }
         else {
-            instancee.multiple(true);
-            //instancee.unselect();
-            //it is checked
-            //allow recording
+            packagefilter.multiple(true);
         }
     });
     // The All-checkbox can be clicked only when it's active,
@@ -339,22 +337,7 @@
             return;
         }
         // unselect all the packages
-        instancee.unselect();
-        /*if (!this.checked) {
-            //when we uncheck the "All"
-            //we do the reverse of what is underneath--> unchecking the "select multiple"
-            analyzedMultipleCheckbox.property("checked",false);
-            analyzedMultipleCheckbox.on("change")();
-            //and unselecting all the packages
-            instancee.unselect();
-        } else {
-            // when checking "All" the "select multiple" should be as well checked to allow 
-            // showing multiple packages
-            analyzedMultipleCheckbox.property("checked",true);
-            analyzedMultipleCheckbox.on("change")();
-            // after that we need to select All the element in the package filter
-            instancee.selectAll();
-        }*/
+        packagefilter.unselect();
     });
     
     // Initial data request
