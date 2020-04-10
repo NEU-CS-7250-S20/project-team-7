@@ -276,6 +276,16 @@
                     d3ElemMakeChecked(pkgCheckBox);
                 }
             });
+        // removing a package
+        analyzedPkgButtonUnselect
+        .on("click", function() {
+            const pkgName = getAnalyzedPkgName();
+            if (checkAnalyzedPkgName(pkgName, pkgNames)) {
+                // unselect checkbox in the appropriate svg
+                const pkgCheckBox = d3.select(`#${pkgName}`);
+                d3ElemMakeUnchecked(pkgCheckBox);
+            }
+        });
     });
 
     dataTreeMap()("#vis-svg-2-pkg-tree-map",
