@@ -100,9 +100,6 @@
             // request new data
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
-            debugger;
-            console.log("i SHOULD SEE EMPTY PCKG")
-            console.log(newQuery);
             d3.json(endpoint).then(function(data) {
                 disableLoader();
                 dispatch.call("analyzed-pull", this, newQuery, data);
@@ -247,7 +244,7 @@
    
 
 // define pckgFilter
-        const instancee=packageFilter();
+        const packagefilter=packageFilter();
 
     // ----------------------------------------
     // Initialize Visualization Charts
@@ -264,7 +261,7 @@
         );
         d3.select("#infoAnalyzedPackagesNum")
             .text(data.length);
-        instancee("#filter", dispatch, data, visSettings);
+        packagefilter("#filter", dispatch, data, visSettings);
         // adding package
         analyzedPkgButtonSelect
             .on("click", function() {
@@ -301,37 +298,44 @@
     //uncheck all packages 
     analyzedMultipleCheckbox.on("change",function(){
         if (!this.checked){
-            instancee.multiple(false);
+            packagefilter.multiple(false);
             //I will need to unselect All Pckg filter checkboxes
-            instancee.unselect();
+            packagefilter.unselect();
             
         }
         else{
-            instancee.unselect();
+            packagefilter.unselect();
             //it is checked
             //allow recording
-            instancee.multiple(true);
+            packagefilter.multiple(true);
 
 
         }
     });
+    function updateAnalyzedMultipleCheckbox(_){
+        analyzedMultipleCheckbox.property("checked",_);
+        analyzedMultipleCheckbox.on("change")();
+    }
     //All checkbox
     analyzedAllCheckbox.on("change",function(){
         if(!this.checked){
             //when we uncheck the "All"
             //we do the reverse of what is underneath--> unchecking the "select multiple"
-
-            analyzedMultipleCheckbox.property("checked",false);
-            analyzedMultipleCheckbox.on("change")();
+            updateAnalyzedMultipleCheckbox(false);
             //and unselecting all the packages
-            instancee.unselect();
+            packagefilter.unselect();
+            //and enable the block
+            enablePckgBlock();
+
         }else {
             //when checking "All" the "select multiple" should be as well checked to allow 
             // showing multiple packages
-            analyzedMultipleCheckbox.property("checked",true);
-            analyzedMultipleCheckbox.on("change")();
+            //Also when "All" is selected disable pckg text bellow it
+            //and the 2 buttons
+            disablePckgBlock();
+            updateAnalyzedMultipleCheckbox(true);
             // after that we need to select All the element in the package filter
-            instancee.selectAll();
+            packagefilter.selectAll();
 
         }
 

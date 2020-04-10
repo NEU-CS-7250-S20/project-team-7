@@ -116,3 +116,18 @@ function checkAnalyzedPkgName(pkgName, analyzedPkgs) {
     }
     return true;
 }
+
+//Enabling/Disabling the pkg text under "All" Checkbox 
+function disablePckgBlock(){
+    d3ElemDisable(analyzedPkgText);
+    d3ElemDisable(analyzedPkgButtonSelect);
+    d3ElemDisable(analyzedPkgButtonUnselect);
+
+}
+function enablePckgBlock(){
+    d3ElemEnable(analyzedPkgText);
+    d3ElemEnable(analyzedPkgButtonSelect);
+    d3ElemEnable(analyzedPkgButtonUnselect);
+
+}
+ 
