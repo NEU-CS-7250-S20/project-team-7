@@ -75,9 +75,11 @@ function packageFilter() {
             if(multiple){
                 new_query.package_being_analyzed = choices;
             }else{
-                if(choices.length>1) 
+                if (choices.length<=1) 
+                    new_query.package_being_analyzed = choices;
+                else //if(choices.length>1) 
                     alert("You can not select multiple packages, please enable using the checkbox");
-               
+                
             } 
             //console.log(new_query);
             //calling event in visualization.js

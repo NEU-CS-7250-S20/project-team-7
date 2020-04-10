@@ -297,7 +297,6 @@
     // If analyzedMultipleCheckbox is unchecked
     //uncheck all packages 
     analyzedMultipleCheckbox.on("change",function(){
-        debugger;
         //not checked
         if (!d3ElemIsChecked(analyzedMultipleCheckbox)){
             packagefilter.multiple(false);
@@ -324,7 +323,6 @@
         if(!d3ElemIsChecked(analyzedAllCheckbox)){
             //when we uncheck the "All"
             //we do the reverse of what is underneath--> unchecking the "select multiple"
-            debugger;
             updateAnalyzedMultipleCheckbox(false);
             //and unselecting all the packages
             packagefilter.unselect();
