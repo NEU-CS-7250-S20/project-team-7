@@ -297,12 +297,15 @@
     // If analyzedMultipleCheckbox is unchecked
     //uncheck all packages 
     analyzedMultipleCheckbox.on("change",function(){
-        if (!this.checked){
+        debugger;
+        //not checked
+        if (!d3ElemIsChecked(analyzedMultipleCheckbox)){
             packagefilter.multiple(false);
             //I will need to unselect All Pckg filter checkboxes
             packagefilter.unselect();
             
         }
+        //checked
         else{
             packagefilter.unselect();
             //it is checked
@@ -318,9 +321,10 @@
     }
     //All checkbox
     analyzedAllCheckbox.on("change",function(){
-        if(!this.checked){
+        if(!d3ElemIsChecked(analyzedAllCheckbox)){
             //when we uncheck the "All"
             //we do the reverse of what is underneath--> unchecking the "select multiple"
+            debugger;
             updateAnalyzedMultipleCheckbox(false);
             //and unselecting all the packages
             packagefilter.unselect();
