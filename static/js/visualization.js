@@ -290,18 +290,29 @@
          "funcs-pull.fun-treemap",
          FUNCS_EVENTS);
 
-    barChart()("#barchart-1", dispatch);
+    const barchart=barChart();
+    
+    barchart("#barchart-1", dispatch);
 
     // If analyzedMultipleCheckbox is unchecked
     //uncheck all packages 
     analyzedMultipleCheckbox.on("change",function(){
         if (!this.checked){
+            instancee.multiple(false);
             //I will need to unselect All Pckg filter checkboxes
             instancee.unselect();
             
         }
+        else{
+            instancee.unselect();
+            //it is checked
+            //allow recording
+            instancee.multiple(true);
+
+
+        }
         //else, I will need to inform other 
-        // visualizations that we are not selecting multiple anymore
+        // visualizations that we are not selecting multiples anymore
 
         //A VAR needs to be set globally that allows this behavior ....
 

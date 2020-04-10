@@ -3,6 +3,7 @@ function packageFilter() {
     const margin = {top: 0, right: 2, bottom: 2, left: 0},
         width = 200,
         height = 380;
+        multiple=false;
         checked=null;
     function chart(selector, dispatch, data, visSettings) {
         const filter_on = 'package_being_analyzed';
@@ -56,12 +57,13 @@ function packageFilter() {
         }).style('font-size','small')
 
 
-        //listen for checkboxes
-         checked = d3.selectAll(".filter-check")
-              checked.on("change",updateVis);
+      //listen for checkboxes
+      checked = d3.selectAll(".filter-check")
+      checked.on("change",updateVis);
 
         //handling one selection at a time
         function updateVis() {
+
             const choices = [];
             checked.each(function(d){
               cb = d3.select(this);
@@ -69,10 +71,14 @@ function packageFilter() {
                 choices.push(cb.property("value"));
               }
             });
-             
             const new_query = deepCopy(visSettings);
-            new_query.package_being_analyzed = choices;
-
+            if(multiple){
+                new_query.package_being_analyzed = choices;
+            }else{
+                if(choices.length>1) 
+                    alert("You can not select multiple packages, please enable using the checkbox");
+               
+            } 
             //console.log(new_query);
             //calling event in visualization.js
             dispatch.call("analyzed-push",this,new_query,data);
@@ -103,6 +109,10 @@ function packageFilter() {
         // in d3 when we change property programatically, we need to fire the event ourselves
         checked.on("change")();
     }
-
+    chart.multiple=function(_){
+        if (!arguments.length) return multiple;
+        multiple=_;
+        return chart;
+    };
     return chart;
 }

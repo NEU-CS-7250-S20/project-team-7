@@ -2,7 +2,8 @@ function barChart() {
     let margin = {top: 40, right: 0, bottom: 0, left: 80},
         width = 400,
         height = 200;
-
+        historyData=[];
+        
     function chart(selector, dispatch) {
         const w = width - margin.left - margin.right,
               h = height - margin.top - margin.bottom,
@@ -39,6 +40,32 @@ function barChart() {
        //draw bars
       function update(da){
         
+        //if recording is allowed
+//        if(multiple){
+
+        //record
+        //how to remove in case of unselecting 
+        //if da is contained in historyData=> this means that we unselected
+        //return historydata-da 
+        //else dont 
+//        debugger;
+//        const result=da.every(val=>historyData.includes(val));
+//        if(result==false){
+            //record
+           // historyData=[...da,...historyData];   
+//            da=[...da,...historyData];   
+
+//        }else{
+//            historyData=historyData.filter(n => !da.includes(n))
+//        }
+
+        //else{
+            //it contains it
+            //da is inside history and we are not adding pckges we need to substract
+         //   
+       // }
+//    }
+//    debugger;
         //update scales
           //console.log(d3.max(da, d=>d.count));
           xScale.domain([0,d3.max(da, d=>d.count)]);
@@ -95,9 +122,10 @@ function barChart() {
 
         //Event listener
     dispatch.on("funcs-pull.barChart", function(query, data) {
+
         svg.selectAll('g.x.axis').remove();
         svg.selectAll('g.y.axis').remove();
-        // Setup
+        
 
         // sorting the data
         data = data.functions;
@@ -105,9 +133,9 @@ function barChart() {
          
         data=data.sort((a,b)=>b.count-a.count)
                 .filter((d,i)=>i<15);
+                //space between y axis and labels(fun_name)
+    
 
-        //space between y axis and labels(fun_name)
-      
         // calling the update function
         update(data);
         const xAxisDraw= svg.append('g')
@@ -186,6 +214,7 @@ function barChart() {
         height = _;
         return chart;
     };
-
+  
+    
     return chart;
 }

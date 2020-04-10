@@ -54,9 +54,8 @@ const analyzedPkgButtonUnselect = d3.select("#buttonAnalyzedPackageUnselect");
 const analyzedMultipleCheckbox = d3.select("#checkboxAnalyzedMultiple");
 
 // by default, multiple packages can be selected
-analyzedMultipleCheckbox
-    .property("checked", true);
-
+//analyzedMultipleCheckbox
+//    .property("checked", true);
 // ----------------------------------------
 // Packages/Functions TreeMaps
 // ----------------------------------------
