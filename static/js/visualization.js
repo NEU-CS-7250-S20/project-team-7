@@ -302,6 +302,8 @@
         //else, I will need to inform other 
         // visualizations that we are not selecting multiple anymore
 
+        //A VAR needs to be set globally that allows this behavior ....
+
 
 
     });
