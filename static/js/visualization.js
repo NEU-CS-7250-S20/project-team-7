@@ -100,8 +100,8 @@
             // request new data
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
-            debugger;
-            console.log("i SHOULD SEE EMPTY PCKG")
+            //debugger;
+            //console.log("i SHOULD SEE EMPTY PCKG")
             console.log(newQuery);
             d3.json(endpoint).then(function(data) {
                 disableLoader();
@@ -161,6 +161,15 @@
     // Init vis settings
     limitText.property("value", INIT_LIMIT);
     excludedText.property("value", INIT_EXCLUDED_PACKAGES.join("\n"));
+
+    // by default, all analyzed packages are selected
+    analyzedAllCheckbox.property("checked", true);
+    // unless a package is selected, the "All" checkbox is invalid
+    d3ElemDisable(analyzedAllCheckbox);
+    // multiple selections are not allowed
+    // and package text box is empty
+    analyzedMultipleCheckbox.property("checked", false);
+    analyzedPkgText.property("value", "");
 
     // Analysis info
     /*d3.json(INIT_DEF_NUMS_ENDPOINT).then(function(data) {
@@ -244,10 +253,6 @@
             visSettings.excluded = newExcluded;
             updateAllData(this, visSettings);
         });
-   
-
-// define pckgFilter
-        const instancee=packageFilter();
 
     // ----------------------------------------
     // Initialize Visualization Charts
@@ -255,6 +260,9 @@
 
     // Types overview
     typesOverviewChart()("#vis-svg-1", dispatch);
+
+    // define package filter
+    const instancee = packageFilter();
 
     // Analyzed packages
     d3.json(PACKAGE_ENDPOINT).then(function(data) {
@@ -308,44 +316,47 @@
     barchart("#barchart-1", dispatch);
 
     // If analyzedMultipleCheckbox is unchecked
-    //uncheck all packages 
-    analyzedMultipleCheckbox.on("change",function(){
+    // uncheck all packages 
+    analyzedMultipleCheckbox.on("change", function() {
         if (!this.checked){
             instancee.multiple(false);
             //I will need to unselect All Pckg filter checkboxes
             instancee.unselect();
-            
         }
-        else{
-            instancee.unselect();
+        else {
+            instancee.multiple(true);
+            //instancee.unselect();
             //it is checked
             //allow recording
-            instancee.multiple(true);
-
-
         }
     });
-    //All checkbox
-    analyzedAllCheckbox.on("change",function(){
-        if(!this.checked){
+    // The All-checkbox can be clicked only when it's active,
+    // so we will see the event only when the user checks it
+    analyzedAllCheckbox.on("change", function() {
+        if (!this.checked) {
+            // this should never happen
+            visERROR("All-checkbox logic bug");
+            return;
+        }
+        // unselect all the packages
+        instancee.unselect();
+        /*if (!this.checked) {
             //when we uncheck the "All"
             //we do the reverse of what is underneath--> unchecking the "select multiple"
-
             analyzedMultipleCheckbox.property("checked",false);
             analyzedMultipleCheckbox.on("change")();
             //and unselecting all the packages
             instancee.unselect();
-        }else {
-            //when checking "All" the "select multiple" should be as well checked to allow 
+        } else {
+            // when checking "All" the "select multiple" should be as well checked to allow 
             // showing multiple packages
             analyzedMultipleCheckbox.property("checked",true);
             analyzedMultipleCheckbox.on("change")();
             // after that we need to select All the element in the package filter
             instancee.selectAll();
-
-        }
-
+        }*/
     });
+    
     // Initial data request
     updateAllData(this, visSettings);
 })());

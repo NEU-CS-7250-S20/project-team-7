@@ -62,23 +62,46 @@ function packageFilter() {
       checked.on("change",updateVis);
 
         //handling one selection at a time
-        function updateVis() {
-
-            const choices = [];
+        function updateVis(val) {
+            let choices = [];
             checked.each(function(d){
-              cb = d3.select(this);
+              let cb = d3.select(this);
               if(cb.property("checked")){
                 choices.push(cb.property("value"));
               }
             });
+            if (choices.length == 0) {
+                // check All
+                d3ElemDisable(analyzedAllCheckbox);
+                analyzedAllCheckbox.property("checked", true);
+            }
+            else {
+                // uncheck All and make it active
+                d3ElemEnable(analyzedAllCheckbox);
+                analyzedAllCheckbox.property("checked", false);
+                // if multiple selection is not allowed
+                // and more than 1 package is selected,
+                // uncheck all but one
+                if (!multiple) {
+                    // val should be in checked elements
+                    if (!choices.includes(val)) {
+                        visERROR("Multiple-checkbox logic bug");
+                        return;
+                    }
+                    // unselect previous
+                    checked.each(function() {
+                        let cb = d3.select(this);
+                        cb.property("checked", false);
+                    });
+                    d3.select(`#${val}`).property("checked", true);
+                    choices = [val];
+                }
+            }
+
             const new_query = deepCopy(visSettings);
-            if(multiple){
-                new_query.package_being_analyzed = choices;
-            }else{
-                if(choices.length>1) 
-                    alert("You can not select multiple packages, please enable using the checkbox");
-               
-            } 
+            new_query.package_being_analyzed = choices;
+            if(!multiple && choices.length>1) 
+                alert("You can not select multiple packages, please enable using the checkbox");
             //console.log(new_query);
             //calling event in visualization.js
             dispatch.call("analyzed-push",this,new_query,data);
@@ -108,6 +131,7 @@ function packageFilter() {
         checked.property("checked",false);
         // in d3 when we change property programatically, we need to fire the event ourselves
         checked.on("change")();
+
     }
     chart.selectAll=function(){
         checked.property("checked",true);

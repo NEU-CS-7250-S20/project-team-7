@@ -58,20 +58,26 @@ h1, h2, h3 {
 	text-align: center;
 }
 
+.rounded-block {
+	margin: 0 auto;
+	max-width: 400px;
+	border-radius: 6px;
+	border: silver 1px solid;
+	padding: 8px;
+	background-color: #fcfcfc;
+}
+
 /* ---------------------------------------- */
 /* Analysis Info */
 /* ---------------------------------------- */
 
-.table-info {
-	margin: 0 auto;
-	border-radius: 6px;
-	border: silver 1px solid;
-	padding: 4px;
-	background-color: #fcfcfc;
-}
-.table-info td {
-	padding: 2px;
+#table-info td {
+	/*padding: 2px;*/
 	min-width: 80px;
+	text-align: left;
+}
+
+#table-info td.centered {
 	text-align: center;
 }
 
@@ -80,8 +86,6 @@ h1, h2, h3 {
 /* ---------------------------------------- */
 
 #div-vis-settings {
-	max-width: 650px;
-	margin: 0 auto;
 	text-align: left;
 }
 
@@ -138,6 +142,7 @@ h1, h2, h3 {
 .vertical-menu li {
 	font-size: 16px;
 	height: 30px;
+	min-width: 210px;
 	background-color: #eee; /* Grey background color */
 	color: black; /* Black text color */
 	display: block; /* Make the links appear below each other */
