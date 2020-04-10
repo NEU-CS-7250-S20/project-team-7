@@ -186,7 +186,8 @@ function sankeyDataToTree(data) {
         for (const k of dataKeys) {
             // Don't generate a node for NA
             let v = d[k];
-            if (!v || v === "NA") break;
+            if (!v || (v === "NA" && k != "fun_name")) break;
+            //if (!v || v === "NA") break;
 
             // Get existing node or generate new one and add function count
             let next = cur[v];
