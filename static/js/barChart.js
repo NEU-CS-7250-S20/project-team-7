@@ -1,7 +1,7 @@
 function barChart() {
     let margin = {top: 40, right: 0, bottom: 0, left: 80},
         width = 400,
-        height = 400;
+        height = 200;
 
     function chart(selector, dispatch) {
         const w = width - margin.left - margin.right,

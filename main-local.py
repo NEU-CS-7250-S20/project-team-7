@@ -17,4 +17,5 @@ APP = Flask(__name__)
 
 @APP.route("/")
 def index():
-    return render_template("index.html")
+    config = {'rootPath' : '//prl1.ele.fit.cvut.cz:8135'}
+    return render_template("index.html", data=config)

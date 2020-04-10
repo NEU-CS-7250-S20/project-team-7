@@ -4,6 +4,7 @@
 
 from flask import Flask, request, render_template, send_file, g
 from flask_cors import CORS
+import os
 import sqlite3
 import json
 
@@ -11,9 +12,17 @@ import json
 # config
 #
 
-DB = "/mnt/arraySSD/OOPSLA20_types_shared/2020_04_13_all_very_simpl.db" #"data/big_data.db" #"data/data.db"
+DEFAULT_DB = "/mnt/arraySSD/OOPSLA20_types_shared/2020_04_13_all_very_simpl.db"
+#"data/big_data.db" #"data/data.db"
+
 APP = Flask(__name__)
 CORS(APP)
+
+DB = os.environ.get('DATABASE')
+if not DB:
+    DB = DEFAULT_DB
+
+MAIN_DB = "aggregated_types" #"types"
 
 #
 # routes
@@ -21,7 +30,8 @@ CORS(APP)
 
 @APP.route("/")
 def index():
-    return render_template("index.html")
+    config = {'rootPath' : ''}
+    return render_template("index.html", data=config)
 
 #
 # API
@@ -59,7 +69,7 @@ def query():
                  LIMIT()),
 
         "function_names":
-            SEND("SELECT fun_name, SUM(count) as count",
+            SEND("SELECT package, fun_name, SUM(count) as count",
                  "FROM sums",
                   WHERE(IN("package"),
                         NOTIN("package", "excluded"),
@@ -70,7 +80,7 @@ def query():
 
         "functions":
             SEND("SELECT *",
-                 "FROM types",
+                 f"FROM {MAIN_DB}",
                  where_clauses,
                  "ORDER BY count DESC",
                  LIMIT())
@@ -91,7 +101,7 @@ def init_query():
         "function_names": SEND("SELECT * FROM init_functions", LIMIT()),
         "functions":
             SEND("SELECT *",
-                 "FROM types",
+                 f"FROM {MAIN_DB}",
                  "ORDER BY count DESC",
                  LIMIT())
     })

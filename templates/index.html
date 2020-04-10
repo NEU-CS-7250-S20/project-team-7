@@ -163,7 +163,7 @@
 
     <div id="div-barchart-1" class="">
       <svg id="barchart-1" preserveAspectRatio="xMidYMid meet"
-        viewBox="0 0 500 440">
+        viewBox="0 0 500 240">
       </svg>
     </div>
   </div>
@@ -205,6 +205,11 @@
   </div>
 
   <!-- Scriptt the end avoid need for dealing with async, defer, or onload event handlers -->
+  <script type="text/javascript">
+    window.appConfig = {
+      rootPath: '{{ data.rootPath }}'
+    }
+  </script>
   <script src="static/lib/lodash.min.js"></script>
   <script src="static/lib/d3.v5.15.0/d3.min.js"></script>
   <script src="static/lib/d3-sankey.js"></script>
