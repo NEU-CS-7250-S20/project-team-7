@@ -100,6 +100,9 @@
             // request new data
             let baseEndpoint = _.isEqual(clean(newQuery), clean(initQuery)) ? INIT_QUERY_ENDPOINT : QUERY_ENDPOINT;
             const endpoint = baseEndpoint + "?" + new URLSearchParams(newQuery);
+            debugger;
+            console.log("i SHOULD SEE EMPTY PCKG")
+            console.log(newQuery);
             d3.json(endpoint).then(function(data) {
                 disableLoader();
                 dispatch.call("analyzed-pull", this, newQuery, data);
@@ -311,12 +314,26 @@
 
 
         }
-        //else, I will need to inform other 
-        // visualizations that we are not selecting multiples anymore
+    });
+    //All checkbox
+    analyzedAllCheckbox.on("change",function(){
+        if(!this.checked){
+            //when we uncheck the "All"
+            //we do the reverse of what is underneath--> unchecking the "select multiple"
 
-        //A VAR needs to be set globally that allows this behavior ....
+            analyzedMultipleCheckbox.property("checked",false);
+            analyzedMultipleCheckbox.on("change")();
+            //and unselecting all the packages
+            instancee.unselect();
+        }else {
+            //when checking "All" the "select multiple" should be as well checked to allow 
+            // showing multiple packages
+            analyzedMultipleCheckbox.property("checked",true);
+            analyzedMultipleCheckbox.on("change")();
+            // after that we need to select All the element in the package filter
+            instancee.selectAll();
 
-
+        }
 
     });
     // Initial data request

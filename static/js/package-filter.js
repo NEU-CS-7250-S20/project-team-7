@@ -109,6 +109,11 @@ function packageFilter() {
         // in d3 when we change property programatically, we need to fire the event ourselves
         checked.on("change")();
     }
+    chart.selectAll=function(){
+        checked.property("checked",true);
+        // in d3 when we change property programatically, we need to fire the event ourselves
+        checked.on("change")();
+    }
     chart.multiple=function(_){
         if (!arguments.length) return multiple;
         multiple=_;
