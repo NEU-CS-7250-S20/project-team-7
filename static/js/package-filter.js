@@ -72,13 +72,22 @@ function packageFilter() {
               }
             });
             const new_query = deepCopy(visSettings);
+            //if we are allowing multiple selections
             if(multiple){
                 new_query.package_being_analyzed = choices;
-            }else{
+            }
+            //if we are not allowing multiple selections
+            else{
                 if (choices.length<=1) 
                     new_query.package_being_analyzed = choices;
-                else //if(choices.length>1) 
-                    alert("You can not select multiple packages, please enable using the checkbox");
+                else{
+                    //if(choices.length>1) 
+                        alert("You can not select multiple packages, please enable using the checkbox");
+                    //unselect whatever the user selected with no updates 
+                    d3.select(this).property("checked",false);
+
+                } 
+
                 
             } 
             //console.log(new_query);

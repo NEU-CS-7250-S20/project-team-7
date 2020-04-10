@@ -269,8 +269,28 @@
                 if (checkAnalyzedPkgName(pkgName, pkgNames)) {
                     //alert(pkgName);
                     // select checkbox in the appropriate svg
+
+                    //if there is an already selected package 
+                    // allow multiple selection
+
                     const pkgCheckBox = d3.select(`#${pkgName}`);
                     d3ElemMakeChecked(pkgCheckBox);
+                }
+            });
+            analyzedPkgButtonUnselect
+            .on("click", function() {
+                const pkgName = getAnalyzedPkgName();
+                if (checkAnalyzedPkgName(pkgName, pkgNames)) {
+                    //alert(pkgName);
+                    // select checkbox in the appropriate svg
+
+                    //if there is an already selected package 
+                    // allow multiple selection
+                    
+                    const pkgCheckBox = d3.select(`#${pkgName}`);
+                    
+                    if(!d3ElemMakeUnChecked(pkgCheckBox)) 
+                        alert("You are trying to uncheck something unchecked?")
                 }
             });
     });
@@ -306,7 +326,6 @@
         }
         //checked
         else{
-            packagefilter.unselect();
             //it is checked
             //allow recording
             packagefilter.multiple(true);

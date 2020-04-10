@@ -23,7 +23,14 @@ function d3ElemMakeChecked(elem) {
     }
     return false;
 }
-
+function d3ElemMakeUnChecked(elem) {
+    if (d3ElemIsChecked(elem)) {
+        elem.property("checked", false);
+        elem.dispatch("change");
+        return true;
+    }
+    return false;
+}
 function d3ElemEnable(elem) {
     elem.property("disabled", false);
 }
