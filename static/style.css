@@ -21,7 +21,7 @@ h1, h2, h3 {
 }
 
 .loader {
-	border: 16px solid #7bccc4; /* #f3f3f3; /* Light grey */ 
+	border: 16px solid #7bccc4; /* #f3f3f3; /* Light grey */
 	border-top: 16px solid #0868ac; /* #3498db; /* Blue */
 	animation: spin 2s linear infinite;
 	border-radius: 50%;
@@ -33,7 +33,7 @@ h1, h2, h3 {
     width: 120px;
     height: 120px;
   }
-  
+
   @keyframes spin {
 	0% { transform: rotate(0deg); }
 	100% { transform: rotate(360deg); }
@@ -102,6 +102,12 @@ h1, h2, h3 {
 /* ---------------------------------------- */
 /* Function Selection */
 /* ---------------------------------------- */
+
+#div-select-function {
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
 
 /* ---------------------------------------- */
 /* Types Overview */
@@ -182,7 +188,7 @@ h1, h2, h3 {
 
 .vis-svg-pkgfun .tm-block-text {
 	font-size: 9px;
-	font-family: monospace;	
+	font-family: monospace;
 }
 .vis-svg-pkgfun .tm-block-number {
 	font-size: 9px;
@@ -312,7 +318,7 @@ h1, h2, h3 {
 		grid-template-columns: repeat(6, 1fr);
 		grid-gap: 6px 10px;
 	}
-	
+
 	/* types overview */
 	#div-vis-1 {
 		grid-column-start: 1;

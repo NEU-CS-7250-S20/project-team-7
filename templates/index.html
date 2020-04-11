@@ -45,13 +45,39 @@
 
     <h1>Motivation</h1>
 
-    <p><em>Summary of user needs and motivating questions.</em></p>
+    <p>
+      Dynamically typed languages like R support flexible programming idioms,
+      but are difficult to reason about statically without type annotations.
+      Gradual type systems bridge the gap between dynamically and statically
+      typed languages, permitting the incremental migration of programs
+      between the two disciplines.
+    </p>
 
-    <p><em>Expectation: There is a clear focus, and a developed explanation of the problem, and a reasonable response is proposed.</em></p>
+    <p>
+      Such type systems are usually designed in absence of empirical
+      data on how developers in the language actually write programs.
+      In contrast, our partner is using a data-driven approach to
+      type system design, employing a dynamic analysis of type usage
+      on a wide range of existing R packages. Unfortunately, this
+      dataset is too large to derive any useful insights.
+    </p>
+
+    <p>
+      Our project visualizes this type information for exploration
+      and analysis. In particular, we provide facilities for filtering
+      the data, displaying type signatures as flows, and integrating
+      additional quantitative information.
+    </p>
 
     <h1>Visualization</h1>
-    <!-- Your writeup goes here -->
-    <p>We show an alluvial visualization of R functions under analysis on a tiny subset of data and a bar chart of the popularity of functions in the given dataset.</p>
+
+    <ul>
+      <li> <b>Definition Package Search.</b> Filter by a particular definition package or function. </li>
+      <li> <b>Types Overview.</b> See all the type signatures of the most used functions in the selection. Brush over a flow to zoom in on it. </li>
+      <li> <b>Analyzed Packages.</b> Filter by the package that was analyzed. </li>
+      <li> <b>Definition Packages.</b> Use the treemaps to see quantitative information about usage across packages, and also filter. </li>
+      <li> <b>Function Information.</b> This shows a bar chart of currently selected function usage. </li>
+    </ul>
 
   </div>
 
@@ -62,12 +88,12 @@
     <div class="tip-body"></div>
   </div>
 
-  <div class="loader"></div> 
+  <div class="loader"></div>
 
   <div id="div-entire-vis">
     <!-- Your visualization here -->
     <div id="div-analysis-info" class="blockDiv">
-      <h2>Analysis Info</h2>
+      <h4>Analysis Info</h4>
       <table id="table-info" class="rounded-block">
         <tr>
           <td># analyzed packages</td>
@@ -85,7 +111,7 @@
     </div>
 
     <div id="div-vis-settings" class="blockDiv">
-      <h2>Visualization Settings</h2>
+      <h4>Visualization Settings</h4>
       <div class="rounded-block">
         <div>
           <span>Show # selections at once:</span>
@@ -102,11 +128,9 @@
       </div>
     </div>
 
-    <h2>Main Visualization</h2>
-
     <div id="div-select-function">
       <label for="textFunctionName">
-        Package/Function Info
+        <b> Definition Package Search </b>
         (<span style="font-family: monospace; font-size: smaller;"
          >"package [function]"</span>):
       </label>
@@ -122,14 +146,14 @@
       <div id="div-vis-1">
         <h4> Types Overview </h4>
         <svg id="vis-svg-1" class="vis-svg-types"
-          viewBox="0 0 870 550" preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 870 615" preserveAspectRatio="xMidYMid meet"
           version="1.1"
           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
       </div>
 
       <div id="div-filter-vis" class="vis-filter-div">
-        <h4> Analyzed packages </h4>
+        <h4> Analyzed Packages </h4>
         <input type="checkbox" id="checkboxAnalyzedAll"
           name="checkboxAnalyzedAll"/>
         <label for="checkboxAnalyzedAll">All</label><br/>
@@ -144,6 +168,7 @@
       </div>
 
       <div id="div-pkg-tree-map" class="">
+        <h4> Definition Packages </h4>
         <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
         <label for="checkboxPkgMultiple">Select multiple packages</label>
         <svg id="vis-svg-2-pkg-tree-map" class="vis-svg-pkgfun"
@@ -164,6 +189,7 @@
     </div>
 
     <div id="div-barchart-1" class="">
+      <h4> Function Information </h4>
       <svg id="barchart-1" preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 500 240">
       </svg>
