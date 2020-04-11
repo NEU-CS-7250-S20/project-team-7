@@ -169,6 +169,18 @@ INSERT INTO stats
 SELECT "distinct_fun_name" as name, COUNT(DISTINCT fun_name) as count
 FROM aggregated_types;
 
+INSERT INTO stats
+SELECT 'distinct_record' as name, COUNT(*) as count
+FROM aggregated_types;
+
+INSERT INTO stats
+SELECT 'call' as name, SUM(count) as count
+FROM aggregated_types;
+
+INSERT INTO stats
+SELECT 'distinct_ret_type' as name, COUNT(DISTINCT arg_t_r) as count
+FROM aggregated_types;
+
 
 CREATE TABLE analyzed_packages(
    "package_being_analyzed" TEXT,
