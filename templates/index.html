@@ -101,7 +101,14 @@
   <div id="div-entire-vis">
     <!-- Your visualization here -->
     <div id="div-analysis-info" class="blockDiv">
-      <h4>Analysis Statistics</h4>
+      <h4>
+        Analysis Information
+        <div class="help-tip blue-colored">
+          <p>
+            Some statistics about the underlying dynamic analysis data.
+          </p>
+        </div>
+      </h4>
       <table id="table-info" class="rounded-block">
         <tr>
           <td ># dataset records</td>
@@ -128,40 +135,85 @@
     </div>
 
     <div id="div-vis-settings" class="blockDiv">
-      <h4>Visualization Settings</h4>
-      <div class="rounded-block">
-        <div>
-          <span>Show # selections at once:</span>
-          <input type="text" id="textSelectionsNum"/>
-          <input type="button" id="buttonSelectionsNum"
-            value="Update"/>
+      <h4>
+        Visualization Settings
+        <div class="help-tip blue-colored">
+          <p>
+            Global parameters of the visualization:
+            maximum number of the most popular datums being displayed
+            and the list of definition packages to ignore.
+          </p>
         </div>
-        <div>
-          <span>Exclude functions from packages:</span><br/>
-          <textarea id="textPackagesExclude"></textarea><br/>
-          <input type="button" id="buttonPackagesExclude"
-            value="Update"/>
-        </div>
-      </div>
+      </h4>
+        <table class="rounded-block">
+          <tr>
+            <td><span>Max # of datums displayed:</span></td>
+            <td class="tdseparator"></td>
+            <td><span>Exclude functions from packages:</span></td>
+          </tr>
+          <tr>
+            <td>
+              <input type="text" id="textSelectionsNum"/><br/>
+              <input type="button" id="buttonSelectionsNum"
+                value="Update"/><br/>
+            </td>
+            <td class="tdseparator"></td>
+            <td>
+              <textarea id="textPackagesExclude"></textarea>
+              <div class="help-tip">
+                <p>enter one package per line</p>
+              </div>
+              <br/>
+              <input type="button" id="buttonPackagesExclude"
+                value="Update"/>
+            </td>
+          </tr>
+        </table>
     </div>
 
     <div id="div-select-function">
       <label for="textFunctionName">
-        <b> Definition Package Search </b>
-        (<span style="font-family: monospace; font-size: smaller;"
-         >"package [function]"</span>):
+        <h4>
+          Definition Package Search
+          <div class="help-tip blue-colored">
+            <p>
+              A single definition package or a function to display.
+            </p>
+          </div>
+        </h4>
+        <span style="font-family: monospace; font-size: smaller; display: none"
+         >("package [function]"):</span>
+        <div class="help-tip">
+          <p>enter "package [function]"</p>
+        </div>
       </label>
       <input type="text" id="textFunctionName" name="textFunctionName"/>
       <input type="button" id="buttonFunctionName" value="Show"/>
       <input type="button" id="buttonClearFunctionName" value="Clear"/>
+      <div class="help-tip">
+        <p>click "Show" to display the selected package/function;
+          click "Clear" to return to the main view;
+          enable "Keep showing" to display the selection when analyzed packages change</p>
+      </div>
       <input type="checkbox" id="checkboxKeepFunction"
           name="checkboxKeepFunction`"/>
-        <label for="checkboxKeepFunction">Keep showing</label>
+      <label for="checkboxKeepFunction">Keep showing</label>
     </div>
 
     <div class="vis-holder">
       <div id="div-vis-1">
-        <h4> Types Overview </h4>
+        <h4>
+          Types Overview 
+          <div class="help-tip blue-colored">
+            <p>Shows functions and their <b>type signatures</b>
+              by depicting the flow between functions and the types
+              of their arguments.<br/>
+              The first vertical bar represents function name.
+              The second bar represents the type of the first argument,
+              and so on; the last bar in each row is the return type.
+            </p>
+          </div>
+        </h4>
         <svg id="vis-svg-1" class="vis-svg-types"
           viewBox="0 0 870 615" preserveAspectRatio="xMidYMid meet"
           version="1.1"
@@ -170,7 +222,16 @@
       </div>
 
       <div id="div-filter-vis" class="vis-filter-div">
-        <h4> Analyzed Packages </h4>
+        <h4>
+          Analyzed Packages
+          <div class="help-tip blue-colored">
+            <p>
+              List of all packages analyzed during the analysis
+              (with the number of function calls made in each package).
+              Select one or more packages to limit the data being displayed.
+            </p>
+          </div>
+        </h4>
         <div id="div-filter-vis-content">
         <input type="checkbox" id="checkboxAnalyzedAll"
           name="checkboxAnalyzedAll"/>
@@ -187,17 +248,38 @@
       </div>
 
       <div id="div-pkg-tree-map" class="">
-        <h4 id="h4DefPackagesInTreeMap">Definition Packages</h4>
+        <h4>
+          Definition Packages
+          <div class="help-tip blue-colored">
+            <p>
+              Interactive treemap of the packages that define the most
+              popular functions for the currently selected analyzed packages.
+              Select one or more packages to see an overview of their functions.
+            </p>
+          </div>
+        </h4>
+        <div class="centered-block">
         <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
         <label for="checkboxPkgMultiple">Select multiple packages</label><br/>
         <svg id="vis-svg-2-pkg-tree-map" class="vis-svg-pkgfun"
           viewBox="0 0 260 140" preserveAspectRatio="xMidYMid meet"
           version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
+        </div>
       </div>
 
       <div id="div-fun-tree-map" class="">
-        <h4 id="h4DefPackagesInTreeMap">Defined Functions</h4>
+        <h4>
+          Defined Functions
+          <div class="help-tip blue-colored">
+            <p>
+              Interactive treemap of the most popular functions
+              for the currently selected analyzed packages.
+              Select a function to see its overview.
+            </p>
+          </div>
+        </h4>
+        <div class="centered-block">
         <input type="checkbox" id="checkboxFunMultiple" name="checkboxFunMultiple"
           disabled/>
         <label for="checkboxFunMultiple">Select multiple functions</label><br/>
@@ -205,11 +287,21 @@
           viewBox="0 0 260 140" preserveAspectRatio="xMidYMid meet"
           version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         </svg>
+        </div>
       </div>
     </div>
 
     <div id="div-barchart-1" class="">
-      <h4> Function Information </h4>
+      <h4>
+        Function Information
+        <div class="help-tip blue-colored">
+          <p>
+            Barchart of the most popular functions
+            for the currently selected analyzed packages.
+            Hover over a bar to see the details.
+          </p>
+        </div>
+      </h4>
       <svg id="barchart-1" preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 500 240">
       </svg>
@@ -249,6 +341,7 @@
       <li><a href="https://flask.palletsprojects.com/en/1.1.x/patterns/sqlite3/">Flask SQLite3 Example</a> by Armin Ronacher.</li>
       <li><a href="https://lodash.com/">Lodash</a>.</li>
       <li><a href="https://www.w3schools.com/howto/howto_css_loader.asp">Loader</a>.</li>
+      <li><a href="https://tutorialzine.com/2014/07/css-inline-help-tips">Help tooltip</a> from tutorialzine.</li>
     </ul>
 
   </div>
