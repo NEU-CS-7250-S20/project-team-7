@@ -42,6 +42,7 @@ h1, h2, h3 {
     margin-left: -60px;
     width: 120px;
     height: 120px;
+    z-index: 9999;
   }
 
   @keyframes spin {
@@ -64,16 +65,21 @@ h1, h2, h3 {
 	top: 2px;
 	display: flex;
 	margin: 2px;
+	z-index:9999;
 }
 .navigation-button {
 	padding: 6px;
 	background-color: #0868ac;
 	color: white;
-	font-size: 14px;
-	letter-spacing: 0.1em;
-	font-weight: 500;
+	min-width: 50px;
+	text-align: center;
+	line-height: 1.1;
+	/*font-size: 14px;
+	letter-spacing: 0.1em;*/
+	/*font-weight: 500;*/
 	border: solid 2px white;
 	cursor: pointer;
+	z-index:9999;
 }
 .navigation-button:hover {
 	background-color: #08ac68;
@@ -117,7 +123,7 @@ h1, h2, h3 {
 
 #table-info td.centered {
 	text-align: center;
-	font-style: monospace;
+	font-family: monospace;
 }
 
 /* ---------------------------------------- */
@@ -330,17 +336,17 @@ h1, h2, h3 {
     height: 25px;
     font-size: 14px;
     line-height: 24px;
-	cursor: default;
-	display: inline-block;
-	vertical-align: top;
+    cursor: default;
+    display: inline-block;
+    vertical-align: top;;
 }
 
 .blue-colored {
-	background-color: #2b8cbe;
+    background-color: #2b8cbe;
 }
 
 h4 .blue-colored {
-	font-weight: normal;
+    font-weight: normal;
 }
 
 .help-tip:before{
@@ -366,14 +372,16 @@ h4 .blue-colored {
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    right: -4px;
+    right: -68px;
+    /*left: 20px;*/
     color: black;
     font-size: 16px;
     line-height: 1.4;
+    z-index:9999;
 }
 
 .blue-colored p {
-	background-color: #f7fcfd;
+    background-color: #f7fcfd;
 }
 
 .help-tip p:before{ /* The pointer of the tooltip */
@@ -383,7 +391,7 @@ h4 .blue-colored {
     height: 0;
     border:6px solid transparent;
     border-bottom-color:#eee;
-    right:10px;
+    right:72px;
     top:-12px;
 }
 
@@ -398,6 +406,7 @@ h4 .blue-colored {
 
 /* CSS animation */
 
+/*
 @-webkit-keyframes fadeIn {
     0% { 
         opacity:0; 
@@ -413,7 +422,7 @@ h4 .blue-colored {
 @keyframes fadeIn {
     0% { opacity:0; }
     100% { opacity:100%; }
-}
+}*/
 
 /* ************************************************** */
 /* Layout */
@@ -599,6 +608,17 @@ h4 .blue-colored {
 }
 
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */
+#forkongithub{
+    position:absolute;
+    display:block;
+    top:1px;
+    right:0;
+    /*width:200px;*/
+    overflow:hidden;
+    z-index:9999;
+    margin: 4px;
+}
+
 #forkongithub a{
 	background:#0868ac;
 	color:#fff;
@@ -611,9 +631,10 @@ h4 .blue-colored {
 	line-height:1.4rem;
 	position:relative;
 	transition:0.5s;
+	/*right: 0px;*/
 }
 #forkongithub a:hover{
-	background:#118;
+	background:#08ac68;
 	color:#fff;
 }
 #forkongithub a::before,#forkongithub a::after{
@@ -622,7 +643,8 @@ h4 .blue-colored {
 	display:block;
 	position:absolute;
 	top:1px;
-	left:0;
+	/*width: 200px;*/
+	/*right: 0px;*/
 	height:1px;
 	background:#fff;
 }
