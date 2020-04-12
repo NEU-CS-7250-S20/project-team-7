@@ -16,6 +16,17 @@ h1, h2, h3 {
 	display: block;
 }
 
+.example-text {
+	font-size: 17px;
+}
+.code-font {
+	font-family: monospace;
+	font-size: 16px;
+	letter-spacing: 0.05em;
+	background-color: #f4f1f0;
+	padding: 1px 3px 1px 3px;
+}
+
 #Rlogo {
 	float: right;
 	margin: 10px;
@@ -370,12 +381,13 @@ h4 .blue-colored {
     display: none;
     text-align: center;
     background-color: #eee;
-    padding: 6px;
-    width: 240px;
+	padding: 6px;
+	min-width: 200px;
+    max-width: 260px;
     position: absolute;
     border-radius: 3px;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-    right: -68px;
+    right: -28px;
     /*left: 20px;*/
     color: black;
     font-size: 16px;
@@ -394,7 +406,7 @@ h4 .blue-colored {
     height: 0;
     border:6px solid transparent;
     border-bottom-color:#eee;
-    right:72px;
+    right:32px;
     top:-12px;
 }
 

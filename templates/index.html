@@ -111,57 +111,57 @@
     </ul>
 
     <h2 id="label-example">Example</h2>
-    <ol>
-      <li>Click on "FME" in Analyzed Packages to limit the data
+    <ol class="example-text">
+      <li>Click on <span class="code-font">FME</span> in Analyzed Packages to limit the data
         only to the analysis of the FME package.<br/>
         In the Types Overview, you will see the 15 most used
         function/type signatures in the package
-        ("15" is the default value in the Visualization Settings).
+        (<span class="code-font">15</span> is the default value in the Visualization Settings).
       </li>
-      <li>Brush "*" function name in Types Overview to see more
+      <li>Brush <span class="code-font">*</span> function name in Types Overview to see more
         information about the usage of the multiplication function.<br/>
         You can see that it is most often used as a binary function
         of double scalars, but there are also other type signatures.
       </li>
       <li>Double-click on Types Overview to return to the previous view.</li>
-      <li>Enter "base +" and click "Show" to see the usage of addition
+      <li>Enter <span class="code-font">base +</span> into Definition Package Search
+        and click <span class="code-font">Show</span> to see the usage of addition
         in the currently selected FME package.
       </li>
-      <li>Enable "Keep showing" checkbox.</li>
-      <li>Click on "Sampling" in Analyzed Packages.<br/>
-        Now, you can see how addition is used in the "Sampling" package.
-        Note that as compared to FME, Sampling adds integer to double
-        much more often.
-        If you click on "Rmpfr", you will see that this package
-        adds even list to double.
+      <li>Enable <span class="code-font">Keep showing</span> checkbox.</li>
+      <li>Click on <span class="code-font">sampling</span> in Analyzed Packages.<br/>
+        You can see now how addition is used in the sampling package.
+        Note that as compared to FME, integer/double addition is used more often.<br/>
+        Then, if you click on <span class="code-font">Rmpfr</span> package,
+        you will see a new, list/double type signature for addition.
       </li>
-      <li>Click "Clear" to return to the general overview.</li>
-      <li>Enter "distrMod" in Analyzed Packages textbox and
-        click "✓" button to switch to the distrMod package data.</li>
-      <li>You can see in Definition Packages that the "base" package
+      <li>Click <span class="code-font">Clear</span> to return to the general overview.</li>
+      <li>Enter <span class="code-font">distrMod</span> in Analyzed Packages textbox and
+        click <span class="code-font">✓</span> button to switch to the distrMod package data.</li>
+      <li>You can see in Definition Packages that the <span class="code-font">base</span> package
         is the most used one.<br/>
-        Click "[show more packages]" to show less popular packages.
+        Click <span class="code-font">[show more packages]</span> to show less popular packages.
       </li>
-      <li>Click on "stats" in the packages treemap to see
+      <li>Click on <span class="code-font">stats</span> in the packages treemap to see
         the data on functions defined in this package.<br/>
-        Note that in addition to Type Overview, Defined Functions
-        and Function Information get updated.
+        Note that in addition to Type Overview, sections Defined Functions
+        and Function Information also get updated.
       </li>
-      <li>Click on ".approxfun" in Defined Functions to see
+      <li>Click on <span class="code-font">.approxfun</span> in Defined Functions to see
         its type signatures.<br/>
         Note that in the distrMod package, .approxFun is the most
         used function from the stats package. This can be deduced
         from the size of its block in the treemap as well as the barchart.
       </li>
-      <li>In Visualization Settings, enter "base" into the textarea
-        and click "Update". <br/>
+      <li>In Visualization Settings, enter <span class="code-font">base</span> into the textarea
+        and click <span class="code-font">Update</span>. <br/>
         This will exclude all the base functions from being shown.
         Now you can see that besides standard library,
-        the distrMod package uses "methods" and "distr" packages a lot.
+        the distrMod package uses <span class="code-font">methods</span> and <span class="code-font">distr</span> packages a lot.
       </li>
-      <li>Click "All" in Analyzed Packages.<br/>
+      <li>Click <span class="code-font">All</span> in Analyzed Packages.<br/>
         You will see that across all the analyzed packages,
-        "methods" and "stats" are the most used packages besides
+        <span class="code-font">methods</span> and <span class="code-font">stats</span> are the most used packages besides
         standard library.
         You can see their most used function/type signatures
         in Types Overview.
@@ -179,11 +179,11 @@
     <div id="div-analysis-info" class="blockDiv">
       <h4>
         Analysis Information
-        <div class="help-tip blue-colored">
+        <span class="help-tip blue-colored">
           <p>
             Some statistics about the underlying dynamic analysis data.
           </p>
-        </div>
+        </span>
       </h4>
       <table id="table-info" class="rounded-block">
         <tr>
@@ -213,13 +213,13 @@
     <div id="div-vis-settings" class="blockDiv">
       <h4>
         Visualization Settings
-        <div class="help-tip blue-colored">
+        <span class="help-tip blue-colored">
           <p>
             Global parameters of the visualization:
             maximum number of the most popular datums being displayed
             and the list of definition packages to ignore.
           </p>
-        </div>
+        </span>
       </h4>
         <table class="rounded-block">
           <tr>
@@ -251,11 +251,11 @@
       <label for="textFunctionName">
         <h4>
           Definition Package Search
-          <div class="help-tip blue-colored">
+          <span class="help-tip blue-colored">
             <p>
               A single definition package or a function to display.
             </p>
-          </div>
+          </span>
         </h4>
         <span style="font-family: monospace; font-size: smaller; display: none"
          >("package [function]"):</span>
@@ -280,7 +280,7 @@
       <div id="div-vis-1">
         <h4>
           Types Overview 
-          <div class="help-tip blue-colored">
+          <span class="help-tip blue-colored">
             <p>Shows functions and their <b>type signatures</b>
               by depicting the flow between functions and the types
               of their arguments.<br/>
@@ -288,7 +288,7 @@
               The second bar represents the type of the first argument,
               and so on; the last bar in each row is the return type.
             </p>
-          </div>
+          </span>
         </h4>
         <svg id="vis-svg-1" class="vis-svg-types"
           viewBox="0 0 870 615" preserveAspectRatio="xMidYMid meet"
@@ -300,13 +300,13 @@
       <div id="div-filter-vis" class="vis-filter-div">
         <h4>
           Analyzed Packages
-          <div class="help-tip blue-colored">
+          <span class="help-tip blue-colored">
             <p>
               List of all packages analyzed during the analysis
               (with the number of function calls made in each package).
               Select one or more packages to limit the data being displayed.
             </p>
-          </div>
+          </span>
         </h4>
         <div id="div-filter-vis-content">
         <input type="checkbox" id="checkboxAnalyzedAll"
@@ -326,13 +326,13 @@
       <div id="div-pkg-tree-map" class="">
         <h4>
           Definition Packages
-          <div class="help-tip blue-colored">
+          <span class="help-tip blue-colored">
             <p>
               Interactive treemap of the packages that define the most
               popular functions for the currently selected analyzed packages.
               Select one or more packages to see an overview of their functions.
             </p>
-          </div>
+          </span>
         </h4>
         <div class="centered-block">
         <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
@@ -347,13 +347,13 @@
       <div id="div-fun-tree-map" class="">
         <h4>
           Defined Functions
-          <div class="help-tip blue-colored">
+          <span class="help-tip blue-colored">
             <p>
               Interactive treemap of the most popular functions
               for the currently selected analyzed packages.
               Select a function to see its overview.
             </p>
-          </div>
+          </span>
         </h4>
         <div class="centered-block">
         <input type="checkbox" id="checkboxFunMultiple" name="checkboxFunMultiple"
@@ -370,13 +370,13 @@
     <div id="div-barchart-1" class="">
       <h4>
         Function Information
-        <div class="help-tip blue-colored">
+        <span class="help-tip blue-colored">
           <p>
             Barchart of the most popular functions
             for the currently selected analyzed packages.
             Hover over a bar to see the details.
           </p>
-        </div>
+        </span>
       </h4>
       <div class="tooltip">
         <div class="tip-header">
