@@ -14,7 +14,7 @@ function packageFilter() {
 
         }).keys();
         const filter_list_q = d3.map(data, function (d) {
-            return `(${d[count]})`;
+            return `(${d3.format("~s")(d[count])})`;
 
         }).keys();
 

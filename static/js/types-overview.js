@@ -66,7 +66,7 @@ function typesOverviewChart() {
                 .attr("fill", "grey")
                 .attr("x", d => d.x0 + 10 + widths.shift())
                 .attr("y", d => (d.y0 + d.y1) / 2)
-                .text(d => " (" + d.value + ")");
+                .text(d => " (" + d3.format("~s")(d.value) + ")");
 
             // Draw links
             const layout = d3.sankeyLinkHorizontal();

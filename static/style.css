@@ -6,7 +6,7 @@ body {
 }
 
 h1, h2, h3 {
-	line-height: 1.2
+	line-height: 1.2;
 }
 
 /* Your text should be in a nice narrow column */
@@ -14,6 +14,11 @@ h1, h2, h3 {
 	max-width: 650px;
 	margin: 40px auto;
 	display: block;
+}
+
+#Rlogo {
+	float: right;
+	margin: 10px;
 }
 
 .vis-svg {
@@ -61,7 +66,7 @@ h1, h2, h3 {
 
 .rounded-block {
 	margin: 0 auto;
-	max-width: 400px;
+	max-width: 560px;
 	border-radius: 6px;
 	border: silver 1px solid;
 	padding: 8px;
@@ -76,6 +81,11 @@ h1, h2, h3 {
 	/*padding: 2px;*/
 	min-width: 80px;
 	text-align: left;
+}
+
+#table-info td.tdseparator {
+	min-width: 10px;
+	max-width: 10px;
 }
 
 #table-info td.centered {
@@ -126,6 +136,11 @@ h1, h2, h3 {
 /* Analyzed Packages Filter */
 /* ---------------------------------------- */
 
+#div-filter-vis-content {
+	max-width: 280px;
+	margin: 0 auto;
+}
+
 .vis-filter-div h4 {
 	text-align: center;
 }
@@ -150,7 +165,7 @@ h1, h2, h3 {
 	font-size: 16px;
 	height: 30px;
 	min-width: 210px;
-	background-color: #eee; /* Grey background color */
+	background-color: #f4f1f0 /*#eee*/; /* Grey background color */
 	color: black; /* Black text color */
 	display: block; /* Make the links appear below each other */
 	padding: 2px; /* Add some padding */
@@ -170,20 +185,24 @@ h1, h2, h3 {
 /* Packages/Functions TreeMaps */
 /* ---------------------------------------- */
 
+/*#h4DefPackagesInTreeMap {
+	display: block;
+}*/
+
 .vis-svg-pkgfun {
 	background-color: #f4f1f0;
 	font-size: 13px;
-	padding: 6px;
+	padding: 2px;
 }
 
 .vis-svg-pkgfun .tm-header-text {
 	fill: black;
-	font-size: 12px;
+	font-size: 11px;
 }
 
 .vis-svg-pkgfun .tm-footer-text {
 	fill: white;
-	font-size: 11px;
+	font-size: 10px;
 }
 
 .vis-svg-pkgfun .tm-block-text {
@@ -191,7 +210,11 @@ h1, h2, h3 {
 	font-family: monospace;
 }
 .vis-svg-pkgfun .tm-block-number {
-	font-size: 9px;
+	font-size: 8px;
+	font-family: monospace;
+}
+.vis-svg-pkgfun .tm-block-text-small {
+	font-size: 8px;
 	font-family: monospace;
 }
 
@@ -339,6 +362,10 @@ h1, h2, h3 {
 		max-width: 250px;
 	}
 
+	/*#h4DefPackagesInTreeMap {
+		display: none;
+	}	*/
+
 	/* both tree maps */
 	.vis-svg-pkgfun {
 		max-width: 420px;
@@ -410,6 +437,7 @@ h1, h2, h3 {
 		grid-column-end: 3;
 		grid-row-start: 2;
 		grid-row-end: 3;
+		max-width: 470px;
 	}
 
 	/* functions tree map */
@@ -418,6 +446,7 @@ h1, h2, h3 {
 		grid-column-end: 3;
 		grid-row-start: 3;
 		grid-row-end: 4;
+		max-width: 470px;
 	}
 
 }
@@ -432,7 +461,7 @@ h1, h2, h3 {
 
 /* Fork on GitHub ribbon via https://codepo8.github.io/css-fork-on-github-ribbon/# */
 #forkongithub a{
-	background:#00F;
+	background:#0868ac;
 	color:#fff;
 	text-decoration:none;
 	font-family:arial,sans-serif;

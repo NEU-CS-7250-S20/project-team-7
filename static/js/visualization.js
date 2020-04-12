@@ -178,10 +178,15 @@
     });*/
     d3.json(DEF_NUMS_ENDPOINT).then(function(data) {
         //console.log(data);
-        d3.select("#infoDefiningPackagesNum")
-            .text(data.packages[0].count);
-        d3.select("#infoDefinedFunctionsNum")
-            .text(data.functions[0].count);
+        [["infoRecordsNum", data.records],
+         ["infoDefiningPackagesNum", data.packages],
+         ["infoDefinedFunctionsNum", data.functions],
+         ["infoCallsNum", data.calls],
+         ["infoRetTypesNum", data.ret_types]
+        ]
+        .map(d =>
+            d3.select(`#${d[0]}`).text(d3.format("~s")(d[1][0].count))
+        );
     });
 
     funNameText

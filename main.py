@@ -48,7 +48,13 @@ def definednums():
         "packages":
             SEND("SELECT count FROM stats WHERE name = 'distinct_package'"),
         "functions":
-            SEND("SELECT count FROM stats WHERE name = 'distinct_fun_name'")
+            SEND("SELECT count FROM stats WHERE name = 'distinct_fun_name'"),
+        "records":
+            SEND("SELECT count FROM stats WHERE name = 'distinct_record'"),
+        "ret_types":
+            SEND("SELECT count FROM stats WHERE name = 'distinct_ret_type'"),
+        "calls":
+            SEND("SELECT count FROM stats WHERE name = 'call'")
     })
 
 @APP.route("/api/query")

@@ -32,18 +32,25 @@
   <!-- Your writeup goes here -->
   <div class = "content-column">
 
-    <h1>Project Team 7: Visualization of Type Usage in R, CS 7250 S20</h1>
+    <h1>Project Team 7:<br/>
+      Visualization of Type Usage in R<br/>
+      CS 7250 S20
+    </h1>
 
     <p><strong>Julia Belyakova</strong>, <strong>Younes El Idrissi Yazami</strong>, <strong>Cameron Moy</strong></p>
 
-    <p>Service-Learning Course Project as part of
-      <a href="https://canvas.instructure.com/courses/1781732">CS 7250 S20: Information Visualization: Theory and Applications</a>,
-        taught by <a href="https://cody.khoury.northeastern.edu/">Prof. Cody Dunne</a>,
+    <p>Service-Learning Course Project as part of<br/>
+      <a href="https://canvas.instructure.com/courses/1781732">CS 7250 S20: Information Visualization: Theory and Applications</a>,<br/>
+        taught by <a href="https://cody.khoury.northeastern.edu/">Prof. Cody Dunne</a>,<br/>
 	    <a href="https://visualization.khoury.northeastern.edu/">Data Visualization @ Khoury</a>,
       <a href="https://www.khoury.northeastern.edu/">Northeastern University</a>.
     </p>
 
     <h1>Motivation</h1>
+
+    <object id="Rlogo" data="static/images/Rlogo.svg"
+      width="100" type="image/svg+xml">
+    </object>
 
     <p>
       Dynamically typed languages like R support flexible programming idioms,
@@ -55,11 +62,12 @@
 
     <p>
       Such type systems are usually designed in absence of empirical
-      data on how developers in the language actually write programs.
+      data on how developers actually write programs in the language.
       In contrast, our partner is using a data-driven approach to
       type system design, employing a dynamic analysis of type usage
-      on a wide range of existing R packages. Unfortunately, this
-      dataset is too large to derive any useful insights.
+      on a wide range of existing R packages.
+      Unfortunately, this dataset is too large, and its raw representation
+      does not allow for deriving any useful insights.
     </p>
 
     <p>
@@ -93,19 +101,28 @@
   <div id="div-entire-vis">
     <!-- Your visualization here -->
     <div id="div-analysis-info" class="blockDiv">
-      <h4>Analysis Info</h4>
+      <h4>Analysis Statistics</h4>
       <table id="table-info" class="rounded-block">
+        <tr>
+          <td ># dataset records</td>
+          <td class="centered"><span id="infoRecordsNum">?</span></td>
+          <td class="tdseparator"></td>
+          <td ># function calls</td>
+          <td class="centered"><span id="infoCallsNum">?</span></td>
+        </tr>
+        <tr>
+          <td># definition packages</td>
+          <td class="centered"><span id="infoDefiningPackagesNum">?</span></td>
+          <td class="tdseparator"></td>
+          <td># defined functions</td>
+          <td class="centered"><span id="infoDefinedFunctionsNum">?</span></td>
+        </tr>
         <tr>
           <td># analyzed packages</td>
           <td class="centered"><span id="infoAnalyzedPackagesNum">?</span></td>
-        </tr>
-        <tr>
-          <td># packages that define functions</td>
-          <td class="centered"><span id="infoDefiningPackagesNum">?</span></td>
-        </tr>
-        <tr>
-          <td># defined functions</td>
-          <td class="centered"><span id="infoDefinedFunctionsNum">?</span></td>
+          <td class="tdseparator"></td>
+          <td># return types</td>
+          <td class="centered"><span id="infoRetTypesNum">?</span></td>
         </tr>
       </table>
     </div>
@@ -154,6 +171,7 @@
 
       <div id="div-filter-vis" class="vis-filter-div">
         <h4> Analyzed Packages </h4>
+        <div id="div-filter-vis-content">
         <input type="checkbox" id="checkboxAnalyzedAll"
           name="checkboxAnalyzedAll"/>
         <label for="checkboxAnalyzedAll">All</label><br/>
@@ -162,15 +180,16 @@
         <input type="button" id="buttonAnalyzedPackageUnselect" value="✗"/><br/>
         <input type="checkbox" id="checkboxAnalyzedMultiple"
           name="checkboxAnalyzedMultiple"/>
-        <label for="checkboxAnalyzedMultiple">Select multiple</label>
+        <label for="checkboxAnalyzedMultiple">Select multiple</label><br/>
         <div id="filter" class="">
+        </div>
         </div>
       </div>
 
       <div id="div-pkg-tree-map" class="">
-        <h4> Definition Packages </h4>
+        <h4 id="h4DefPackagesInTreeMap">Definition Packages</h4>
         <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
-        <label for="checkboxPkgMultiple">Select multiple packages</label>
+        <label for="checkboxPkgMultiple">Select multiple packages</label><br/>
         <svg id="vis-svg-2-pkg-tree-map" class="vis-svg-pkgfun"
           viewBox="0 0 260 140" preserveAspectRatio="xMidYMid meet"
           version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -178,9 +197,10 @@
       </div>
 
       <div id="div-fun-tree-map" class="">
+        <h4 id="h4DefPackagesInTreeMap">Defined Functions</h4>
         <input type="checkbox" id="checkboxFunMultiple" name="checkboxFunMultiple"
           disabled/>
-        <label for="checkboxFunMultiple">Select multiple functions</label>
+        <label for="checkboxFunMultiple">Select multiple functions</label><br/>
         <svg id="vis-svg-3-fun-tree-map" class="vis-svg-pkgfun"
           viewBox="0 0 260 140" preserveAspectRatio="xMidYMid meet"
           version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -217,6 +237,7 @@
     <p><em>List here where any code, packages/libraries, text, images, designs, etc. that you leverage come from.</em></p>
 
     <ul>
+      <li><a href="https://www.r-project.org/logo/">R project logo</a>.</li>
       <li><a href="https://d3js.org/">D3: Data-Driven Documents</a> by Mike Bostock.</li>
       <li><a href="https://codepo8.github.io/css-fork-on-github-ribbon/#">Pure CSS responsive "Fork me on GitHub" ribbon</a> by Chris Heilmann.</li>
       <li><a href="https://github.com/d3/d3-sankey">D3: Sankey</a> by Mike Bostock.</li>

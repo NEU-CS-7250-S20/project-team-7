@@ -24,6 +24,9 @@ function dataTreeMap() {
         const getValue = tmGetValue;
         const getName = d =>
             getters.hasName(d) ? getters.getName(d) : labels.moreData;
+        const hasExtra = getters.hasExtra;
+        const getExtra = d =>
+            getters.hasName(d) ? getters.getExtra(d) : "";
         const hasChildren = tmHasChildren;
 
         const svg = d3.select(selector);
@@ -181,7 +184,7 @@ function dataTreeMap() {
                     .text(root.parent ? labels.titleMore : labels.title);
 
                 node.append("title")
-                    .text(d => `${getName(d.data)}\n${d.value}`);
+                    .text(d => `${getName(d.data)}\n${d3.format("~s")(d.value)}`);
 
                 node.append("rect")
                     .attr("class", "tm-block")
@@ -198,7 +201,15 @@ function dataTreeMap() {
                     .attr("fill", d => d.data.color.font)
                     .attr("x", blockMargin.left)
                     .attr("y", blockMargin.top*2)
-                    .text(d => d.value);
+                    .text(d => d3.format("~s")(d.value));
+                if (hasExtra) {
+                    node.append("text")
+                        .attr("class", "tm-block-text-small")
+                        .attr("fill", d => d.data.color.font)
+                        .attr("x", blockMargin.left)
+                        .attr("y", blockMargin.top*3)
+                        .text(d => getExtra(d.data));
+                }
 
                 group.call(position, root);
             }
