@@ -177,14 +177,14 @@
   <div id="div-entire-vis">
     <!-- Your visualization here -->
     <div id="div-analysis-info" class="blockDiv">
-      <h4>
-        Analysis Information
-        <span class="help-tip blue-colored">
+      <div class="header-h4-div">
+        <h4> Analysis Information </h4>
+        <div class="help-tip blue-colored">
           <p>
             Some statistics about the underlying dynamic analysis data.
           </p>
-        </span>
-      </h4>
+        </div>
+      </div>
       <table id="table-info" class="rounded-block">
         <tr>
           <td ># dataset records</td>
@@ -211,16 +211,16 @@
     </div>
 
     <div id="div-vis-settings" class="blockDiv">
-      <h4>
-        Visualization Settings
-        <span class="help-tip blue-colored">
+      <div class="header-h4-div">
+        <h4> Visualization Settings </h4>
+        <div class="help-tip blue-colored">
           <p>
             Global parameters of the visualization:
             maximum number of the most popular datums being displayed
             and the list of definition packages to ignore.
           </p>
-        </span>
-      </h4>
+        </div>
+      </div>
         <table class="rounded-block">
           <tr>
             <td><span>Max # of datums displayed:</span></td>
@@ -249,14 +249,14 @@
 
     <div id="div-select-function">
       <label for="textFunctionName">
-        <h4>
-          Definition Package Search
-          <span class="help-tip blue-colored">
+        <div class="header-h4-div">
+          <h4> Definition Package Search </h4>
+          <div class="help-tip blue-colored">
             <p>
               A single definition package or a function to display.
             </p>
-          </span>
-        </h4>
+          </div>
+        </div>
         <span style="font-family: monospace; font-size: smaller; display: none"
          >("package [function]"):</span>
         <div class="help-tip">
@@ -278,9 +278,9 @@
 
     <div class="vis-holder" id="label-types">
       <div id="div-vis-1">
-        <h4>
-          Types Overview 
-          <span class="help-tip blue-colored">
+        <div class="header-h4-div">
+          <h4> Types Overview </h4>
+          <div class="help-tip blue-colored">
             <p>Shows functions and their <b>type signatures</b>
               by depicting the flow between functions and the types
               of their arguments.<br/>
@@ -288,8 +288,8 @@
               The second bar represents the type of the first argument,
               and so on; the last bar in each row is the return type.
             </p>
-          </span>
-        </h4>
+          </div>
+        </div>
         <svg id="vis-svg-1" class="vis-svg-types"
           viewBox="0 0 870 615" preserveAspectRatio="xMidYMid meet"
           version="1.1"
@@ -298,16 +298,16 @@
       </div>
 
       <div id="div-filter-vis" class="vis-filter-div">
-        <h4>
-          Analyzed Packages
-          <span class="help-tip blue-colored">
+        <div class="header-h4-div">
+          <h4> Analyzed Packages </h4>
+          <div class="help-tip blue-colored">
             <p>
               List of all packages analyzed during the analysis
               (with the number of function calls made in each package).
               Select one or more packages to limit the data being displayed.
             </p>
-          </span>
-        </h4>
+          </div>
+        </div>
         <div id="div-filter-vis-content">
         <input type="checkbox" id="checkboxAnalyzedAll"
           name="checkboxAnalyzedAll"/>
@@ -324,16 +324,16 @@
       </div>
 
       <div id="div-pkg-tree-map" class="">
-        <h4>
-          Definition Packages
-          <span class="help-tip blue-colored">
+        <div class="header-h4-div">
+          <h4> Definition Packages </h4>
+          <div class="help-tip blue-colored">
             <p>
               Interactive treemap of the packages that define the most
               popular functions for the currently selected analyzed packages.
               Select one or more packages to see an overview of their functions.
             </p>
-          </span>
-        </h4>
+          </div>
+        </div>
         <div class="centered-block">
         <input type="checkbox" id="checkboxPkgMultiple" name="checkboxPkgMultiple"/>
         <label for="checkboxPkgMultiple">Select multiple packages</label><br/>
@@ -345,16 +345,16 @@
       </div>
 
       <div id="div-fun-tree-map" class="">
-        <h4>
-          Defined Functions
-          <span class="help-tip blue-colored">
+        <div class="header-h4-div">
+          <h4> Defined Functions </h4>
+          <div class="help-tip blue-colored">
             <p>
               Interactive treemap of the most popular functions
               for the currently selected analyzed packages.
               Select a function to see its overview.
             </p>
-          </span>
-        </h4>
+          </div>
+        </div>
         <div class="centered-block">
         <input type="checkbox" id="checkboxFunMultiple" name="checkboxFunMultiple"/>
         <label for="checkboxFunMultiple">Select multiple functions</label><br/>
@@ -367,16 +367,16 @@
     </div> 
 
     <div id="div-barchart-1" class="">
-      <h4>
-        Function Information
-        <span class="help-tip blue-colored">
+      <div class="header-h4-div">
+        <h4> Function Information </h4>
+        <div class="help-tip blue-colored">
           <p>
             Barchart of the most popular functions
             for the currently selected analyzed packages.
             Hover over a bar to see the details.
           </p>
-        </span>
-      </h4>
+        </div>
+      </div>
       <div class="tooltip">
         <div class="tip-header">
           <h3></h3>

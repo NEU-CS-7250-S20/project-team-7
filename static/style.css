@@ -339,6 +339,14 @@ h1, h2, h3 {
 /* HelpTip */
 /* ---------------------------------------- */
 
+.header-h4-div {
+	display: block;
+	text-align: center;
+}
+.header-h4-div h4 {
+	display: inline-block;
+}
+
 .help-tip{
     position: relative;
     /*top: 18px;
