@@ -18,7 +18,7 @@ function dataTreeMap() {
     // getters   -- data-specific getters
     // pullEvent -- name of the event to dispatch on
     function chart(selector, dispatch, labels, getters,
-        pullEvent, eventHandlers
+        pullEvent, dataEventHandlers
     ) {
 
         const getValue = tmGetValue;
@@ -152,10 +152,10 @@ function dataTreeMap() {
                     .attr("class", "tm-node")
                     .on(
                         "click",
-                        eventHandlers.onclick.active ?
+                        dataEventHandlers.onclick.active ?
                             function(d) {
                                 //d3.select(this).style("stroke", "black")
-                                eventHandlers.onclick.handler(this, d,
+                                dataEventHandlers.onclick.handler(this, d,
                                     selectionInfo, dispatch, query);
                             } :
                             null
@@ -164,7 +164,7 @@ function dataTreeMap() {
                 //alert(selectionInfo.datums);
                 node.filter(d => selectionInfo.datums.includes(d))
                     .each(function(d) {
-                        eventHandlers.onselected(this, selectionInfo)
+                        dataEventHandlers.onselected(this, selectionInfo)
                     });
 
                 // footer behaves as "..." node

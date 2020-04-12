@@ -251,14 +251,15 @@ function FUN_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
     d.selected = d.selected ? false : true;
     if (d.selected) {
         //// single selection
-        //if (!d3.select("#checkboxPkgMultiple").property("checked")) {
-        selectionInfo.currNodes.map(nodeDisableSelection);
-        selectionInfo.currNodes = [];
-        selectionInfo.datums.map(
-            d => (d.selected = false)
-        );
-        selectionInfo.datums = [];
-        //}
+        // single selection
+        if (!d3.select("#checkboxFunMultiple").property("checked")) {
+            selectionInfo.currNodes.map(nodeDisableSelection);
+            selectionInfo.currNodes = [];
+            selectionInfo.datums.map(
+                d => (d.selected = false)
+            );
+            selectionInfo.datums = [];
+        }
         nodeEnableSelection(node);
         selectionInfo.currNodes.push(node);
         selectionInfo.datums.push(d);
@@ -298,6 +299,12 @@ const FUNCS_EVENTS = {
     onclick: {
         active: true,
         handler: FUN_BLOCK_ONCLICK,
+    },
+    onselected: function(node, selectionInfo) {
+        //alert(0);
+        //console.log(node);
+        nodeEnableSelection(node);
+        selectionInfo.currNodes.push(node);
     }
 };
 
