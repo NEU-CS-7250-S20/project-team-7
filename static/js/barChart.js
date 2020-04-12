@@ -164,17 +164,20 @@ function barChart() {
                 .join('p')
                 .attr('class','tip-info')
                 .html(d=> `${d[0]}: ${d[1]}`);
+            /*tip.style("position", "sticky");*/
             tip.style('left',`${d3.event.clientX+15}px`)
                .style('top',`${d3.event.clientY}px`)
                .style('opacity',0.98)
-            tip.style("display", "block");
             tip.select('h3').html(`Function name: ${barData.fun_name}`);
-
+            /*tip.style("width", "auto");
+            tip.style("height", "auto");*/
+            tip.style("display", "block");
         }
         function mouseout(){
+            /*tip.style('opacity',0);*/
+            /*tip.style("width", "0");
+            tip.style("height", "0");*/
             tip.style("display", "none"); // otherwise, there is empty space on the page
-            tip.style('opacity',0);
-
         }
         function mousemove(){
             tip.style('left',`${d3.event.clientX +15}px`)

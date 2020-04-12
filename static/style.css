@@ -22,7 +22,7 @@ h1, h2, h3 {
 }
 
 .vis-svg {
-  background-color: #f4f1f0;
+  	background-color: #f4f1f0;
 }
 
 .centered-block {
@@ -203,6 +203,8 @@ h1, h2, h3 {
 	padding: 0px;
 	overflow-x:hidden;
 	overflow-y: scroll;
+	max-height: 250px;
+	max-width: 300px;
 }
 
 .vertical-menu li {
@@ -293,9 +295,10 @@ h1, h2, h3 {
 }
 .tooltip {
 	display: none;
-	position: sticky;
-	opacity:0;
+	position: fixed;
+	/*opacity:0;*/
 	background: #eee;
+	min-width: 160px;
 	max-width: 200px;
 	pointer-events: none;
 }
@@ -448,6 +451,7 @@ h4 .blue-colored {
 	.vertical-menu {
 		max-height: 200px;
 		max-width: 250px;
+		overflow-y: scroll;
 	}
 
 	#div-vis-1 {
