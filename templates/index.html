@@ -79,13 +79,83 @@
 
     <h1>Visualization</h1>
 
+    <h2>Overview of components</h2>
+    
     <ul>
-      <li> <b>Definition Package Search.</b> Filter by a particular definition package or function. </li>
-      <li> <b>Types Overview.</b> See all the type signatures of the most used functions in the selection. Brush over a flow to zoom in on it. </li>
-      <li> <b>Analyzed Packages.</b> Filter by the package that was analyzed. </li>
-      <li> <b>Definition Packages.</b> Use the treemaps to see quantitative information about usage across packages, and also filter. </li>
-      <li> <b>Function Information.</b> This shows a bar chart of currently selected function usage. </li>
+      <li> <b>Definition Package Search</b><br/>
+        Filter by a particular definition package or function. </li>
+      <li> <b>Types Overview</b><br/>
+        See all the type signatures of the most used functions
+        in the selection. Brush over a flow to zoom in on it. </li>
+      <li> <b>Analyzed Packages</b><br/>
+        Filter by the packages that were analyzed. </li>
+      <li> <b>Definition Packages/Functions</b><br/>
+        Use the treemaps to see quantitative information about
+        usage of functions across packages, and also filter
+        by functions and/or packages that define the functions. </li>
+      <li> <b>Function Information</b><br/>
+        Shows a bar chart of currently selected function usage. </li>
     </ul>
+
+    <h2>Example</h2>
+    <ol>
+      <li>Click on "FME" in Analyzed Packages to limit the data
+        only to the analysis of the FME package.<br/>
+        In the Types Overview, you will see the 15 most used
+        function/type signatures in the package
+        ("15" is the default value in the Visualization Settings).
+      </li>
+      <li>Brush "*" function name in Types Overview to see more
+        information about the usage of the multiplication function.<br/>
+        You can see that it is most often used as a binary function
+        of double scalars, but there are also other type signatures.
+      </li>
+      <li>Double-click on Types Overview to return to the previous view.</li>
+      <li>Enter "base +" and click "Show" to see the usage of addition
+        in the currently selected FME package.
+      </li>
+      <li>Enable "Keep showing" checkbox.</li>
+      <li>Click on "Sampling" in Analyzed Packages.<br/>
+        Now, you can see how addition is used in the "Sampling" package.
+        Note that as compared to FME, Sampling adds integer to double
+        much more often.
+        If you click on "Rmpfr", you will see that this package
+        adds even list to double.
+      </li>
+      <li>Click "Clear" to return to the general overview.</li>
+      <li>Enter "distrMod" in Analyzed Packages textbox and
+        click "✓" button to switch to the distrMod package data.</li>
+      <li>You can see in Definition Packages that the "base" package
+        is the most used one.<br/>
+        Click "[show more packages]" to show less popular packages.
+      </li>
+      <li>Click on "stats" in the packages treemap to see
+        the data on functions defined in this package.<br/>
+        Note that in addition to Type Overview, Defined Functions
+        and Function Information get updated.
+      </li>
+      <li>Click on ".approxfun" in Defined Functions to see
+        its type signatures.<br/>
+        Note that in the distrMod package, .approxFun is the most
+        used function from the stats package. This can be deduced
+        from the size of its block in the treemap as well as the barchart.
+      </li>
+      <li>In Visualization Settings, enter "base" into the textarea
+        and click "Update". <br/>
+        This will exclude all the base functions from being shown.
+        Now you can see that besides standard library,
+        the distrMod package uses "methods" and "distr" packages a lot.
+      </li>
+      <li>Click "All" in Analyzed Packages.<br/>
+        You will see that across all the analyzed packages,
+        "methods" and "stats" are the most used packages besides
+        standard library.
+        You can see their most used function/type signatures
+        in Types Overview.
+      </li>
+    </ol>
+
+    <h2>Type usage in R</h2>
 
   </div>
 
