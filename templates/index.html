@@ -33,13 +33,11 @@
     <div id="goto-top" class="navigation-button"
       onclick="document.getElementById('label-top').scrollIntoView({behavior: 'smooth'});">Top</div>
     <div id="goto-vis" class="navigation-button"
-      onclick="document.getElementById('label-vis').scrollIntoView({behavior: 'smooth'});">Vis</div>
-    <div id="goto-types" class="navigation-button"
-      onclick="document.getElementById('label-types').scrollIntoView({behavior: 'smooth'});">Types overview</div>
-    <div id="goto-example" class="navigation-button"
-      onclick="document.getElementById('label-example').scrollIntoView({behavior: 'smooth'});">Example</div>
+      onclick="document.getElementById('label-vis').scrollIntoView({behavior: 'smooth'});">Visualization</div>
     <div id="goto-video" class="navigation-button"
-      onclick="document.getElementById('label-video').scrollIntoView({behavior: 'smooth'});">Video</div>
+         onclick="document.getElementById('label-video').scrollIntoView({behavior: 'smooth'});">Demo Video</div>
+    <div id="goto-example" class="navigation-button"
+         onclick="document.getElementById('label-example').scrollIntoView({behavior: 'smooth'});">Example</div>
   </div>
 
   <!-- Your writeup goes here -->
@@ -59,7 +57,7 @@
       <a href="https://www.khoury.northeastern.edu/">Northeastern University</a>.
     </p>
 
-    <h1>Motivation</h1>
+    <h2>Motivation</h2>
 
     <object id="Rlogo" data="static/images/Rlogo.svg"
       width="100" type="image/svg+xml">
@@ -90,91 +88,12 @@
       additional quantitative information.
     </p>
 
-    <h1>Visualization</h1>
-
-    <h2>Overview of components</h2>
-    
-    <ul>
-      <li> <b>Definition Package Search</b><br/>
-        Filter by a particular definition package or function. </li>
-      <li> <b>Types Overview</b><br/>
-        See all the type signatures of the most used functions
-        in the selection. Brush over a flow to zoom in on it. </li>
-      <li> <b>Analyzed Packages</b><br/>
-        Filter by the packages that were analyzed. </li>
-      <li> <b>Definition Packages/Functions</b><br/>
-        Use the treemaps to see quantitative information about
-        usage of functions across packages, and also filter
-        by functions and/or packages that define the functions. </li>
-      <li> <b>Function Information</b><br/>
-        Shows a bar chart of currently selected function usage. </li>
-    </ul>
-
-    <h2 id="label-example">Example</h2>
-    <ol class="example-text">
-      <li>Click on <span class="code-font">FME</span> in Analyzed Packages to limit the data
-        only to the analysis of the FME package.<br/>
-        In the Types Overview, you will see the 15 most used
-        function/type signatures in the package
-        (<span class="code-font">15</span> is the default value in the Visualization Settings).
-      </li>
-      <li>Brush <span class="code-font">*</span> function name in Types Overview to see more
-        information about the usage of the multiplication function.<br/>
-        You can see that it is most often used as a binary function
-        of double scalars, but there are also other type signatures.
-      </li>
-      <li>Double-click on Types Overview to return to the previous view.</li>
-      <li>Enter <span class="code-font">base +</span> into Definition Package Search
-        and click <span class="code-font">Show</span> to see the usage of addition
-        in the currently selected FME package.
-      </li>
-      <li>Enable <span class="code-font">Keep showing</span> checkbox.</li>
-      <li>Click on <span class="code-font">sampling</span> in Analyzed Packages.<br/>
-        You can see now how addition is used in the sampling package.
-        Note that as compared to FME, integer/double addition is used more often.<br/>
-        Then, if you click on <span class="code-font">Rmpfr</span> package,
-        you will see a new, list/double type signature for addition.
-      </li>
-      <li>Click <span class="code-font">Clear</span> to return to the general overview.</li>
-      <li>Enter <span class="code-font">distrMod</span> in Analyzed Packages textbox and
-        click <span class="code-font">✓</span> button to switch to the distrMod package data.</li>
-      <li>You can see in Definition Packages that the <span class="code-font">base</span> package
-        is the most used one.<br/>
-        Click <span class="code-font">[show more packages]</span> to show less popular packages.
-      </li>
-      <li>Click on <span class="code-font">stats</span> in the packages treemap to see
-        the data on functions defined in this package.<br/>
-        Note that in addition to Type Overview, sections Defined Functions
-        and Function Information also get updated.
-      </li>
-      <li>Click on <span class="code-font">.approxfun</span> in Defined Functions to see
-        its type signatures.<br/>
-        Note that in the distrMod package, .approxFun is the most
-        used function from the stats package. This can be deduced
-        from the size of its block in the treemap as well as the barchart.
-      </li>
-      <li>In Visualization Settings, enter <span class="code-font">base</span> into the textarea
-        and click <span class="code-font">Update</span>. <br/>
-        This will exclude all the base functions from being shown.
-        Now you can see that besides standard library,
-        the distrMod package uses <span class="code-font">methods</span> and <span class="code-font">distr</span> packages a lot.
-      </li>
-      <li>Click <span class="code-font">All</span> in Analyzed Packages.<br/>
-        You will see that across all the analyzed packages,
-        <span class="code-font">methods</span> and <span class="code-font">stats</span> are the most used packages besides
-        standard library.
-        You can see their most used function/type signatures
-        in Types Overview.
-      </li>
-    </ol>
-
-    <h2 id="label-vis">Type usage in R</h2>
-
+    <h2 id="label-vis">Visualization</h2>
   </div>
 
   <div class="loader"></div>
 
-  <div id="div-entire-vis">
+  <div id="div-entire-vis" >
     <!-- Your visualization here -->
     <div id="div-analysis-info" class="blockDiv">
       <div class="header-h4-div">
@@ -364,7 +283,7 @@
         </svg>
         </div>
       </div>
-    </div> 
+    </div>
 
     <div id="div-barchart-1" class="">
       <div class="header-h4-div">
@@ -382,30 +301,103 @@
           <h3></h3>
         </div>
         <div class="tip-body"></div>
-      </div> 
+      </div>
       <svg id="barchart-1" preserveAspectRatio="xMidYMid meet"
         viewBox="0 0 500 240">
-      </svg> 
+      </svg>
     </div>
-  </div> 
+  </div>
 
   <div class="content-column" style="width:100%">
 
-    <h1 id="label-video">Demo Video</h1>
-
-    <p><em>Embedded MP4 demo video using the HTML5 &lt;video&gt; tag. For example, this screen recording Prof. Cody Dunne made of Mike Bostock's flexible transitions in D3 slide:</em></p>
-
+    <h2 id="label-video">Demo Video</h2>
     <video controls width="100%">
       <source src="http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4" type="video/mp4">
       <p>Your browser doesn't support HTML5 video. Here is
        a <a href="http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4">link to the video</a> instead.</p>
     </video>
 
-    <h1>Visualization explanation</h1>
+    <h2 id="label-example">Example</h2>
 
-    <p><em>Basic overview, UI walk-through, and linked presentation slides.</em></p>
+    Before we dive into an example, here is a summary of the components of the visualization.
+    <ul>
+      <li> <b>Definition Package Search</b><br/>
+        Filter by a particular definition package or function. </li>
+      <li> <b>Types Overview</b><br/>
+        See all the type signatures of the most used functions
+        in the selection. Brush over a flow to zoom in on it. </li>
+      <li> <b>Analyzed Packages</b><br/>
+        Filter by the packages that were analyzed. </li>
+      <li> <b>Definition Packages/Functions</b><br/>
+        Use the treemaps to see quantitative information about
+        usage of functions across packages, and also filter
+        by functions and/or packages that define the functions. </li>
+      <li> <b>Function Information</b><br/>
+        Shows a bar chart of currently selected function usage. </li>
+    </ul>
 
-    <h1>Acknowledgments</h1>
+    Now we can go through a concrete example of the visualization.
+
+    <ol class="example-text">
+      <li>Click on <span class="code-font">FME</span> in Analyzed Packages to limit the data
+        only to the analysis of the FME package.<br/>
+        In the Types Overview, you will see the 15 most used
+        function/type signatures in the package
+        (<span class="code-font">15</span> is the default value in the Visualization Settings).
+      </li>
+      <li>Brush <span class="code-font">*</span> function name in Types Overview to see more
+        information about the usage of the multiplication function.<br/>
+        You can see that it is most often used as a binary function
+        of double scalars, but there are also other type signatures.
+      </li>
+      <li>Double-click on Types Overview to return to the previous view.</li>
+      <li>Enter <span class="code-font">base +</span> into Definition Package Search
+        and click <span class="code-font">Show</span> to see the usage of addition
+        in the currently selected FME package.
+      </li>
+      <li>Enable <span class="code-font">Keep showing</span> checkbox.</li>
+      <li>Click on <span class="code-font">sampling</span> in Analyzed Packages.<br/>
+        You can see now how addition is used in the sampling package.
+        Note that as compared to FME, integer/double addition is used more often.<br/>
+        Then, if you click on <span class="code-font">Rmpfr</span> package,
+        you will see a new, list/double type signature for addition.
+      </li>
+      <li>Click <span class="code-font">Clear</span> to return to the general overview.</li>
+      <li>Enter <span class="code-font">distrMod</span> in Analyzed Packages textbox and
+        click <span class="code-font">✓</span> button to switch to the distrMod package data.</li>
+      <li>You can see in Definition Packages that the <span class="code-font">base</span> package
+        is the most used one.<br/>
+        Click <span class="code-font">[show more packages]</span> to show less popular packages.
+      </li>
+      <li>Click on <span class="code-font">stats</span> in the packages treemap to see
+        the data on functions defined in this package.<br/>
+        Note that in addition to Type Overview, sections Defined Functions
+        and Function Information also get updated.
+      </li>
+      <li>Click on <span class="code-font">.approxfun</span> in Defined Functions to see
+        its type signatures.<br/>
+        Note that in the distrMod package, .approxFun is the most
+        used function from the stats package. This can be deduced
+        from the size of its block in the treemap as well as the barchart.
+      </li>
+      <li>In Visualization Settings, enter <span class="code-font">base</span> into the textarea
+        and click <span class="code-font">Update</span>. <br/>
+        This will exclude all the base functions from being shown.
+        Now you can see that besides standard library,
+        the distrMod package uses <span class="code-font">methods</span> and <span class="code-font">distr</span> packages a lot.
+      </li>
+      <li>Click <span class="code-font">All</span> in Analyzed Packages.<br/>
+        You will see that across all the analyzed packages,
+        <span class="code-font">methods</span> and <span class="code-font">stats</span> are the most used packages besides
+        standard library.
+        You can see their most used function/type signatures
+        in Types Overview.
+      </li>
+    </ol>
+
+    <p> For more details, see <a href="https://docs.google.com/presentation/d/17AuZ8Vl_x5N_1m2tWyagiDs29Z_1V7zn130G92Cegic/">our presentation</a>. </p>
+
+    <h2>Acknowledgments</h2>
 
     <p><em>List here where any code, packages/libraries, text, images, designs, etc. that you leverage come from.</em></p>
 
