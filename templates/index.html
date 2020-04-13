@@ -34,6 +34,8 @@
       onclick="document.getElementById('label-top').scrollIntoView({behavior: 'smooth'});">Top</div>
     <div id="goto-vis" class="navigation-button"
       onclick="document.getElementById('label-vis').scrollIntoView({behavior: 'smooth'});">Visualization</div>
+    <div id="goto-vis" class="navigation-button"
+      onclick="document.getElementById('label-types').scrollIntoView({behavior: 'smooth'});">Types Overview</div>
     <div id="goto-video" class="navigation-button"
          onclick="document.getElementById('label-video').scrollIntoView({behavior: 'smooth'});">Demo Video</div>
     <div id="goto-example" class="navigation-button"
@@ -311,11 +313,26 @@
   <div class="content-column" style="width:100%">
 
     <h2 id="label-video">Demo Video</h2>
+    <h3>Full Demo</h3>
+    <video controls width="100%">
+      <source src="static/videos/demoRvis.mp4" type="video/mp4">
+      <p>Your browser doesn't support HTML5 video. Here is
+       a <a href="static/videos/demoRvis.mp4">link to the video</a> instead.</p>
+    </video>
+    <h3>Just Visualization</h3>
+    <video controls width="100%">
+      <source src="static/videos/demoRvis-just-vis.mp4" type="video/mp4">
+      <p>Your browser doesn't support HTML5 video. Here is
+       a <a href="static/videos/demoRvis-just-vis.mp4">link to the video</a> instead.</p>
+    </video>
+
+    <!--
     <video controls width="100%">
       <source src="http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4" type="video/mp4">
       <p>Your browser doesn't support HTML5 video. Here is
        a <a href="http://www.ccs.neu.edu/home/cody/courses/shared/d3-flexible-transitions.mp4">link to the video</a> instead.</p>
     </video>
+    -->
 
     <h2 id="label-example">Example</h2>
 
