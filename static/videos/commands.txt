@@ -1,0 +1,4 @@
+for f in treemap-*.mp4 ; do echo "file '$f'" >> videos.txt ; done
+
+ffmpeg -f concat -safe 0 -i videos.txt -c copy output.mp4
+
