@@ -71,6 +71,7 @@ function packageFilter() {
                 choices.push(cb.property("value"));
               }
             });
+            debugger;
             if (choices.length == 0) {
                 // check All
                 d3ElemDisable(analyzedAllCheckbox);
@@ -90,11 +91,13 @@ function packageFilter() {
                         return;
                     }
                     // unselect previous
-                    checked.each(function() {
+                    checked.each(function(s) {
                         let cb = d3.select(this);
-                        cb.property("checked", false);
+                        if(s!=val)
+                            cb.property("checked", false);
                     });
-                    d3.select(`#${val}`).property("checked", true);
+                    //We cannot declare an identifier with a dot in it
+                    //d3.select(`#${val}`).property("checked", true);
                     choices = [val];
                 }
             }
