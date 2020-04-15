@@ -149,6 +149,56 @@ GROUP BY package_being_analyzed, package, fun_name, fun_id, dispatch,
 ORDER BY count DESC;
 
 --
+-- aggregation for the entire dataset (useful when analyzed packages
+-- aren't limited)
+--
+
+CREATE TABLE aggregated_types_all_analyzed(
+  package TEXT,
+  fun_name TEXT,
+  fun_id TEXT,
+  dispatch TEXT,
+  arg_t_r TEXT,
+  arg_t0 TEXT,
+  arg_t1 TEXT,
+  arg_t2 TEXT,
+  arg_t3 TEXT,
+  arg_t4 TEXT,
+  arg_t5 TEXT,
+  arg_t6 TEXT,
+  arg_t7 TEXT,
+  arg_t8 TEXT,
+  arg_t9 TEXT,
+  arg_t10 TEXT,
+  arg_t11 TEXT,
+  arg_t12 TEXT,
+  arg_t13 TEXT,
+  arg_t14 TEXT,
+  arg_t15 TEXT,
+  arg_t16 TEXT,
+  arg_t17 TEXT,
+  arg_t18 TEXT,
+  arg_t19 TEXT,
+  count BIGINT
+);
+
+CREATE INDEX main_aggr_all_index ON aggregated_types_all_analyzed(package, fun_name, fun_id);
+CREATE INDEX count_aggr_all_index ON aggregated_types_all_analyzed(count);
+
+INSERT INTO aggregated_types_all_analyzed
+SELECT package, fun_name, fun_id, dispatch,
+  arg_t_r, arg_t0, arg_t1, arg_t2, arg_t3, arg_t4, arg_t5,
+  arg_t6, arg_t7, arg_t8, arg_t9, arg_t10, arg_t11, arg_t12, 
+  arg_t13, arg_t14, arg_t15, arg_t16, arg_t17, arg_t18, arg_t19,
+  SUM(count) as count
+FROM aggregated_types
+GROUP BY package, fun_name, fun_id, dispatch,
+  arg_t_r, arg_t0, arg_t1, arg_t2, arg_t3, arg_t4, arg_t5,
+  arg_t6, arg_t7, arg_t8, arg_t9, arg_t10, arg_t11, arg_t12, 
+  arg_t13, arg_t14, arg_t15, arg_t16, arg_t17, arg_t18, arg_t19
+ORDER BY count DESC;
+
+--
 -- initial data cache tables
 --
 
