@@ -23,6 +23,9 @@ if not DB:
     DB = DEFAULT_DB
 
 MAIN_DB = "aggregated_types" #"types"
+MAIN_DB_ALL_ANALYZED = "aggregated_types_all_analyzed"
+
+MAIN_SELECTION = "package, fun_name, fun_id, dispatch, arg_t_r, arg_t0, arg_t1, arg_t2, arg_t3, arg_t4, arg_t5, arg_t6, arg_t7, arg_t8, arg_t9, arg_t10, arg_t11, arg_t12, arg_t13, arg_t14, arg_t15, arg_t16, arg_t17, arg_t18, arg_t19"
 
 #
 # routes
@@ -63,7 +66,9 @@ def query():
                           NOT(IN("package", "excluded")),
                           IN("package_being_analyzed"),
                           IN("fun_name", "functions"))
-
+    analyzed_pkgs = request.args.get("package_being_analyzed", False)
+    analyzed_limited = analyzed_pkgs and len(analyzed_pkgs) != 0
+    #print(analyzed_limited)
     return json.dumps({
         "packages":
             SEND("SELECT package, SUM(count) as count",
@@ -85,9 +90,10 @@ def query():
                  LIMIT()),
 
         "functions":
-            SEND("SELECT *",
-                 f"FROM {MAIN_DB}",
+            SEND(f"SELECT {MAIN_SELECTION}, SUM(count) as count" if analyzed_limited else "SELECT *",
+                 f"FROM {MAIN_DB if analyzed_limited else MAIN_DB_ALL_ANALYZED}",
                  where_clauses,
+                 f"GROUP BY {MAIN_SELECTION}" if analyzed_limited else "",
                  "ORDER BY count DESC",
                  LIMIT())
     })
@@ -107,7 +113,10 @@ def init_query():
         "function_names": SEND("SELECT * FROM init_functions", LIMIT()),
         "functions":
             SEND("SELECT *",
-                 f"FROM {MAIN_DB}",
+                 #f"SELECT {MAIN_SELECTION}, SUM(count) as count",
+                 f"FROM {MAIN_DB_ALL_ANALYZED}",
+                 #f"FROM {MAIN_DB}",
+                 #f"GROUP BY {MAIN_SELECTION}",
                  "ORDER BY count DESC",
                  LIMIT())
     })
