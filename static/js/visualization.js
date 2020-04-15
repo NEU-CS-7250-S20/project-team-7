@@ -281,9 +281,12 @@
                 const pkgName = getAnalyzedPkgName();
                 if (checkAnalyzedPkgName(pkgName, pkgNames)) {
                     // select checkbox in the appropriate svg
-                    const pkgCheckBox = d3.select(`#${pkgName}`);
+                    const pkgNameD3 = pkgName.replace(".", "\\.");
+                    const pkgCheckBox = d3.select(`#${pkgNameD3}`);
                     d3ElemMakeChecked(pkgCheckBox);
                     const pkg = document.getElementById(`${pkgName}`);
+                    console.log(pkg);
+                    //pkg.checked = true;
                     const fstPkg = document.getElementById(`${pkgNames[0]}`);
                     document.getElementById("pkgFilterList")
                         .scrollTop = pkg.offsetTop - fstPkg.offsetTop;
@@ -295,7 +298,8 @@
             const pkgName = getAnalyzedPkgName();
             if (checkAnalyzedPkgName(pkgName, pkgNames)) {
                 // unselect checkbox in the appropriate svg
-                const pkgCheckBox = d3.select(`#${pkgName}`);
+                const pkgNameD3 = pkgName.replace(".", "\\.");
+                const pkgCheckBox = d3.select(`#${pkgNameD3}`);
                 d3ElemMakeUnchecked(pkgCheckBox);
                 const pkg = document.getElementById(`${pkgName}`);
                 const fstPkg = document.getElementById(`${pkgNames[0]}`);
