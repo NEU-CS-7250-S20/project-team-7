@@ -1,7 +1,7 @@
 function barChart() {
-    let margin = {top: 40, right: 0, bottom: 0, left: 80},
+    let margin = {top: 40, right: 20, bottom: 0, left: 130},
         width = 400,
-        height = 200;
+        height = 220;
         historyData=[];
         
     function chart(selector, dispatch) {
