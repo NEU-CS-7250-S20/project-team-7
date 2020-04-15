@@ -24,7 +24,7 @@
 </head>
 
 <!-- Main page content -->
-<body>
+<body onclick>
 
   <!-- Update this with your GitHub repo URL -->
   <span id="forkongithub"><a href="https://github.com/NEU-CS-7250-S20/project-team-7">Fork me on GitHub</a></span>
@@ -34,8 +34,10 @@
       onclick="document.getElementById('label-top').scrollIntoView({behavior: 'smooth'});">Top</div>
     <div id="goto-vis" class="navigation-button"
       onclick="document.getElementById('label-vis').scrollIntoView({behavior: 'smooth'});">Visualization</div>
+    <!--<div id="goto-types" class="navigation-button"
+      onclick="document.getElementById('label-types').scrollIntoView({behavior: 'smooth'});">Types Overview</div>-->
     <div id="goto-types" class="navigation-button"
-      onclick="document.getElementById('label-types').scrollIntoView({behavior: 'smooth'});">Types Overview</div>
+      onclick="document.getElementById('label-pkg-search').scrollIntoView({behavior: 'smooth'});">Types Overview</div>
     <div id="goto-video" class="navigation-button"
          onclick="document.getElementById('label-video').scrollIntoView({behavior: 'smooth'});">Demo Video</div>
     <div id="goto-example" class="navigation-button"
@@ -170,7 +172,7 @@
 
     <div id="div-select-function">
       <div class="header-h4-div">
-        <h4> Definition Package Search </h4>
+        <h4 id="label-pkg-search"> Definition Package Search </h4>
         <div class="help-tip blue-colored">
           <p>
             A single definition package or a function to display.

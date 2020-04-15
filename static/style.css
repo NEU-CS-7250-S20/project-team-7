@@ -342,6 +342,7 @@ h1, h2, h3 {
 .header-h4-div {
 	display: block;
 	text-align: center;
+	max-height: 50px;
 }
 .header-h4-div h4 {
 	display: inline-block;
@@ -465,8 +466,8 @@ h4 .blue-colored {
 	#div-filter-vis {
 		grid-column-start: 1;
 		grid-column-end: 3;
-		grid-row-start: 1;
-		grid-row-end: 2;
+		grid-row-start: 2;
+		grid-row-end: 3;
 	}
 	.vertical-menu {
 		max-height: 200px;
@@ -477,8 +478,8 @@ h4 .blue-colored {
 	#div-vis-1 {
 		grid-column-start: 1;
 		grid-column-end: 3;
-		grid-row-start: 2;
-		grid-row-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 2;
 	}
 
 	/* both tree maps */
