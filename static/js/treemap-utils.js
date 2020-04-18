@@ -200,11 +200,17 @@ const FUNCS_LABELS = {
 function nodeDisableSelection(node) {
     d3.select(node)//.selectAll("rect")
         .classed("tm-node-selected", false);
+    d3.select(node).selectAll("rect")
+        //.attr("stroke", "white")
+        .attr("stroke-width", "0px");
 }
 
 function nodeEnableSelection(node) {
     d3.select(node)//.selectAll("rect")
         .classed("tm-node-selected", true);
+    d3.select(node).selectAll("rect")
+        .attr("stroke", "white")
+        .attr("stroke-width", "2px");
 }
 
 function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {
