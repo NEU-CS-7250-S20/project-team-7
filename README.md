@@ -78,7 +78,7 @@ Locally, there is a choice:
 
 * Main page is in [`templates/index.html`](templates/index.html).
 
-* CSS is in [`static/style.css`](`static/style.css`).
+* CSS is in [`static/style.css`](static/style.css).
 
 * JavaScript implementation of the visualizations
   is in [`static/js`](static/js) folder.
