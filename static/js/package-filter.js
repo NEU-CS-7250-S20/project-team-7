@@ -71,7 +71,7 @@ function packageFilter() {
                 choices.push(cb.property("value"));
               }
             });
-            debugger;
+            //debugger;
             if (choices.length == 0) {
                 // check All
                 d3ElemDisable(analyzedAllCheckbox);

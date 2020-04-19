@@ -83,7 +83,7 @@ function data2TreeMapData(data, colorPalette) {
 function applyTreeMapLayout(root, params) {
     // basic layout
     const treeMapLayout = d3.treemap()
-        .tile(d3.treemapSquarify)
+        .tile(d3.treemapSquarify.ratio(1)) // treemapBinary
         //.padding(1)
         .round(true)
         .size([params.width, params.height]);
@@ -204,7 +204,7 @@ function nodeDisableSelection(node) {
         .classed("tm-node-selected", false);
     d3.select(node).selectAll("rect")
         .classed("tm-node-selected", false)
-        .attr("stroke-width", "0px");
+        .attr("stroke-width", 0);
 }
 
 function nodeEnableSelection(node) {

@@ -162,12 +162,6 @@ function dataTreeMap() {
                             null
                     );
 
-                //alert(selectionInfo.datums);
-                node.filter(d => selectionInfo.datums.includes(d))
-                    .each(function(d) {
-                        dataEventHandlers.onselected(this, selectionInfo)
-                    });
-
                 // footer behaves as "..." node
                 const childrenNode = root.children.find(hasChildren);
                 footerGroup
@@ -213,6 +207,13 @@ function dataTreeMap() {
                         .attr("y", blockMargin.top*3)
                         .text(d => getExtra(d.data));
                 }
+
+                // enable selected style for nodes if necessary
+                //alert(selectionInfo.datums);
+                node.filter(d => selectionInfo.datums.includes(d))
+                    .each(function(d) {
+                        dataEventHandlers.onselected(this, selectionInfo)
+                    });
 
                 group.call(position, root);
             }
