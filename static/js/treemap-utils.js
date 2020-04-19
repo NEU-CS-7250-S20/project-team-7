@@ -175,7 +175,7 @@ function checkColorPalette(colorPalette){
 
 const MORE_DATA_LABEL = "…";
 const SHOW_MORE_DATA_LABEL = name => `[show more ${name}]`;
-const TITLE_MORE_DATA_LABEL = name => `${name} [go back]`;
+const TITLE_MORE_DATA_LABEL = name => `${name} ↩`; // [go back]
 
 const PKGS_TITLE_LABEL  = "Packages";
 const FUNCS_TITLE_LABEL = "Functions";
