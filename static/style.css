@@ -285,6 +285,7 @@ h1, h2, h3 {
 
 .tm-node-selected {
 	font-weight: bold;
+	fill: #fdae6b; /* #fdd0a2 #fdbb84 */
 }
 
 /* ---------------------------------------- */

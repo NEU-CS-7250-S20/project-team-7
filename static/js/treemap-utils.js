@@ -29,13 +29,15 @@ function data2TreeMapData(data, colorPalette) {
     }
 
     function foldData(currLevel) {
+        const getCount = d => d.count;
+        const getLogCount = d => Math.log2(d.count);
         for (let i = 1; i < currLevel.length; i++) {
             const needsBreak = 
                 //chunk is too big
                 (i == colorPalette.length) ||
                 // sizes are too different
                 //(currLevel[i-1].count / currLevel[i].count) > 6;
-                (currLevel[0].count / currLevel[i].count) > 6;
+                (getCount(currLevel[0]) / getCount(currLevel[i])) > 6;
             if (needsBreak) {
                 let innerLevel = currLevel.slice(i);
                 innerLevel = foldData(innerLevel);
@@ -201,7 +203,7 @@ function nodeDisableSelection(node) {
     d3.select(node)//.selectAll("rect")
         .classed("tm-node-selected", false);
     d3.select(node).selectAll("rect")
-        //.attr("stroke", "white")
+        .classed("tm-node-selected", false)
         .attr("stroke-width", "0px");
 }
 
@@ -209,8 +211,9 @@ function nodeEnableSelection(node) {
     d3.select(node)//.selectAll("rect")
         .classed("tm-node-selected", true);
     d3.select(node).selectAll("rect")
+        .classed("tm-node-selected", true)
         .attr("stroke", "white")
-        .attr("stroke-width", "2px");
+        .attr("stroke-width", 3);
 }
 
 function PKG_BLOCK_ONCLICK(node, d, selectionInfo, dispatch, query) {

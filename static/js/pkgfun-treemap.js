@@ -22,6 +22,7 @@ function dataTreeMap() {
     ) {
 
         const getValue = tmGetValue;
+        const getLogValue = d => Math.log2(getValue(d));
         const getName = d =>
             getters.hasName(d) ? getters.getName(d) : labels.moreData;
         const hasExtra = getters.hasExtra;
@@ -33,7 +34,7 @@ function dataTreeMap() {
 
         dispatch.on(pullEvent, function(query, data) {
             data = getters.getData(data);
-            data = JSON.parse(JSON.stringify(data));
+            data = deepCopy(data);
             //alert("pkgsTreeMap :: on | START");
             //console.log(data);
 
@@ -53,7 +54,7 @@ function dataTreeMap() {
 
             // prepare data from hierarchial object/array
             const dataRoot = d3.hierarchy(tmData)
-                .sum(getValue); // compute values for children
+                .sum(getValue); // compute values for children // getLogValue
             // prepare treemap layout info
             applyTreeMapLayout(
                 dataRoot,
@@ -187,6 +188,8 @@ function dataTreeMap() {
                     .text(d => `${getName(d.data)}\n${d3.format("~s")(d.value)}`);
 
                 node.append("rect")
+                    .attr("rx", 2)
+                    .attr("ry", 2)
                     .attr("class", "tm-block")
                     .attr("fill", d => d.data.color.background);
                 
