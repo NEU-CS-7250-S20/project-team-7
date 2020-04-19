@@ -78,7 +78,8 @@
     <p>
       Such type systems are usually designed in absence of empirical
       data on how developers actually write programs in the language.
-      In contrast, our partner is using a data-driven approach to
+      In contrast, our <a href="https://www.khoury.northeastern.edu/people/alexi-turcotte/">partner</a>
+      is using a data-driven approach to
       type system design, employing a dynamic analysis of type usage
       on a wide range of existing R packages.
       Unfortunately, this dataset is too large, and its raw representation
@@ -86,8 +87,8 @@
     </p>
 
     <p>
-      Our project visualizes this type information for exploration
-      and analysis. In particular, we provide facilities for filtering
+      <span class="text-attention">Our project visualizes this type information for exploration
+      and analysis.</span> In particular, we provide facilities for filtering
       the data, displaying type signatures as flows, and integrating
       additional quantitative information.
     </p>
@@ -104,7 +105,7 @@
         <h4> Analysis Information </h4>
         <div class="help-tip blue-colored">
           <p>
-            Some statistics about the underlying dynamic analysis data.
+            Some <b>statistics</b> about the underlying dynamic analysis data.
           </p>
         </div>
       </div>
@@ -138,7 +139,7 @@
         <h4> Visualization Settings </h4>
         <div class="help-tip blue-colored">
           <p>
-            Global parameters of the visualization:
+            <b>Global parameters</b> of the visualization:
             maximum number of the most popular datums being displayed
             and the list of definition packages to ignore.
           </p>
@@ -175,7 +176,7 @@
         <h4 id="label-pkg-search"> Definition Package Search </h4>
         <div class="help-tip blue-colored">
           <p>
-            A single definition package or a function to display.
+            A single definition package/function to display.
           </p>
         </div>
       </div>
@@ -184,15 +185,17 @@
          >("package [function]"):</span>
       </label>
       <div class="help-tip">
-        <p>enter "package [function]"</p>
+        <p>enter <span class="code-font-small">package [function]</span></p>
       </div>
       <input type="text" id="textFunctionName" name="textFunctionName"/>
       <input type="button" id="buttonFunctionName" value="Show"/>
       <input type="button" id="buttonClearFunctionName" value="Clear"/>
       <div class="help-tip">
-        <p>click "Show" to display the selected package/function;
-          click "Clear" to return to the main view;
-          enable "Keep selection" to display the selection when analyzed packages change</p>
+        <p>
+          click <span class="code-font-small">Show</span> to display the selected package/function;<br/>
+          click <span class="code-font-small">Clear</span> to return to the main view;<br/>
+          enable <span class="code-font-small">Keep selection</span> to display the selection when analyzed packages change</li>
+        </p>
       </div>
       <input type="checkbox" id="checkboxKeepFunction"
           name="checkboxKeepFunction`"/>
@@ -207,8 +210,8 @@
             <p>Shows functions and their <b>type signatures</b>
               by depicting the flow between functions and the types
               of their arguments.<br/>
-              The first vertical bar represents function name.
-              The second bar represents the type of the first argument,
+              The first vertical bar represents function name;
+              the second bar represents the type of the first argument,
               and so on; the last bar in each row is the return type.
             </p>
           </div>
@@ -225,7 +228,7 @@
           <h4> Analyzed Packages </h4>
           <div class="help-tip blue-colored">
             <p>
-              List of all packages analyzed during the analysis
+              List of all <b>packages analyzed during the analysis</b>
               (with the number of function calls made in each package).
               Select one or more packages to limit the data being displayed.
             </p>
@@ -251,8 +254,8 @@
           <h4> Definition Packages </h4>
           <div class="help-tip blue-colored">
             <p>
-              Interactive treemap of the packages that define the most
-              popular functions for the currently selected analyzed packages.
+              Interactive treemap of the <b>packages that define the most
+              popular functions</b> for the currently selected analyzed packages.
               Select one or more packages to see an overview of their functions.
             </p>
           </div>
@@ -272,7 +275,7 @@
           <h4> Defined Functions </h4>
           <div class="help-tip blue-colored">
             <p>
-              Interactive treemap of the most popular functions
+              Interactive treemap of the <b>most popular functions</b>
               for the currently selected analyzed packages.
               Select a function to see its overview.
             </p>
@@ -294,7 +297,7 @@
         <h4> Function Information </h4>
         <div class="help-tip blue-colored">
           <p>
-            Barchart of the most popular functions
+            Barchart of the <b>most popular function calls</b>
             for the currently selected analyzed packages.
             Hover over a bar to see the details.
           </p>
@@ -386,7 +389,7 @@
         click <span class="code-font">✓</span> button to switch to the distrMod package data.</li>
       <li>You can see in Definition Packages that the <span class="code-font">base</span> package
         is the most used one.<br/>
-        Click <span class="code-font">[show more packages]</span> to show less popular packages.
+        Click <span class="code-font">🔍 more packages</span> to show less popular packages.
       </li>
       <li>Click on <span class="code-font">stats</span> in the packages treemap to see
         the data on functions defined in this package.<br/>
@@ -418,7 +421,7 @@
 
     <h2>Acknowledgments</h2>
 
-    <p><em>List here where any code, packages/libraries, text, images, designs, etc. that you leverage come from.</em></p>
+    <!--<p><em>List here where any code, packages/libraries, text, images, designs, etc. that you leverage come from.</em></p>-->
 
     <ul>
       <li><a href="https://www.r-project.org/logo/">R project logo</a>.</li>

@@ -26,10 +26,24 @@ h1, h2, h3 {
 	background-color: #f4f1f0;
 	padding: 1px 3px 1px 3px;
 }
+.code-font-small {
+	font-family: monospace;
+	font-size: 14px;
+	letter-spacing: 0.05em;
+	padding: 1px 1px 1px 1px;
+}
 
 #Rlogo {
 	float: right;
 	margin: 10px;
+}
+
+.text-attention {
+	background-color: #fcfcfc; /* #f4f1f0 #f7fcfd*/
+	border: silver 1px solid;
+	padding-left: 3px;
+	padding-right: 3px;
+	border-radius: 6px;
 }
 
 .vis-svg {
